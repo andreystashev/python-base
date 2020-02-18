@@ -43,6 +43,7 @@ lamps_price = lamps_item['price']
 lamps_cost = lamps_quantity * lamps_price
 print('Лампа -', lamps_quantity, 'шт, стоимость', lamps_cost, 'руб')
 
+
 # Вывести стоимость каждого вида товара на складе:
 # один раз распечать сколько всего столов и их общая стоимость,
 # один раз распечать сколько всего стульев и их общая стоимость,
@@ -52,7 +53,43 @@ print('Лампа -', lamps_quantity, 'шт, стоимость', lamps_cost, '�
 # WARNING для знающих циклы: БЕЗ циклов. Да, с переменными; да, неэффективно; да, копипаста.
 # Это задание на ручное вычисление - что бы потом понять как работают циклы и насколько с ними проще жить.
 
-# TODO здесь ваш код
+desk_code = goods ['Стол']
+desk_item = store[desk_code][0]
+desk_item1 = store[desk_code][1]
+desk_quantity = desk_item['quantity']
+desk_quantity1 = desk_item1['quantity']
+desk_price = desk_item['price']
+desk_price1 = desk_item1['price']
+desk_cost = desk_quantity * desk_price
+desk_cost1 = desk_quantity1 * desk_price1
+desk_money = desk_cost+desk_cost1
+desk = desk_quantity + desk_quantity1
+print ('Стол -', desk, 'шт, стоимость', desk_money, 'руб')
+
+
+
+
+
+
+sofa_cost1 = store[goods['Диван']][0]['quantity'] * store[goods['Диван']][0]['price']
+sofa_cost2 = store[goods['Диван']][1]['quantity'] * store[goods['Диван']][1]['price']
+sofa_cost = sofa_cost1+sofa_cost2
+sofa_quantity = (store[goods['Диван']][0]['quantity'])+(store[goods['Диван']][1]['quantity'])
+
+print ('Диван -', sofa_quantity, 'шт, стоимость', sofa_cost, 'руб')
+
+
+
+
+
+
+chair_cost1 = store[goods['Стул']][0]['quantity'] * store[goods['Стул']][0]['price']
+chair_cost2 = store[goods['Стул']][1]['quantity'] * store[goods['Стул']][1]['price']
+chair_cost3 = store[goods['Стул']][2]['quantity'] * store[goods['Стул']][2]['price']
+chair_cost = chair_cost1+chair_cost2+chair_cost3
+chair_quantity = (store[goods['Стул']][0]['quantity'])+(store[goods['Стул']][1]['quantity'])+(store[goods['Стул']][2]['quantity'])
+
+print ('Стул -', chair_quantity, 'шт, стоимость', chair_cost, 'руб')
 
 ##########################################################################################
 # ВНИМАНИЕ! После того как __ВСЯ__ домашняя работа сделана и запушена на сервер,         #
@@ -60,9 +97,6 @@ print('Лампа -', lamps_quantity, 'шт, стоимость', lamps_cost, '�
 # и оформить попытку сдачи ДЗ! Без этого ДЗ не будет проверяться!                        #
 # Как оформить попытку сдачи смотрите видео - https://youtu.be/qVpN0L-C3LU               #
 ##########################################################################################
-
-
-
 
 
 
