@@ -18,3 +18,14 @@ my_family_height = [
 
 # Выведите на консоль общий рост вашей семьи как сумму ростов всех членов
 #   Общий рост моей семьи - ХХ см
+my_family = ['father', 'mother', 'brother']
+my_family_height = [['father', 200],['mother', 150], ['brother', 100]]
+
+f = (my_family_height [0][1])
+m = (my_family_height [1][1])
+b = (my_family_height [2][1])
+print ('Рост отца -', (my_family_height [0][1]), 'cm')
+
+family_height = f+m+b
+print ('Общий рост моей семьи -',(family_height), 'cm')
+
