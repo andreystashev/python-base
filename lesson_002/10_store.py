@@ -67,10 +67,10 @@ desk = desk_quantity + desk_quantity1
 print ('Стол -', desk, 'шт, стоимость', desk_money, 'руб')
 
 
-
-
-
-
+# TODO Видно, что store[goods['Диван']], store[goods['Стул']]
+#  постоянно повторяются. Значит можно вынести их в отдельные переменные.
+#  Способ, которым вы сделали подсчет столов легче воспринимать и поддерживать,
+#  лучше диваны и стулья сделать в таком же стиле
 sofa_cost1 = store[goods['Диван']][0]['quantity'] * store[goods['Диван']][0]['price']
 sofa_cost2 = store[goods['Диван']][1]['quantity'] * store[goods['Диван']][1]['price']
 sofa_cost = sofa_cost1+sofa_cost2
