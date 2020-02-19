@@ -22,9 +22,7 @@ print (garden_set | meadow_set)
 print (garden_set & meadow_set)
 
 # выведите на консоль те, которые растут в саду, но не растут на лугу
-# TODO Получается, что вы используете здесь две операции - объединение и симметричную разность. Интересный способ)
-#  А можно сразу использовать просто разность множеств: garden_set - meadow_set
-print(meadow_set ^ garden_meadow)
+print (garden_set - meadow_set)
 
 # выведите на консоль те, которые растут на лугу, но не растут в саду
 print(garden_set ^ garden_meadow)

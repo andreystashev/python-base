@@ -30,7 +30,8 @@ secret_message = [
 a = (secret_message [0][3])
 b = (secret_message [1][9:13])
 c = (secret_message [2][5:15:2])
-# TODO Для практики понимания отрицательных индексов - будем сразу использовать обратный порядок - [XX:YY:-ZZ]
-d = ((secret_message [3][7:13])[::-1])
-e = ((secret_message [4][16:21])[::-1])
+d = (secret_message [3][12:6:-1])
+e = (secret_message [4][20:15:-1])
+
 print(a, b, c, d, e)
+

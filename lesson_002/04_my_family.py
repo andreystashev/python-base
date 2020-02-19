@@ -4,15 +4,11 @@
 # Создайте списки:
 
 # моя семья (минимум 3 элемента, есть еще дедушки и бабушки, если что)
-# TODO Вот эти две переменные тогда удалите, раз ниже мы их опять определяем
-my_family = []
+
 
 
 # список списков приблизителного роста членов вашей семьи
-my_family_height = [
-    # ['имя', рост],
-    [],
-]
+
 
 # Выведите на консоль рост отца в формате
 #   Рост отца - ХХ см
@@ -22,13 +18,11 @@ my_family_height = [
 my_family = ['father', 'mother', 'brother']
 my_family_height = [['father', 200],['mother', 150], ['brother', 100]]
 
-f = (my_family_height [0][1])
-m = (my_family_height [1][1])
-b = (my_family_height [2][1])
-# TODO У нас уже есть переменная f, в которой мы получили рост, используем ее
-# TODO И оборочивать переменную в скобки здесь излише
-print ('Рост отца -', (my_family_height [0][1]), 'cm')
+f = my_family_height [0][1]
+m = my_family_height [1][1]
+b = my_family_height [2][1]
+
+print ('Рост отца -', f, 'cm')
 
 family_height = f+m+b
-print ('Общий рост моей семьи -',(family_height), 'cm')  # TODO Аналогично со скобками
-
+print ('Общий рост моей семьи -', family_height, 'cm')

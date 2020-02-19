@@ -27,7 +27,7 @@ halo = (violator_songs_list[3][1])
 silence = (violator_songs_list[-4][1])
 clean = (violator_songs_list[-1][1])
 number = round(halo+silence+clean,2)
-print ('Три песни звучат', (number), 'минут')  # TODO Скобки для переменной излишни
+print ('Три песни звучат', number, 'минут')
 
 
 # Есть словарь песен группы Depeche Mode
@@ -50,4 +50,4 @@ sweet = violator_songs_dict ['Sweetest Perfection']
 policy = violator_songs_dict ['Policy of Truth']
 blue = violator_songs_dict ['Blue Dress']
 next_number = round(sweet+policy+blue)
-print ('А другие три песни звучат', (next_number), 'минут')  # TODO Аналогично
+print ('А другие три песни звучат', next_number, 'минут')

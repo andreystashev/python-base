@@ -22,9 +22,6 @@ moscow_paris = ((moscow[0] - paris[0]) ** 2 + (moscow[1] - paris[1]) ** 2) ** .5
 
 london_paris = ((london[0] - paris[0]) ** 2 + (london[1] - paris[1])**2) ** .5
 
-# TODO Это вычисление лишнее, оно аналогично london_paris
-paris_london = ((paris[0] - london[0]) ** 2 + (paris[1] - london[1]) ** 2) ** .5
-
 
 distances ['moscow'] = {}
 distances ['moscow'] ['london'] = moscow_london

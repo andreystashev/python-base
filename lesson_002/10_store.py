@@ -67,29 +67,40 @@ desk = desk_quantity + desk_quantity1
 print ('Стол -', desk, 'шт, стоимость', desk_money, 'руб')
 
 
-# TODO Видно, что store[goods['Диван']], store[goods['Стул']]
-#  постоянно повторяются. Значит можно вынести их в отдельные переменные.
-#  Способ, которым вы сделали подсчет столов легче воспринимать и поддерживать,
-#  лучше диваны и стулья сделать в таком же стиле
-sofa_cost1 = store[goods['Диван']][0]['quantity'] * store[goods['Диван']][0]['price']
-sofa_cost2 = store[goods['Диван']][1]['quantity'] * store[goods['Диван']][1]['price']
-sofa_cost = sofa_cost1+sofa_cost2
-sofa_quantity = (store[goods['Диван']][0]['quantity'])+(store[goods['Диван']][1]['quantity'])
-
-print ('Диван -', sofa_quantity, 'шт, стоимость', sofa_cost, 'руб')
-
-
-
-
+sofa_code = goods ['Диван']
+sofa_item = store[sofa_code][0]
+sofa_item1 = store[sofa_code][1]
+sofa_quantity = sofa_item['quantity']
+sofa_quantity1 = sofa_item1['quantity']
+sofa_price = sofa_item['price']
+sofa_price1 = sofa_item1['price']
+sofa_cost = sofa_quantity * sofa_price
+sofa_cost1 = sofa_quantity1 * sofa_price1
+sofa_money = sofa_cost+sofa_cost1
+sofa = sofa_quantity + sofa_quantity1
+print ('Диван -', sofa, 'шт, стоимость', sofa_money, 'руб')
 
 
-chair_cost1 = store[goods['Стул']][0]['quantity'] * store[goods['Стул']][0]['price']
-chair_cost2 = store[goods['Стул']][1]['quantity'] * store[goods['Стул']][1]['price']
-chair_cost3 = store[goods['Стул']][2]['quantity'] * store[goods['Стул']][2]['price']
-chair_cost = chair_cost1+chair_cost2+chair_cost3
-chair_quantity = (store[goods['Стул']][0]['quantity'])+(store[goods['Стул']][1]['quantity'])+(store[goods['Стул']][2]['quantity'])
+chair_code = goods ['Стул']
+chair_item = store[chair_code][0]
+chair_item1 = store[chair_code][1]
+chair_item2 = store[chair_code][2]
+chair_quantity = chair_item['quantity']
+chair_quantity1 = chair_item1['quantity']
+chair_quantity2 = chair_item2['quantity']
+chair_price = chair_item['price']
+chair_price1 = chair_item1['price']
+chair_price2 = chair_item2['price']
+chair_cost = chair_quantity * chair_price
+chair_cost1 = chair_quantity1 * chair_price1
+chair_cost2 = chair_quantity2 * chair_price2
+chair_money = chair_cost+chair_cost1+chair_cost2
+chair = chair_quantity + chair_quantity1 + chair_quantity2
+print ('Стул -', chair, 'шт, стоимость', chair_money, 'руб')
 
-print ('Стул -', chair_quantity, 'шт, стоимость', chair_cost, 'руб')
+
+#todo и вопросы технические остались по пройденному модулю - необходим ли будет айпайтон в дальнейшем? На маке начинаются
+# танцы с бубном, и никак не могу понять как поменять в гите имя и почту. В курсе есть видео с этим, но оно для винды только
 
 ##########################################################################################
 # ВНИМАНИЕ! После того как __ВСЯ__ домашняя работа сделана и запушена на сервер,         #
