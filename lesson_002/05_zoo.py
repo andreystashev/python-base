@@ -33,6 +33,7 @@ a=zoo.index ('lion')+1
 b=zoo.index ('lark')+1
 print (a, '- лев', ';', b, '- жаворонок' )
 
+# зачет!
 
 
 

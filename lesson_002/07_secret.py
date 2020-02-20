@@ -35,3 +35,4 @@ e = (secret_message [4][20:15:-1])
 
 print(a, b, c, d, e)
 
+# зачет!

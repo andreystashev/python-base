@@ -51,3 +51,5 @@ policy = violator_songs_dict ['Policy of Truth']
 blue = violator_songs_dict ['Blue Dress']
 next_number = round(sweet+policy+blue)
 print ('А другие три песни звучат', next_number, 'минут')
+
+# зачет!
