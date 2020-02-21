@@ -54,7 +54,29 @@ store = {
 #         подсчет стоимости товара
 #     вывод на консоль количества и стоимости товара на складе
 
-# TODO здесь ваш код
+for objects, keys in goods.items():
+    for pricekey in store[keys]:
+        summ = pricekey['quantity'] * pricekey['price']
+        print (objects, '-', pricekey['quantity'], 'шт, стоимость', summ, 'руб')
+
+
+# todo кое-как с подсказками из телеграма сделал основной алгоритм по циклам, но не понимаю как теперь сложить значения.
+# если передвинуть принт ближе, то суммируются не все значения а по одному из каждого списка. Также внизу нашел еще одно
+# похожее решение, но там также суммируется неправильно
+
+
+
+#all_cost = 0
+#for el_1 in goods.values():
+#    for el_2 in store[el_1]:
+ #       summ = el_2['quantity'] * el_2['price']
+ #   all_cost += summ
+ #   print (all_cost)
+
+
+
+
+
 
 
 

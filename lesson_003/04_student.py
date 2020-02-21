@@ -9,6 +9,12 @@
 # Формат вывода:
 #   Студенту надо попросить ХХХ.ХХ рублей
 
-educational_grant, expenses = 10000, 12000
+educational_grant, expenses, count = 10000, 12000, 0
 
-# TODO здесь ваш код
+while count < 9:
+    count += 1
+    expenses += expenses * 0.03 + 12000
+    if count > 9:
+        break
+money = round(expenses - educational_grant * 10, 2)
+print('Студенту надо попросить', money, 'рублей')
