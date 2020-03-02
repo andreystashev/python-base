@@ -55,35 +55,9 @@ store = {
 #     вывод на консоль количества и стоимости товара на складе
 
 for objects, keys in goods.items():
-    # TODO Нужно до вложенного цикла завести переменные для общей стоимости и количества,
-    #  чтобы на каждой итерации внешнего цикла они обнулялись
+    all_quantity = 0
+    summ = 0
     for pricekey in store[keys]:
-        # TODO Во вложенном цикле производить подсчет
-        summ = pricekey['quantity'] * pricekey['price']
-        # TODO А вывод делать после вложенного цикла
-        print (objects, '-', pricekey['quantity'], 'шт, стоимость', summ, 'руб')
-
-
-#  кое-как с подсказками из телеграма сделал основной алгоритм по циклам, но не понимаю как теперь сложить значения.
-# если передвинуть принт ближе, то суммируются не все значения а по одному из каждого списка. Также внизу нашел еще одно
-# похожее решение, но там также суммируется неправильно
-
-
-
-#all_cost = 0
-#for el_1 in goods.values():
-#    for el_2 in store[el_1]:
- #       summ = el_2['quantity'] * el_2['price']
- #   all_cost += summ
- #   print (all_cost)
-
-
-
-
-
-
-
-
-
-
-
+        summ += pricekey['quantity'] * pricekey['price']
+        all_quantity += pricekey['quantity']
+    print(objects, '-', all_quantity, 'шт, стоимость', summ, 'руб')
