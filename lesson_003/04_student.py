@@ -13,8 +13,8 @@ educational_grant, expenses, count = 10000, 12000, 0
 
 while count < 9:
     count += 1
-    expenses += expenses * 0.03 + 12000
-    if count > 9:
+    expenses += expenses * 0.03 + 12000  # TODO Используем переменную, а не просто 12000
+    if count > 9:  # TODO У while уже есть условие выхода
         break
 money = round(expenses - educational_grant * 10, 2)
 print('Студенту надо попросить', money, 'рублей')

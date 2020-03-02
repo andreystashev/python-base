@@ -12,7 +12,7 @@ while True:
     month = int(user_input)
     print('Вы ввели', month)
 
-
+    # TODO Будет гораздо удобнее сделать список с номерами месяцев и проверять на вхождение в него через оператор in
     if month == 1 or month == 3 or month == 5 or month == 7 or month == 8 or month == 10 or month == 12:
         print (31)
     elif month == 2:
@@ -21,4 +21,6 @@ while True:
         print ('так нельзя')
     else:
         print (30)
+# TODO Нужно условие для выхода из цикла. Либо можно сделать здесь вообще без цикла
 
+# TODO И PEP 8
