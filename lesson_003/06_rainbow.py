@@ -13,6 +13,7 @@ rainbow_colors = (sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN
 point1 = sd.get_point(50,50)
 point2 = sd.get_point(350,450)
 
+# TODO Нейминг поправим - мы из тьюпла rainbow_colors достаем конкретный color, а не просто некую c
 for c in rainbow_colors:
     point1.x +=5
     point2.x +=5
@@ -25,9 +26,11 @@ for c in rainbow_colors:
 # Нарисовать радугу дугами от окружности (cсм sd.circle) за нижним краем экрана,
 # поэкспериментировать с параметрами, что бы было красиво
 
+# TODO Нейминг - это у нас радуга, а не пузырь
 def bubble(point, step):
     radius = 600
 
+    # TODO И аналогично с неймингом
     for s in rainbow_colors:
         radius -= step
 
@@ -38,3 +41,5 @@ point = sd.get_point(300, -150)
 bubble(point=point, step=20)
 
 sd.pause()
+
+# TODO И PEP 8
