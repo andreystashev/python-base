@@ -62,3 +62,5 @@ for goods_objects, goods_keys in goods.items():
         all_price += goods_options['quantity'] * goods_options['price']
         all_quantity += goods_options['quantity']
     print(goods_objects, '-', all_quantity, 'шт, стоимость', all_price, 'руб')
+
+# зачет!
