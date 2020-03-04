@@ -27,3 +27,5 @@ while True:
         break
     else:
         print(30)
+
+# зачет!

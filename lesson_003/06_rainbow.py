@@ -37,4 +37,5 @@ rainbow(point=point, step=20)
 
 sd.pause()
 
+# зачет!
 

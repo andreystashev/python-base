@@ -16,3 +16,5 @@ while count < 9:
     expenses_1 += expenses_1 * 0.03 + expenses
 money = round(expenses_1 - educational_grant * 10, 2)
 print('Студенту надо попросить', money, 'рублей')
+
+# зачет!

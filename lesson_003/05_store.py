@@ -54,10 +54,12 @@ store = {
 #         подсчет стоимости товара
 #     вывод на консоль количества и стоимости товара на складе
 
+# TODO Над неймингом поработаем - objects, keys, value, summ - слишком абстрактно, нужны более конктретные
+#  имена для переменных. Из словаря goods мы получаем имя товара и его код.
 for objects, keys in goods.items():
     all_quantity = 0
-    summ = 0
-    for pricekey in store[keys]:
+    summ = 0  # TODO Здесь считаем сумму чего?
+    for pricekey in store[keys]:  # TODO Здесь тоже - здесь мы в цикле получаем не ключ, а списки с параметрами товара
         summ += pricekey['quantity'] * pricekey['price']
         all_quantity += pricekey['quantity']
     print(objects, '-', all_quantity, 'шт, стоимость', summ, 'руб')
