@@ -14,110 +14,75 @@ import simple_draw as sd
 # и константы COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_CYAN, COLOR_BLUE, COLOR_PURPLE
 # Результат решения см lesson_004/results/exercise_02_global_color.jpg
 
+point0 = sd.get_point(220, 20)
+point1 = sd.get_point(580, 20)
+point2 = sd.get_point(270, 250)
+point3 = sd.get_point(530, 350)
 
-print('Возможные цвета: \n 1 : red \n 2 : orange \n 3 : yellow \n 4 : green \n 5 : cyan \n 6 : blue \n 7 : purple')
+colors = {
+    '1': {'title': 'red', 'value': sd.COLOR_RED},
+    '2': {'title': 'orange', 'value': sd.COLOR_ORANGE},
+    '3': {'title': 'yellow', 'value': sd.COLOR_YELLOW},
+    '4': {'title': 'green', 'value': sd.COLOR_GREEN},
+    '5': {'title': 'cyan', 'value': sd.COLOR_CYAN},
+    '6': {'title': 'blue', 'value': sd.COLOR_BLUE},
+    '7': {'title': 'purple', 'value': sd.COLOR_PURPLE}
+}
+
+for value, name in colors.items():
+    print(value, name['title'])
 
 while True:
-    user_input = input("Введите желаемый цвет: ")
-    color_input = int(user_input)
-    print('Вы ввели', color_input)
-    colors = [sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN, sd.COLOR_CYAN, sd.COLOR_BLUE,
-              sd.COLOR_PURPLE]
-    if color_input == 1:
-        color = colors[0]
-    elif color_input == 2:
-        color = colors[1]
-    elif color_input == 3:
-        color = colors[2]
-    elif color_input == 4:
-        color = colors[3]
-    elif color_input == 5:
-        color = colors[4]
-    elif color_input == 6:
-        color = colors[5]
-    elif color_input == 7:
-        color = colors[6]
+    value = input("Введите желаемый цвет: ")
+    color_input = int(value)
+    print('Вы ввели', value)
+
+    if color_input > 4 or color_input < 1:
+        print('неверный номер')
     else:
-        print('вы ввели некорректный номер')
+        def constructor(point, length, side, width):
+            angle = 360 / side
+            v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=width)
+            v1.draw(color=color)
+            v2 = sd.get_vector(start_point=v1.end_point, angle=angle * 2, length=length, width=width)
+            v2.draw(color=color)
+            v3 = sd.get_vector(start_point=v2.end_point, angle=angle * 3, length=length, width=width)
+            v3.draw(color=color)
+            v4 = sd.get_vector(start_point=v3.end_point, angle=angle * 4, length=length, width=width)
+            v4.draw(color=color)
+            v5 = sd.get_vector(start_point=v4.end_point, angle=angle * 5 + 1, length=length, width=width)
+            if side == 5:
+                v5.draw(color=color)
+            if side == 6:
+                v5.draw(color=color)
+                sd.line(start_point=v5.end_point, end_point=point3, width=width, color=color)
+
+
+        if color_input == 1:
+            color = colors[value]['value']
+        elif color_input == 2:
+            color = colors[value]['value']
+        elif color_input == 3:
+            color = colors[value]['value']
+        elif color_input == 4:
+            color = colors[value]['value']
+        elif color_input == 5:
+            color = colors[value]['value']
+        elif color_input == 6:
+            color = colors[value]['value']
+        elif color_input == 7:
+            color = colors[value]['value']
+
+        constructor(point=point0, length=200, side=3, width=4)
+        constructor(point=point1, length=200, side=4, width=4)
+        constructor(point=point2, length=200, side=5, width=4)
+        constructor(point=point3, length=100, side=6, width=4)
+
         break
+# TODO Чтобы не прерывать цикл при неверном вводе пришлось запихнуть всё внутрь цикла,
+#  также не понял про цвет из глобальной области видимости. Получается такой код - v1.draw(color=color) не правильный?
+#   по другому если допустим в sd.get_vector добавлять цвет то выскакивает ошибка а если в def constructor,
+#  то не срабатывает
 
-
-    def triangle(point, angle, length):
-        v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=3)
-        v1.draw(color=color)
-
-        v2 = sd.get_vector(start_point=v1.end_point, angle=angle + 120, length=length, width=3)
-        v2.draw(color=color)
-
-        v3 = sd.get_vector(start_point=v2.end_point, angle=angle + 240, length=length, width=3)
-        v3.draw(color=color)
-
-
-    point0 = sd.get_point(20, 20)
-    triangle(point=point0, angle=0, length=200)
-
-
-    def square(point, angle, length):
-        v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=3)
-        v1.draw(color=color)
-
-        v2 = sd.get_vector(start_point=v1.end_point, angle=angle + 90, length=length, width=3)
-        v2.draw(color=color)
-
-        v3 = sd.get_vector(start_point=v2.end_point, angle=angle + 180, length=length, width=3)
-        v3.draw(color=color)
-
-        v4 = sd.get_vector(start_point=v3.end_point, angle=angle + 270, length=length, width=3)
-        v4.draw(color=color)
-
-
-    point0 = sd.get_point(300, 20)
-    square(point=point0, angle=0, length=200)
-
-
-    def pentagon(point, angle, length):
-        v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=3)
-        v1.draw(color=color)
-
-        v2 = sd.get_vector(start_point=v1.end_point, angle=angle + 72, length=length, width=3)
-        v2.draw(color=color)
-
-        v3 = sd.get_vector(start_point=v2.end_point, angle=angle + 144, length=length, width=3)
-        v3.draw(color=color)
-
-        v4 = sd.get_vector(start_point=v3.end_point, angle=angle + 216, length=length, width=3)
-        v4.draw(color=color)
-
-        v5 = sd.get_vector(start_point=v4.end_point, angle=angle + 288, length=length, width=3)
-        v5.draw(color=color)
-
-
-    point0 = sd.get_point(50, 350)
-    pentagon(point=point0, angle=0, length=100)
-
-
-    def hexagon(point, angle, length):
-        v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=3)
-        v1.draw(color=color)
-
-        v2 = sd.get_vector(start_point=v1.end_point, angle=angle + 60, length=length, width=3)
-        v2.draw(color=color)
-
-        v3 = sd.get_vector(start_point=v2.end_point, angle=angle + 120, length=length, width=3)
-        v3.draw(color=color)
-
-        v4 = sd.get_vector(start_point=v3.end_point, angle=angle + 180, length=length, width=3)
-        v4.draw(color=color)
-
-        v5 = sd.get_vector(start_point=v4.end_point, angle=angle + 240, length=length, width=3)
-        v5.draw(color=color)
-
-        v6 = sd.get_vector(start_point=v5.end_point, angle=angle + 300, length=length, width=3)
-        v6.draw(color=color)
-
-
-    point0 = sd.get_point(350, 350)
-    hexagon(point=point0, angle=0, length=100)
-    break
 
 sd.pause()

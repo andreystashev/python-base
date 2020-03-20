@@ -76,3 +76,5 @@ def draw_branches(point, angle, length, delta):
 draw_branches(point=root_point, angle=90, length=100, delta=30)
 
 sd.pause()
+
+# зачет!

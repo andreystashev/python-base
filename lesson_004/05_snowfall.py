@@ -16,34 +16,48 @@ N = 20
 # sd.sleep()
 # sd.random_number()
 # sd.user_want_exit()
-x_point = [100, 150, 200, 250, 300]
-for x in x_point:
-    length = sd.random_number(10, 100)
-    y = sd.random_number(500, 700)
-    snow1 = sd.get_point(x, y)
-    snow2 = sd.get_point(x+100, y+400)
-    snow3 = sd.get_point(x+200, y+100)
-    snow4 = sd.get_point(x + 300, y +350)
-    while True:
-        sd.clear_screen()
-        snow1.y -= 40
-        snow2.y -= 40
-        snow3.y -= 35
-        snow4.y -= 40
-        sd.snowflake(center=snow1, length=length)
-        sd.snowflake(center=snow2, length=length / 2)
-        sd.snowflake(center=snow3, length=length / 1.5)
-        sd.snowflake(center=snow4, length=length / 2.5)
+x_point = [0,100, 150, 200, 250]
 
-        sd.sleep(0.01)
-        if snow1.y < -450:
-            break
-        if sd.user_want_exit():
-            break
-#todo я так понимаю, что задание подразумевает падение снежинок всех вместе. Не разобрался, как с помощью циклов
-# это реализовать, у меня получалось, что падает только по 1 снежинке и следующая начинает падать, как только предыдущая
-# приземлится. Вручную прописал 4 снежинки, чтобы появлялось по 4 сразу 5 циклов подряд.
+# TODO Нужно поменять цикл местами.
+#  Сначала заводим бесконечный цикл
+#      потом цикл for списку координат
+#            в котором уже идет отрисовка снежинки
+#            и сдвиг координат
+#
+# TODO Не пойму, как реализовать смещение по игрику. Внутри цикла фор если изменять, то снежинка скачет после
+#  каждой ее отрисовки и возвращается назад, тоесть изменения не применяются. В вайл или вне циклов если устанавливать какую-то
+#  переменную которая будет менять у тоже не получается, потому что берется только одно рандомное число и подставляется в цикле во
+#  все значения, от этого снежинки на одной линии опускаются. Пытался сделать список координат вида x_point = [[100,100],[200,200]]
+#  и for x,y in x_point, но так снежинки отрисовываются в нужных координатах и не двигаются вниз. Еще я так понимаю нужно
+#   в правильном решении брать n = 20 и через цикл вайл вводить n-1, тем самым как-то сделать либо пополняемый список координат до 20
+#   и обойтись одним вызовом sd.snowflake, либо в цикле фор сделать смену начальных координат, откуда летит снежинка. Но опять таки
+#  не пойму как в форе это правильно реализовать
+
+while True:
+
+    for x in x_point:
+        y = sd.random_number(500, 700)
+        snow1 = sd.get_point(x, y)
+        snow2 = sd.get_point(x + 100, y -100)
+        snow3 = sd.get_point(x + 200, y -150)
+        snow4 = sd.get_point(x + 300, y -50)
+        sd.clear_screen()
+        sd.snowflake(center=snow1, length=30)
+        sd.snowflake(center=snow2, length=30 / 2)
+        sd.snowflake(center=snow3, length=30 / 1.5)
+        sd.snowflake(center=snow4, length=30/ 2.5)
+        snow1.y -= 70
+        snow2.y -= 70
+        snow3.y -= 75
+        snow4.y -= 80
+    sd.sleep(0.01)
+    if snow1.y < -450:
+        break
+    if sd.user_want_exit():
+        break
+
 sd.pause()
+
 
 # подсказка! для ускорения отрисовки можно
 #  - убрать clear_screen()
