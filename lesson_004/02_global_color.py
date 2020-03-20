@@ -14,13 +14,25 @@ import simple_draw as sd
 # и константы COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_CYAN, COLOR_BLUE, COLOR_PURPLE
 # Результат решения см lesson_004/results/exercise_02_global_color.jpg
 
+# TODO Аналогично, определения функций убираем наверх
 
+# TODO Сделаем сразу словарь такого вида
+#  colors = {
+#      '1': {'title': 'red', 'value': sd.COLOR_RED},
+#      '2': {'title': 'orange', 'value': sd.COLOR_ORANGE},
+#      ...
+#  }
+
+# TODO Тут сделать распечатку номер - название цвета в цикле через colors.items()
 print('Возможные цвета: \n 1 : red \n 2 : orange \n 3 : yellow \n 4 : green \n 5 : cyan \n 6 : blue \n 7 : purple')
 
 while True:
     user_input = input("Введите желаемый цвет: ")
     color_input = int(user_input)
     print('Вы ввели', color_input)
+    # TODO И здесь сразу получаем цвет из словаря и делаем вызов функций
+    #  Таким образом у нас код станет более поддерживаемым -
+    #  если нам надо будет добавить еще цвет, мы добавим только 1 строчку в словарь
     colors = [sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN, sd.COLOR_CYAN, sd.COLOR_BLUE,
               sd.COLOR_PURPLE]
     if color_input == 1:
@@ -38,10 +50,13 @@ while True:
     elif color_input == 7:
         color = colors[6]
     else:
+        # TODO Если номер неверный, то нужно опять запросить ввод. То есть пока юзер не введет верный цвет,
+        #   цикл останавливать не нужно
         print('вы ввели некорректный номер')
         break
 
-
+    # TODO Цвет нужно передавать в функцию как входной параметр. Сейчас он берется из глобальной области видимости,
+    #   что не есть хорошо
     def triangle(point, angle, length):
         v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=3)
         v1.draw(color=color)
