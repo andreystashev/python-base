@@ -2,7 +2,6 @@
 
 import simple_draw as sd
 
-
 # На основе кода из практической части реализовать снегопад:
 # - создать списки данных для отрисовки N снежинок
 # - нарисовать падение этих N снежинок
@@ -16,7 +15,7 @@ N = 20
 # sd.sleep()
 # sd.random_number()
 # sd.user_want_exit()
-x_point = [0,100, 150, 200, 250]
+x_point = [0, 100, 150, 200, 250]
 
 # TODO Нужно поменять цикл местами.
 #  Сначала заводим бесконечный цикл
@@ -38,14 +37,14 @@ while True:
     for x in x_point:
         y = sd.random_number(500, 700)
         snow1 = sd.get_point(x, y)
-        snow2 = sd.get_point(x + 100, y -100)
-        snow3 = sd.get_point(x + 200, y -150)
-        snow4 = sd.get_point(x + 300, y -50)
+        snow2 = sd.get_point(x + 100, y - 100)
+        snow3 = sd.get_point(x + 200, y - 150)
+        snow4 = sd.get_point(x + 300, y - 50)
         sd.clear_screen()
         sd.snowflake(center=snow1, length=30)
         sd.snowflake(center=snow2, length=30 / 2)
         sd.snowflake(center=snow3, length=30 / 1.5)
-        sd.snowflake(center=snow4, length=30/ 2.5)
+        sd.snowflake(center=snow4, length=30 / 2.5)
         snow1.y -= 70
         snow2.y -= 70
         snow3.y -= 75
@@ -57,7 +56,6 @@ while True:
         break
 
 sd.pause()
-
 
 # подсказка! для ускорения отрисовки можно
 #  - убрать clear_screen()
@@ -73,5 +71,3 @@ sd.pause()
 # - сделать сугоб внизу экрана - если снежинка долетает до низа, оставлять её там,
 #   и добавлять новую снежинку
 # Результат решения см https://youtu.be/XBx0JtxHiLg
-
-
