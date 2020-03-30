@@ -10,6 +10,14 @@ import simple_draw as sd
 # Результат решения см lesson_004/results/exercise_03_shape_select.jpg
 
 
+# TODO Нейминг - это фигуры. Перенесем сюда функции для каждой фигуры, и можно сделать словарь именно с функциями -
+#  shapes = {
+#      '1': {'title': 'triangle', 'function': triangle},
+#      '2': {'title': 'square', 'function': square},
+#      ...
+#  }
+
+# TODO И тогда далее по аналогии с 02 - проверили, что введенный номер есть в словаре и вызвали нужную функцию
 colors = {
     '1': {'title': 'triangle'},
     '2': {'title': 'square'},

@@ -133,8 +133,10 @@ import simple_draw as sd
 # Будьте ленивыми, не используйте копи-пасту!
 
 
+
 def constructor(point, length, side, width):
     angle = 360 / side
+    # TODO А почему бы просто в цикле for по side не нарисовать вектор?
     v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=width)
     v1.draw()
     v2 = sd.get_vector(start_point=v1.end_point, angle=angle * 2, length=length, width=width)
@@ -150,6 +152,15 @@ def constructor(point, length, side, width):
         v5.draw()
         sd.line(start_point=v5.end_point, end_point=point0, width=width)
 
+# TODO И не совсем верно.
+#  По заданию подразумевается, что мы для каждой фигуры сделаем свою функцию, но на основе общей функции, то есть -
+#  def draw_triangle(point, angle, length):
+#      any_shape(point=point, angle=angle, length=length, sides=3)
+
+# TODO И с остальными аналогично
+
+# TODO Просто если мы в коде встретим запись типа constructor(), то непонятно, что это за фигура, надо лезть
+#   в ее исходники, тратит время. А если draw_triangle - то тут как-бы все понятно.
 
 point0 = sd.get_point(220, 20)
 constructor(point=point0, length=200, side=3, width=4)
