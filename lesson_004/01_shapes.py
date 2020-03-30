@@ -107,8 +107,6 @@ import simple_draw as sd
 # hexagon(point=point0, angle=0, length=100)
 
 
-
-
 # Часть 1-бис.
 # Попробуйте прикинуть обьем работы, если нужно будет внести изменения в этот код.
 # Скажем, связывать точки не линиями, а дугами. Или двойными линиями. Или рисовать круги в угловых точках. Или...
@@ -133,32 +131,48 @@ import simple_draw as sd
 # Будьте ленивыми, не используйте копи-пасту!
 
 
-def constructor(point, length, side, width):
-    angle = 360 / side
-    v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=width)
-    v1.draw()
-    v2 = sd.get_vector(start_point=v1.end_point, angle=angle * 2, length=length, width=width)
-    v2.draw()
-    v3 = sd.get_vector(start_point=v2.end_point, angle=angle * 3, length=length, width=width)
-    v3.draw()
-    v4 = sd.get_vector(start_point=v3.end_point, angle=angle * 4, length=length, width=width)
-    v4.draw()
-    v5 = sd.get_vector(start_point=v4.end_point, angle=angle * 5 + 1, length=length, width=width)
-    if side == 5:
-        v5.draw()
-    if side == 6:
-        v5.draw()
-        sd.line(start_point=v5.end_point, end_point=point0, width=width)
+def draw_triangle(point, angle, length):
+    any_shape(point=point, angle=angle, length=length, width=3)
 
 
-point0 = sd.get_point(220, 20)
-constructor(point=point0, length=200, side=3, width=4)
-point0 = sd.get_point(580, 20)
-constructor(point=point0, length=200, side=4, width=4)
-point0 = sd.get_point(270, 250)
-constructor(point=point0, length=200, side=5, width=4)
-point0 = sd.get_point(530, 350)
-constructor(point=point0, length=100, side=6, width=4)
+def draw_square(point, angle, length):
+    any_shape(point=point, angle=angle, length=length, width=3)
 
+
+def draw_pentagon(point, angle, length):
+    any_shape(point=point, angle=angle, length=length, width=3)
+
+
+def draw_hexagon(point, angle, length):
+    any_shape(point=point, angle=angle, length=length, width=3)
+
+
+def any_shape(point, length, angle, width):
+    for v in range(0, 360, angle_change):
+        v = sd.get_vector(start_point=point, angle=angle, length=length, width=width)
+        v.draw()
+        point = v.end_point
+        angle += angle_change
+
+
+point0 = sd.get_point(50, 50)
+angle_change = 120
+draw_triangle(point=point0, angle=0, length=200)
+
+point0 = sd.get_point(50, 350)
+angle_change = 90
+draw_square(point=point0, angle=0, length=200)
+
+point0 = sd.get_point(350, 50)
+angle_change = 72
+draw_pentagon(point=point0, angle=0, length=150)
+
+point0 = sd.get_point(350, 350)
+angle_change = 60
+draw_hexagon(point=point0, angle=0, length=100)
 
 sd.pause()
+
+# todo не понял как реализовать изменение угла в функции. Пытался у каждой функции дополнительно указать колличество сторон
+#  и сделать например через "if sides = 3 >> angle_change = 120" но это не работает, или работает но применяется ко всем
+#  фигурам подряд

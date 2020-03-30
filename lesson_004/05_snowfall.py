@@ -15,47 +15,27 @@ N = 20
 # sd.sleep()
 # sd.random_number()
 # sd.user_want_exit()
-x_point = [0, 100, 150, 200, 250]
 
-# TODO Нужно поменять цикл местами.
-#  Сначала заводим бесконечный цикл
-#      потом цикл for списку координат
-#            в котором уже идет отрисовка снежинки
-#            и сдвиг координат
+x_point = [100, 200, 300, 400, 500, 150, 250, 350, 450, 550, 125, 225, 325, 425, 525, 75, 175, 275, 375, 475]
+y_point = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+l_list = [10, 20, 30, 30, 10, 15, 25, 35, 25, 12, 17, 21, 26, 33, 37, 23, 37, 32, 13, 25]
+
+# while True:
 #
-# TODO Не пойму, как реализовать смещение по игрику. Внутри цикла фор если изменять, то снежинка скачет после
-#  каждой ее отрисовки и возвращается назад, тоесть изменения не применяются. В вайл или вне циклов если устанавливать какую-то
-#  переменную которая будет менять у тоже не получается, потому что берется только одно рандомное число и подставляется в цикле во
-#  все значения, от этого снежинки на одной линии опускаются. Пытался сделать список координат вида x_point = [[100,100],[200,200]]
-#  и for x,y in x_point, но так снежинки отрисовываются в нужных координатах и не двигаются вниз. Еще я так понимаю нужно
-#   в правильном решении брать n = 20 и через цикл вайл вводить n-1, тем самым как-то сделать либо пополняемый список координат до 20
-#   и обойтись одним вызовом sd.snowflake, либо в цикле фор сделать смену начальных координат, откуда летит снежинка. Но опять таки
-#  не пойму как в форе это правильно реализовать
+#     for i in range(N):
+#
+#         sd.start_drawing()
+#         sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=l_list[i], color=sd.background_color)
+#         y_point[i] -= 20
+#         sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=l_list[i], color=sd.COLOR_WHITE)
+#         sd.finish_drawing()
+#
+#         if y_point[i] < -30:
+#             y_point[i] += sd.random_number(600, 1000)
+#     sd.sleep(0.1)
+#     if sd.user_want_exit():
+#         break
 
-while True:
-
-    for x in x_point:
-        y = sd.random_number(500, 700)
-        snow1 = sd.get_point(x, y)
-        snow2 = sd.get_point(x + 100, y - 100)
-        snow3 = sd.get_point(x + 200, y - 150)
-        snow4 = sd.get_point(x + 300, y - 50)
-        sd.clear_screen()
-        sd.snowflake(center=snow1, length=30)
-        sd.snowflake(center=snow2, length=30 / 2)
-        sd.snowflake(center=snow3, length=30 / 1.5)
-        sd.snowflake(center=snow4, length=30 / 2.5)
-        snow1.y -= 70
-        snow2.y -= 70
-        snow3.y -= 75
-        snow4.y -= 80
-    sd.sleep(0.01)
-    if snow1.y < -450:
-        break
-    if sd.user_want_exit():
-        break
-
-sd.pause()
 
 # подсказка! для ускорения отрисовки можно
 #  - убрать clear_screen()
@@ -71,3 +51,23 @@ sd.pause()
 # - сделать сугоб внизу экрана - если снежинка долетает до низа, оставлять её там,
 #   и добавлять новую снежинку
 # Результат решения см https://youtu.be/XBx0JtxHiLg
+
+while True:
+
+    for i in range(N):
+
+        sd.start_drawing()
+        sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=l_list[i], color=sd.background_color)
+        y_point[i] -= 30
+        x_point[i] += sd.random_number(-30, 30)
+        sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=l_list[i], color=sd.COLOR_WHITE)
+        sd.finish_drawing()
+
+        if y_point[i] < 50:
+            y_point[i] += sd.random_number(600, 1000)
+            sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=l_list[i], color=sd.COLOR_WHITE)
+    sd.sleep(0.1)
+    if sd.user_want_exit():
+        break
+
+sd.pause()
