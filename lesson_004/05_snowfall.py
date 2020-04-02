@@ -18,7 +18,7 @@ N = 20
 
 x_point = [100, 200, 300, 400, 500, 150, 250, 350, 450, 550, 125, 225, 325, 425, 525, 75, 175, 275, 375, 475]
 y_point = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-l_list = [10, 20, 30, 30, 10, 15, 25, 35, 25, 12, 17, 21, 26, 33, 37, 23, 37, 32, 13, 25]
+length_list = [10, 20, 30, 30, 10, 15, 25, 35, 25, 12, 17, 21, 26, 33, 37, 23, 37, 32, 13, 25]
 
 # while True:
 #
@@ -57,15 +57,15 @@ while True:
     for i in range(N):
 
         sd.start_drawing()
-        sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=l_list[i], color=sd.background_color)
+        sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=length_list[i], color=sd.background_color)
         y_point[i] -= 30
         x_point[i] += sd.random_number(-30, 30)
-        sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=l_list[i], color=sd.COLOR_WHITE)
+        sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=length_list[i], color=sd.COLOR_WHITE)
         sd.finish_drawing()
 
         if y_point[i] < 50:
             y_point[i] += sd.random_number(600, 1000)
-            sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=l_list[i], color=sd.COLOR_WHITE)
+            sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=length_list[i], color=sd.COLOR_WHITE)
     sd.sleep(0.1)
     if sd.user_want_exit():
         break
