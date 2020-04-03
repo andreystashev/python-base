@@ -12,22 +12,23 @@ import simple_draw as sd
 
 
 def draw_triangle(point, angle, length):
-    any_shape(point=point, angle=angle, length=length, width=3)
+    any_shape(point=point, angle=angle, length=length, width=3, side_change=3)
 
 
 def draw_square(point, angle, length):
-    any_shape(point=point, angle=angle, length=length, width=3)
+    any_shape(point=point, angle=angle, length=length, width=3, side_change=4)
 
 
 def draw_pentagon(point, angle, length):
-    any_shape(point=point, angle=angle, length=length, width=3)
+    any_shape(point=point, angle=angle, length=length, width=3, side_change=5)
 
 
 def draw_hexagon(point, angle, length):
-    any_shape(point=point, angle=angle, length=length, width=3)
+    any_shape(point=point, angle=angle, length=length, width=3, side_change=6)
 
 
-def any_shape(point, length, angle, width):
+def any_shape(point, length, angle, width, side_change):
+    angle_change = 360 // side_change
     for v in range(0, 360, angle_change):
         v = sd.get_vector(start_point=point, angle=angle, length=length, width=width)
         v.draw()
@@ -36,10 +37,10 @@ def any_shape(point, length, angle, width):
 
 
 shapes = {
-    '1': {'title': 'triangle', 'function': draw_triangle, 'angle': 120},
-    '2': {'title': 'square', 'function': draw_square, 'angle': 90},
-    '3': {'title': 'pentagon', 'function': draw_pentagon, 'angle': 72},
-    '4': {'title': 'hexagon', 'function': draw_hexagon, 'angle': 60}
+    '1': {'title': 'triangle', 'function': draw_triangle},
+    '2': {'title': 'square', 'function': draw_square},
+    '3': {'title': 'pentagon', 'function': draw_pentagon},
+    '4': {'title': 'hexagon', 'function': draw_hexagon}
 }
 
 for value, name, in shapes.items():
@@ -52,11 +53,9 @@ while True:
     shape_input = value_input
     print('Вы ввели', value_input)
     if value_input in shapes:
-        angle_change = shapes[value_input]['angle']
         shapes[value_input]['function'](point=point0, angle=0, length=200)
+        break
     else:
         print('неверный номер')
-
-    break
 
 sd.pause()
