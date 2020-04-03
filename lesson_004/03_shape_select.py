@@ -35,6 +35,7 @@ def any_shape(point, length, angle, width):
         angle += angle_change
 
 
+# TODO Когда перенесем исправленный вариант функций, праметр angle в словаре не понадобится
 shapes = {
     '1': {'title': 'triangle', 'function': draw_triangle, 'angle': 120},
     '2': {'title': 'square', 'function': draw_square, 'angle': 90},
@@ -57,6 +58,6 @@ while True:
     else:
         print('неверный номер')
 
-    break
+    break  # TODO break нужно делать внутри if, после того, как мы нарисовали фигуру.
 
 sd.pause()

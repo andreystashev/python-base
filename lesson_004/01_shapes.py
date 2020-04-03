@@ -132,6 +132,7 @@ import simple_draw as sd
 
 
 def draw_triangle(point, angle, length):
+    # TODO А в функциях фигур уже передавать конкретное количество сторон - 3, 4, 5, ...
     any_shape(point=point, angle=angle, length=length, width=3)
 
 
@@ -147,7 +148,9 @@ def draw_hexagon(point, angle, length):
     any_shape(point=point, angle=angle, length=length, width=3)
 
 
+# TODO У общей функции сделаем еще один входной аргумент - количество сторон
 def any_shape(point, length, angle, width):
+    # TODO Соответственно, angle_change - это будет 360/количество сторон
     for v in range(0, 360, angle_change):
         v = sd.get_vector(start_point=point, angle=angle, length=length, width=width)
         v.draw()
@@ -156,7 +159,7 @@ def any_shape(point, length, angle, width):
 
 
 point0 = sd.get_point(50, 50)
-angle_change = 120
+angle_change = 120  # TODO Эти переменные тогда не понадобятся
 draw_triangle(point=point0, angle=0, length=200)
 
 point0 = sd.get_point(50, 350)
@@ -172,7 +175,3 @@ angle_change = 60
 draw_hexagon(point=point0, angle=0, length=100)
 
 sd.pause()
-
-# todo не понял как реализовать изменение угла в функции. Пытался у каждой функции дополнительно указать колличество сторон
-#  и сделать например через "if sides = 3 >> angle_change = 120" но это не работает, или работает но применяется ко всем
-#  фигурам подряд
