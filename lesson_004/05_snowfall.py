@@ -17,9 +17,10 @@ N = 20
 # sd.user_want_exit()
 
 
-x_point = [sd.random_number(10, 590) for i in range(20)]
-y_point = [sd.random_number(0, 0) for i in range(20)]
-length_list = [sd.random_number(10, 40) for i in range(20)]
+
+x_point = [sd.random_number(10, 590) for _ in range(N)]
+y_point = [sd.random_number(0, 0) for _ in range(N)]
+length_list = [sd.random_number(10, 40) for _ in range(N)]
 
 # while True:
 #

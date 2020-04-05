@@ -53,7 +53,8 @@ while True:
     shape_input = value_input
     print('Вы ввели', value_input)
     if value_input in shapes:
-        shapes[value_input]['function'](point=point0, angle=0, length=200)
+        shape_draw = shapes[value_input]['function']
+        shape_draw(point=point0, angle=0, length=200)
         break
     else:
         print('неверный номер')

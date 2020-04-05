@@ -16,19 +16,19 @@ import simple_draw as sd
 # Результат решения см lesson_004/results/exercise_02_global_color.jpg
 
 
-def draw_triangle(point, angle, length):
+def draw_triangle(point, angle, length, color):
     any_shape(point=point, angle=angle, length=length, width=3, side_change=3)
 
 
-def draw_square(point, angle, length):
+def draw_square(point, angle, length, color):
     any_shape(point=point, angle=angle, length=length, width=3, side_change=4)
 
 
-def draw_pentagon(point, angle, length):
+def draw_pentagon(point, angle, length, color):
     any_shape(point=point, angle=angle, length=length, width=3, side_change=5)
 
 
-def draw_hexagon(point, angle, length):
+def draw_hexagon(point, angle, length, color):
     any_shape(point=point, angle=angle, length=length, width=3, side_change=6)
 
 
@@ -36,7 +36,7 @@ def any_shape(point, length, angle, width, side_change):
     angle_change = 360 // side_change
     for v in range(0, 360, angle_change):
         v = sd.get_vector(start_point=point, angle=angle, length=length, width=width)
-        v.draw(color=colors[value]['value'])
+        v.draw(color=color)
         point = v.end_point
         angle += angle_change
 
@@ -60,18 +60,19 @@ while True:
     print('Вы ввели', value)
 
     if value in colors:
+        color = colors[value]['value']
 
         point0 = sd.get_point(50, 50)
-        draw_triangle(point=point0, angle=0, length=200)
+        draw_triangle(point=point0, angle=0, length=200, color=color)
 
         point0 = sd.get_point(50, 350)
-        draw_square(point=point0, angle=0, length=200)
+        draw_square(point=point0, angle=0, length=200, color=color)
 
         point0 = sd.get_point(350, 50)
-        draw_pentagon(point=point0, angle=0, length=150)
+        draw_pentagon(point=point0, angle=0, length=150, color=color)
 
         point0 = sd.get_point(350, 350)
-        draw_hexagon(point=point0, angle=0, length=100)
+        draw_hexagon(point=point0, angle=0, length=100, color=color)
         break
     else:
         print('не верно')
