@@ -53,6 +53,9 @@ while True:
     shape_input = value_input
     print('Вы ввели', value_input)
     if value_input in shapes:
+        # TODO Чтобы код легче воспринимался, лучше разбить это на две строки -
+        #  сохранить в переменную фукнцию из словаря
+        #  сделать вызов этой переменной
         shapes[value_input]['function'](point=point0, angle=0, length=200)
         break
     else:

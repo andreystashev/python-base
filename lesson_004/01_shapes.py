@@ -169,3 +169,5 @@ point0 = sd.get_point(350, 350)
 draw_hexagon(point=point0, angle=0, length=100)
 
 sd.pause()
+
+# зачет!

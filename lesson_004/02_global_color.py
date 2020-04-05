@@ -36,6 +36,8 @@ def any_shape(point, length, angle, width, side_change):
     angle_change = 360 // side_change
     for v in range(0, 360, angle_change):
         v = sd.get_vector(start_point=point, angle=angle, length=length, width=width)
+        # TODO Нет, так делать не нужно. Так мы используем внутри определения функции глобальные переменные.
+        #  Здесь добавим у всех функций еще один входной аргумент - цвет
         v.draw(color=colors[value]['value'])
         point = v.end_point
         angle += angle_change
@@ -61,6 +63,7 @@ while True:
 
     if value in colors:
 
+        # TODO А уже здесь будем получать из словаря нужное значение цвета из словаря и сним вызывать наши функции
         point0 = sd.get_point(50, 50)
         draw_triangle(point=point0, angle=0, length=200)
 

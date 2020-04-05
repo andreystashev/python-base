@@ -17,6 +17,8 @@ N = 20
 # sd.user_want_exit()
 
 
+# TODO Используем константу N, а не просто число 20.
+#  И если переменная цикла не используется в самом цикле, ее принято _ (нижнее подчеркивание) называть.
 x_point = [sd.random_number(10, 590) for i in range(20)]
 y_point = [sd.random_number(0, 0) for i in range(20)]
 length_list = [sd.random_number(10, 40) for i in range(20)]
