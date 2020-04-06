@@ -18,7 +18,27 @@
 # пример см. lesson_005/results/04_painting.jpg
 # Приправить своей фантазией по вкусу (коты? коровы? люди? трактор? что придумается)
 
-# TODO здесь ваш код
+import simple_draw as sd
+
+sd.resolution = (1200, 600)
+
+from village import wall
+from village import smile
+from village import three
+from village import rainbow
+from village import snow
+
+wall.wall()
+
+three.three(point=sd.get_point(1000, 10), angle=90, length=100, delta=30)
+
+rainbow.rainbow(point=sd.get_point(400, -250), step=10)
+
+smile.smile(x=565, y=140, color=sd.COLOR_YELLOW)
+
+snow.snow()
+
+sd.pause()
 
 # Усложненное задание (делать по желанию)
 # Анимировать картину.
