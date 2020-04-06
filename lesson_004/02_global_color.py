@@ -78,3 +78,5 @@ while True:
         print('не верно')
 
 sd.pause()
+
+# зачет!

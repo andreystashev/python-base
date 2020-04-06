@@ -60,3 +60,5 @@ while True:
         print('неверный номер')
 
 sd.pause()
+
+# зачет!
