@@ -1,29 +1,34 @@
 import simple_draw as sd
 
 
-N = 10
+def snow():
 
+    n = 10
 
-x_point = [sd.random_number(-50, 200) for i in range(10)]
-y_point = [sd.random_number(0, 0) for i in range(10)]
-length_list = [sd.random_number(10, 30) for i in range(10)]
-sd.circle(center_position=sd.get_point(50, 600), color=sd.COLOR_RED, radius=90, width=89)
+    x_point = [sd.random_number(-50, 200) for _ in range(n)]
+    y_point = [sd.random_number(0, 0) for _ in range(n)]
+    length_list = [sd.random_number(10, 30) for _ in range(n)]
 
-while True:
+    sd.circle(center_position=sd.get_point(50, 600), color=sd.COLOR_RED, radius=90, width=89)
 
-    for i in range(N):
+    while True:
 
-        sd.start_drawing()
-        sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=length_list[i], color=sd.background_color)
-        y_point[i] -= 30
-        x_point[i] += sd.random_number(-20, 20)
-        sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=length_list[i], color=sd.COLOR_WHITE)
-        sd.finish_drawing()
+        for i in range(n):
 
-        if y_point[i] < 50:
-            y_point[i] += sd.random_number(300, 450)
+            sd.start_drawing()
+            sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=length_list[i], color=sd.background_color)
+            y_point[i] -= 30
+            x_point[i] += sd.random_number(-20, 20)
             sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=length_list[i], color=sd.COLOR_WHITE)
-    sd.sleep(0.1)
-    if sd.user_want_exit():
-        break
+            sd.finish_drawing()
 
+            if y_point[i] < 50:
+                y_point[i] += sd.random_number(300, 450)
+                sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=length_list[i], color=sd.COLOR_WHITE)
+        sd.sleep(0.1)
+        if sd.user_want_exit():
+            break
+
+
+if __name__ == '__main__':
+    snow()

@@ -1,7 +1,5 @@
 import simple_draw as sd
 
-sd.resolution = (1200, 600)
-
 
 def smile(x, y, color):
     radius = 50
@@ -17,4 +15,5 @@ def smile(x, y, color):
                  width=0)
 
 
-smile(x=565, y=140, color=sd.COLOR_YELLOW)
+if __name__ == '__main__':
+    smile(x=565, y=140, color=sd.COLOR_YELLOW)

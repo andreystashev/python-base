@@ -1,7 +1,5 @@
 import simple_draw as sd
 
-sd.resolution = (1200, 600)
-
 
 def wall():
     v1 = sd.get_vector(start_point=sd.get_point(375, 280), angle=0, length=380, width=0)
@@ -27,4 +25,5 @@ def wall():
     v5.draw(color=sd.COLOR_DARK_BLUE)
 
 
-wall()
+if __name__ == '__main__':
+    wall()

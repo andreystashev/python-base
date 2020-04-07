@@ -1,6 +1,6 @@
 import simple_draw as sd
 
-sd.resolution = (1200, 600)
+
 root_point = sd.get_point(1100, 10)
 
 
@@ -22,4 +22,5 @@ def three(point, angle, length, delta):
     three(point=next_point, angle=next_angle1, length=next_length, delta=sd.random_number(24, 36))
 
 
-three(point=root_point, angle=90, length=100, delta=30)
+if __name__ == '__main__':
+    three(point=root_point, angle=90, length=100, delta=30)

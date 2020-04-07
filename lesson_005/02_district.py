@@ -19,3 +19,5 @@ house4_1 = ', '.join(ssh2r1.folks)
 house4_2 = ', '.join(ssh2r2.folks)
 print('На районе живут: ', house1_1, ',', house1_2, ',', house2_2, ',', house3_1, ',', house3_2, ',', house4_1, ',',
       house4_2)
+
+# зачет!
