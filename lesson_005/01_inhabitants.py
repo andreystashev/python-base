@@ -6,6 +6,7 @@
 
 import room_1, room_2
 
+# TODO Пайчарм посказывает, что импорт не по PEP 8 и нейминг переопределяет встроенную функцию
 str = ', '.join(room_1.folks)
 print('В комнате room_1 живут: ', str,
       '\nВ комнате room_2 живут: ', room_2.folks.pop())

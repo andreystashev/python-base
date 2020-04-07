@@ -17,6 +17,7 @@
 
 import my_burger
 
+# TODO Нейминг - эти функции добавляют_ингридиент, то есть пусть будет добавить_булку, добавить_котлету ...
 my_burger.bread()
 my_burger.cutlet()
 my_burger.mayo()
