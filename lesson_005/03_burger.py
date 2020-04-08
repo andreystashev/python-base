@@ -15,9 +15,10 @@
 # Создать рецепт своего бургера, по вашему вкусу.
 # Если не хватает инградиентов - создать соответствующие функции в модуле my_burger
 
-# import my_burger
-from my_burger import bread as add_bread, cutlet as add_cutlet, mayo as add_mayo, cucumber as add_cucumber, \
-    cheese as add_cheese, tomato as add_tomato
+from my_burger import (bread as add_bread, cutlet as add_cutlet, mayo as add_mayo,
+                       cucumber as add_cucumber, cheese as add_cheese, tomato as add_tomato)
+
+#  Ну можно было все-таки названия функций в my_burger поменять и так с импортом не извращаться)
 
 add_bread()
 add_cutlet()
@@ -27,3 +28,5 @@ add_cutlet()
 add_cheese()
 add_tomato()
 add_bread()
+
+# зачет!

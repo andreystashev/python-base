@@ -44,4 +44,84 @@
 # Это пример применения SOLID принципа (см https://goo.gl/GFMoaI) в архитектуре программ.
 # Точнее, в этом случае важен принцип единственной ответственности - https://goo.gl/rYb3hT
 
-# TODO здесь ваш код...
+import simple_draw as sd
+
+num1 = sd.random_number(1, 9)
+num2 = sd.random_number(0, 9)
+num3 = sd.random_number(0, 9)
+num4 = sd.random_number(0, 9)
+trying = 0
+
+if num1 != num2 and num1 != num3 and num2 != num3 and num1 != num4 and num2 != num4 and num3 != num4:
+    while True:
+        trying += 1
+
+        zet = num1, num2, num3, num4
+        # print(zet[0], zet[1], zet[2], zet[3], sep='')  # показ числа
+
+        value_input = input("Введите четырехзначное число: ")
+        shape_input = value_input
+        if int(value_input[0]) != int(value_input[1]) and int(value_input[0]) != int(value_input[2]) and int(
+                value_input[1]) != int(value_input[2]) and int(value_input[0]) != int(value_input[3]) and int(
+            value_input[1]) != int(value_input[3]) and int(value_input[2]) != int(value_input[3]) and 999 < int(
+            value_input) < 9999:
+
+            bull = 0
+            if int(value_input[0]) == int(zet[0]):
+                bull += 1
+            if int(value_input[1]) == int(zet[1]):
+                bull += 1
+            if int(value_input[2]) == int(zet[2]):
+                bull += 1
+            if int(value_input[3]) == int(zet[3]):
+                bull += 1
+            if bull == int(4):
+                print('вы выиграли за ', trying, 'попыток')
+                value_input1 = input("Еще партию? Для продолжения нажмите - y, для выхода любую клавишу: ")
+                if value_input1 == 'y':
+                    print('продолжаем')
+
+                    num1 += sd.random_number(0, 9) and num1 < 9 and num1 != num2 and num1 != num3 and num1 != num4
+                    num2 += sd.random_number(0, 9) and num2 < 9 and num2 != num1 and num2 != num3 and num2 != num4
+                    num3 += sd.random_number(0, 9) and num3 < 9 and num3 != num1 and num3 != num2 and num3 != num4
+                    num4 += sd.random_number(0, 9) and num4 < 9 and num4 != num1 and num4 != num2 and num4 != num3
+
+                else:
+                    print('досвидания')
+                    break
+
+            kow = 0
+            if int(value_input[0]) == int(zet[1]):
+                kow += 1
+            if int(value_input[0]) == int(zet[2]):
+                kow += 1
+            if int(value_input[0]) == int(zet[3]):
+                kow += 1
+            if int(value_input[1]) == int(zet[0]):
+                kow += 1
+            if int(value_input[1]) == int(zet[2]):
+                kow += 1
+            if int(value_input[1]) == int(zet[3]):
+                kow += 1
+            if int(value_input[2]) == int(zet[0]):
+                kow += 1
+            if int(value_input[2]) == int(zet[1]):
+                kow += 1
+            if int(value_input[2]) == int(zet[3]):
+                kow += 1
+            if int(value_input[3]) == int(zet[0]):
+                kow += 1
+            if int(value_input[3]) == int(zet[1]):
+                kow += 1
+            if int(value_input[3]) == int(zet[2]):
+                kow += 1
+
+            print('>  быки - ', bull, ', коровы - ', kow)
+        else:
+            print('неверный ввод')
+
+
+# todo в данном решении осталось несколько недоработок: если число случайно выбирается несоответствующее требованием, то
+#     программу приходится перезапускать до того момента, пока не выберется корректное. При выигрыше в случае если пользователь
+#     по новой начинает, то первые условия не срабатывают и может отобразиться число с двумя и более одинаковыми цифрами. Не
+#     пойму, как их устранить
