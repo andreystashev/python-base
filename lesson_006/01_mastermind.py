@@ -46,89 +46,29 @@
 
 import simple_draw as sd
 
-num1 = sd.random_number(1, 9)
-num2 = sd.random_number(0, 9)
-num3 = sd.random_number(0, 9)
-num4 = sd.random_number(0, 9)
-trying = 0
+from mastermind_engine import find
 
-# TODO На повторяющиеся цифры удобно проверять так - сделать множество и проверить его длину
-if num1 != num2 and num1 != num3 and num2 != num3 and num1 != num4 and num2 != num4 and num3 != num4:
+def game():
     while True:
-        trying += 1
+        find()
+        break
 
-        zet = num1, num2, num3, num4
-        # print(zet[0], zet[1], zet[2], zet[3], sep='')  # показ числа
+def next1():
+    value_input1 = input("Еще партию? Для продолжения нажмите - y, для выхода любую клавишу: ")
+    if value_input1 == 'y':
+        print('продолжаем')
+        game()
 
-        value_input = input("Введите четырехзначное число: ")
-        shape_input = value_input
-        if int(value_input[0]) != int(value_input[1]) and int(value_input[0]) != int(value_input[2]) and int(
-                value_input[1]) != int(value_input[2]) and int(value_input[0]) != int(value_input[3]) and int(
-            value_input[1]) != int(value_input[3]) and int(value_input[2]) != int(value_input[3]) and 999 < int(
-            value_input) < 9999:
-
-        # TODO Почему бы не использовать цикл для проверки на быков и коров?
-            bull = 0
-            if int(value_input[0]) == int(zet[0]):
-                bull += 1
-            if int(value_input[1]) == int(zet[1]):
-                bull += 1
-            if int(value_input[2]) == int(zet[2]):
-                bull += 1
-            if int(value_input[3]) == int(zet[3]):
-                bull += 1
-            if bull == int(4):
-                print('вы выиграли за ', trying, 'попыток')
-                value_input1 = input("Еще партию? Для продолжения нажмите - y, для выхода любую клавишу: ")
-                if value_input1 == 'y':
-                    print('продолжаем')
-
-                    num1 += sd.random_number(0, 9) and num1 < 9 and num1 != num2 and num1 != num3 and num1 != num4
-                    num2 += sd.random_number(0, 9) and num2 < 9 and num2 != num1 and num2 != num3 and num2 != num4
-                    num3 += sd.random_number(0, 9) and num3 < 9 and num3 != num1 and num3 != num2 and num3 != num4
-                    num4 += sd.random_number(0, 9) and num4 < 9 and num4 != num1 and num4 != num2 and num4 != num3
-
-                else:
-                    print('досвидания')
-                    break
-
-            kow = 0
-            if int(value_input[0]) == int(zet[1]):
-                kow += 1
-            if int(value_input[0]) == int(zet[2]):
-                kow += 1
-            if int(value_input[0]) == int(zet[3]):
-                kow += 1
-            if int(value_input[1]) == int(zet[0]):
-                kow += 1
-            if int(value_input[1]) == int(zet[2]):
-                kow += 1
-            if int(value_input[1]) == int(zet[3]):
-                kow += 1
-            if int(value_input[2]) == int(zet[0]):
-                kow += 1
-            if int(value_input[2]) == int(zet[1]):
-                kow += 1
-            if int(value_input[2]) == int(zet[3]):
-                kow += 1
-            if int(value_input[3]) == int(zet[0]):
-                kow += 1
-            if int(value_input[3]) == int(zet[1]):
-                kow += 1
-            if int(value_input[3]) == int(zet[2]):
-                kow += 1
-
-            print('>  быки - ', bull, ', коровы - ', kow)
-        else:
-            print('неверный ввод')
+    else:
+        print('goodbue')
 
 
-#  в данном решении осталось несколько недоработок: если число случайно выбирается несоответствующее требованием, то
-#     программу приходится перезапускать до того момента, пока не выберется корректное. При выигрыше в случае если пользователь
-#     по новой начинает, то первые условия не срабатывают и может отобразиться число с двумя и более одинаковыми цифрами. Не
-#     пойму, как их устранить
-# TODO Недароботки постепенно устраним)
-#  Сейчас важно следующее - нужно разделить алгоритм на модули клиента и движка. Все, что не зависит от игрока
-#  (загадать число, проверить на быков и коров) - нужно перенести в отдельный модуль (см. описание задания).
-#  Причем это должны быть именно отдельные функции. В этом модуле тоже хотелось бы видеть разделение алгоритма на
-#  функции - запросить ввод от игрока и проверить число, спросить о старте новой игры в случае победы и т.п.
+while True:
+    find()
+
+next1()
+
+
+# TODO Перенес в отдельный модуль две функции. Не понимаю как функцию в моменте нахождения 4 быков или цикл остановить,
+#  и запустить сразу после него функцию по продолжению игры из этого модуля. Также с переносом функций не работает
+#  подсчет ходов если сделать переменную с 0 за циклом вайл и добавлять +=1 внутри
