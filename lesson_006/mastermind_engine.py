@@ -23,7 +23,8 @@ random_number()
 
 def find():
     value_input = input("Введите четырехзначное число: ")
-    random_input = {value_input[0], value_input[1], value_input[2], value_input[3]}
+    random_input = {value_input[0], value_input[1], value_input[2], value_input[3]}    # TODO почему название random_input?
+    # TODO множество можно сразу сделать из строки - она итерируемый объект
 
     if len(random_input) == 4:
         cow = 0
@@ -39,7 +40,3 @@ def find():
         print('not')
     if bull == 4:
         print('you win')
-
-
-
-sd.pause

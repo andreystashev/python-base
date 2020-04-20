@@ -18,8 +18,7 @@ import simple_draw as sd
 
 from snowfall import (snow_num, snow_color, snow_fall, fall, snow_del)
 
-snow_num(x=10) #todo нужно ли это здесь, потому как если функцию убрать то код будет работать, но тогда отсюда нельзя
-              #  управлять количеством
+snow_num(x=10)
 
 
 while True:
