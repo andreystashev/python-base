@@ -46,27 +46,34 @@
 
 import simple_draw as sd
 
-from mastermind_engine import find
+from mastermind_engine import find, win
 
-def game():
-    while True:   # TODO зачем эта конструкция с бесконечным циклом?
-        find()
-        break
+end_list = []
 
-def next1():
+
+def resume():
     value_input1 = input("Еще партию? Для продолжения нажмите - y, для выхода любую клавишу: ")
     if value_input1 == 'y':
+
         print('продолжаем')
-        game()
+        find()
+        del win[0:3]
 
     else:
-        print('good bye')
+        end_list.extend('n')
+        print('завершение')
 
 
+moves = 0
 while True:
+
+    moves += 1
     find()
+    if 'w' in win:
+        print(moves, 'ходов')
+        moves = 1
+        resume()
 
-next1()
+    if 'n' in end_list:
+        break
 
-
-# TODO возвращайте результат из find и реализуйте логику остановки и подсчета кол-во итераций здесь
