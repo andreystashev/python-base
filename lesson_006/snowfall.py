@@ -26,8 +26,6 @@ def get_fallen():
     return res
 
 
-get_fallen()
-
 
 # res.reverse()
 def snow_del():
@@ -36,14 +34,9 @@ def snow_del():
         del x_point[i]
         del y_point[i]
         del length_list[i]
-        res.clear()
 
-
-# todo Постоянно вылетает ошибка index out of range. В телеграмме были подсказки что это из-за того что не с конца берется
-#   индекс, но res.reverse() я ставлю, также пробовал for i in reversed(res): и for i in res[::-1]. Как только одна из
-#  снежинок долетает до низа и попадает в список res, оттуда берется индекс и удаляетя из верхних списков, от чего не может
-#  выполниться функция по отрисовке
-def return_snow():
+def return_snow():  # TODO снежинки нужно вернуть туда откуда вы их удалили.
+    # Эта функция не рисует снежинки, она добавляет их
     for i in res:
         sd.snowflake(center=sd.get_point(x_point[i], y_point[i]), length=length_list[i], color=sd.COLOR_WHITE)
 

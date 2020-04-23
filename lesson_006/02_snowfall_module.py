@@ -16,7 +16,7 @@ import simple_draw as sd
 
 # создать_снежинки(N)
 
-from snowfall import (snow_color, snow_fall, get_fallen, snow_del, res, return_snow)
+from snowfall import (snow_color, snow_fall, get_fallen, snow_del,  return_snow)
 
 #
 # snow_num(x=10)

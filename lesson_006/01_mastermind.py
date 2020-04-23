@@ -77,3 +77,4 @@ while True:
     if 'n' in end_list:
         break
 
+# зачет!
