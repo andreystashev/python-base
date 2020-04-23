@@ -16,17 +16,19 @@ import simple_draw as sd
 
 # создать_снежинки(N)
 
-from snowfall import (snow_num, snow_color, snow_fall, fall, snow_del)
+from snowfall import (snow_color, snow_fall, get_fallen, snow_del, res, return_snow)
 
-snow_num(x=10)
+#
+# snow_num(x=10)
 
 
 while True:
     snow_color(color=sd.background_color)
     snow_fall()
     snow_color(color=sd.COLOR_YELLOW)
-    fall()
+    get_fallen()
     snow_del()
+    return_snow()
     sd.sleep(0.1)
     if sd.user_want_exit():
         break
