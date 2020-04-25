@@ -20,14 +20,18 @@ from snowfall import (snow_color, snow_fall, get_fallen, snow_del,  return_snow)
 
 
 while True:
+    sd.start_drawing()
     snow_color(color=sd.background_color)
     snow_fall()
     snow_color(color=sd.COLOR_YELLOW)
     get_fallen()
     snow_del()
     return_snow()
+
+    sd.finish_drawing()
     sd.sleep(0.1)
     if sd.user_want_exit():
         break
 
 sd.pause()
+# зачет!
