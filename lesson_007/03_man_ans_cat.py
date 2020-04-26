@@ -175,7 +175,7 @@ class House:
 
 
 citizens = [
-    Cat(name='Кот Василий'),
+    Cat(name='Кот Пушок'),
     Cat(name='Кот Мурзик'),
     Cat(name='Кот Снежок'),
     Man(name='Человек Юрий'),
