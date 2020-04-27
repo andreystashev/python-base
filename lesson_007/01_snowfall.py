@@ -10,9 +10,9 @@ import simple_draw as sd
 
 
 class Snowflake:
-    pass
 
-    xpoint = sd.random_number(100, 500)
+    xpoint = sd.random_number(100, 500)  # TODO у каждой объекта снежинки свои атрибуты.
+    # А вы сделали их атрибутами класса. Вам не хватает __init__()
     ypoint = sd.random_number(500, 700)
     color = sd.COLOR_WHITE
     length = sd.random_number(15, 30)
@@ -30,7 +30,8 @@ class Snowflake:
         if flake.ypoint <= 0:
             flake.ypoint += 600
 
-    def get_flakes(self, count):
+    def get_flakes(self, count):  # TODO класс описывает одну снежинку.
+        # С списком снежинок нужно работать вне класса
         global flakes
         flakes = []
         for _ in range(count):
