@@ -55,7 +55,7 @@ class House:
             self.money, self.man_food, self.dirt)
 
 
-class Husband:
+class Husband:  # TODO Нужен базовый класс - человек. Туда нужно вынести все общее для людей
     all_money = 0
     all_eat = 0
 
@@ -63,7 +63,7 @@ class Husband:
         self.name = name
         self.fullness = 30
         self.sanity = 100
-        self.house = home
+        self.house = home  # TODO home? почему глобальная переменная?
 
     def __str__(self):
         return 'Я - {}, сытость {}, рассудок {}'.format(
@@ -71,7 +71,7 @@ class Husband:
 
     def act(self):
 
-        self.house.dirt += 5
+        self.house.dirt += 5  # TODO почему здесь? только муж гадит?) это должно быть методом дома
 
         if self.fullness <= 0:
             print('{} умер от голода...'.format(self.name))
