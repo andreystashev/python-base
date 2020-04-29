@@ -10,7 +10,8 @@ import simple_draw as sd
 flakes = []
 
 
-class Snowflake:
+class Snowflake:  # TODO этот класс описывает одну снежинку.
+    # Всю работу со списком снежинок нужно вынести за пределы
     def __init__(self):
         self.xpoint = sd.random_number(100, 500)
         self.ypoint = sd.random_number(600, 700)
@@ -47,8 +48,8 @@ class Snowflake:
         for i in fallen_snow:
             del flakes[i]
 
-    def append_flakes(self):
-        fallen_snow.reverse()
+    def append_flakes(self):  # TODO может достаточно get_flakes функции
+        fallen_snow.reverse()  # TODO зачем это?
         for _ in fallen_snow:
             flakes.append(Snowflake())
 
