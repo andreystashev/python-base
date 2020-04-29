@@ -10,8 +10,7 @@ import simple_draw as sd
 flakes = []
 
 
-class Snowflake:  # TODO этот класс описывает одну снежинку.
-    # Всю работу со списком снежинок нужно вынести за пределы
+class Snowflake:
     def __init__(self):
         self.xpoint = sd.random_number(100, 500)
         self.ypoint = sd.random_number(600, 700)
@@ -22,40 +21,36 @@ class Snowflake:  # TODO этот класс описывает одну сне�
         sd.snowflake(center=sd.get_point(flake.xpoint, flake.ypoint), length=flake.length, color=sd.background_color)
 
     def move(self):
-        flake.ypoint -= 20
+        flake.ypoint -= 50
 
     def draw(self, color):
         sd.snowflake(center=sd.get_point(flake.xpoint, flake.ypoint), length=flake.length, color=color)
 
-    def can_fall(self):
-        if flake.ypoint <= 0:
-            flake.ypoint += 600
 
-    def get_fallen_flakes(self):
-        if flake.ypoint <= 0:
-            flake.draw(color=sd.background_color)
+def get_fallen_flakes():
+    if flake.ypoint <= 0:
+        flake.draw(color=sd.background_color)
 
-        global fallen_snow
-        fallen_snow = []
-        for i, value in enumerate(flakes):
-            if flake.ypoint <= -100:
-                fallen_snow.append(i)
+    global fallen_snow
+    fallen_snow = []
+    for i, value in enumerate(flakes):
+        if flake.ypoint <= -100:
+            fallen_snow.append(i)
 
-        return fallen_snow
+    return fallen_snow
 
-    def del_flakes(self):
-        fallen_snow.reverse()
-        for i in fallen_snow:
-            del flakes[i]
 
-    def append_flakes(self):  # TODO может достаточно get_flakes функции
-        fallen_snow.reverse()  # TODO зачем это?
-        for _ in fallen_snow:
-            flakes.append(Snowflake())
+def del_flakes():
+    fallen_snow.reverse()
+    for i in fallen_snow:
+        del flakes[i]
+    for _ in fallen_snow:
+        flakes.append(Snowflake())
 
-    def get_flakes(self, count):
-        for _ in range(count):
-            flakes.append(Snowflake())
+
+def get_flakes(count):
+    for _ in range(count):
+        flakes.append(Snowflake())
 
 
 flake = Snowflake()
@@ -71,7 +66,7 @@ flake = Snowflake()
 #         break
 
 # шаг 2: создать снегопад - список объектов Снежинка в отдельном списке, обработку примерно так:
-flake.get_flakes(count=7)  # создать список снежинок
+get_flakes(count=7)  # создать список снежинок
 while True:
 
     for flake in flakes:
@@ -79,9 +74,8 @@ while True:
         flake.clear_previous_picture()
         flake.move()
         flake.draw(color=flake.color)
-        flake.get_fallen_flakes()
-        flake.del_flakes()
-        flake.append_flakes()
+        get_fallen_flakes()
+        del_flakes()
         sd.finish_drawing()
         sd.sleep(0.1)
         if sd.user_want_exit():
