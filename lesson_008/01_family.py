@@ -42,7 +42,6 @@ from random import randint
 #
 # Подвести итоги жизни за год: сколько было заработано денег, сколько сьедено еды, сколько куплено шуб.
 
-
 class House:
 
     def __init__(self):
@@ -54,8 +53,11 @@ class House:
         return 'Осталось денег {}, еды {}, грязи {},'.format(
             self.money, self.man_food, self.dirt)
 
+    def act(self):
+        self.dirt += 5
 
-class Husband:  # TODO Нужен базовый класс - человек. Туда нужно вынести все общее для людей
+
+class Human:
     all_money = 0
     all_eat = 0
 
@@ -63,16 +65,19 @@ class Husband:  # TODO Нужен базовый класс - человек. Т
         self.name = name
         self.fullness = 30
         self.sanity = 100
-        self.house = home  # TODO home? почему глобальная переменная?
+        self.house = home  # TODO пробовал подставлять разные варианты, все вызывают ошибку. Не совсем понимаю что дает эта строчка
 
     def __str__(self):
         return 'Я - {}, сытость {}, рассудок {}'.format(
             self.name, self.fullness, self.sanity)
 
+
+class Husband(Human):
+
+    def __init__(self, name):
+        super().__init__(name)
+
     def act(self):
-
-        self.house.dirt += 5  # TODO почему здесь? только муж гадит?) это должно быть методом дома
-
         if self.fullness <= 0:
             print('{} умер от голода...'.format(self.name))
             return
@@ -80,7 +85,6 @@ class Husband:  # TODO Нужен базовый класс - человек. Т
         if self.sanity <= 0:
             print('{} умер от страданий...'.format(self.name))
             return
-
         if self.house.dirt > 90:
             self.sanity -= 5
 
@@ -124,27 +128,20 @@ class Husband:  # TODO Нужен базовый класс - человек. Т
         self.sanity += 20
 
 
-class Wife:
+class Wife(Human):
     all_eat2 = 0
     total_coat = 0
 
     def __init__(self, name):
-        self.name = name
-        self.fullness = 30
-        self.sanity = 100
-        self.house = home
-
-    def __str__(self):
-        return 'Я - {}, сытость {}, рассудок {}'.format(
-            self.name, self.fullness, self.sanity)
+        super().__init__(name)
 
     def act(self):
         if self.fullness <= 0:
-            print('{} умерла от голода...'.format(self.name))
+            print('{} умер от голода...'.format(self.name))
             return
 
         if self.sanity <= 0:
-            print('{} умерла от страданий...'.format(self.name))
+            print('{} умер от страданий...'.format(self.name))
             return
         if self.house.dirt > 90:
             self.sanity -= 5
@@ -211,6 +208,8 @@ for day in range(365):
     cprint('================== День {} =================='.format(day), color='red')
     serge.act()
     masha.act()
+    home.act()
+
     cprint(serge, color='cyan')
     cprint(masha, color='cyan')
     cprint(home, color='cyan')
