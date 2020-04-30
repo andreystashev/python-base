@@ -68,17 +68,18 @@ flake = Snowflake()
 # шаг 2: создать снегопад - список объектов Снежинка в отдельном списке, обработку примерно так:
 get_flakes(count=7)  # создать список снежинок
 while True:
-
+    sd.start_drawing()
     for flake in flakes:
-        sd.start_drawing()
         flake.clear_previous_picture()
         flake.move()
         flake.draw(color=flake.color)
         get_fallen_flakes()
         del_flakes()
-        sd.finish_drawing()
-        sd.sleep(0.1)
-        if sd.user_want_exit():
-            break
+
+    sd.finish_drawing()
+    sd.sleep(0.1)
+    if sd.user_want_exit():
+        break
 
 sd.pause()
+# зачет!
