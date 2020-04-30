@@ -61,20 +61,21 @@ class Human:
     all_money = 0
     all_eat = 0
 
-    def __init__(self, name):
+    def __init__(self, name):  # TODO дом нужно передавать как параметр при создании человека
         self.name = name
         self.fullness = 30
         self.sanity = 100
-        self.house = home  # TODO пробовал подставлять разные варианты, все вызывают ошибку. Не совсем понимаю что дает эта строчка
+        self.house = home
 
     def __str__(self):
         return 'Я - {}, сытость {}, рассудок {}'.format(
             self.name, self.fullness, self.sanity)
 
+    # TODO все люди едят
 
 class Husband(Human):
 
-    def __init__(self, name):
+    def __init__(self, name):  # TODO зачем тогда?
         super().__init__(name)
 
     def act(self):
@@ -136,7 +137,8 @@ class Wife(Human):
         super().__init__(name)
 
     def act(self):
-        if self.fullness <= 0:
+        if self.fullness <= 0:  # TODO посмотрите - логика дублируется есть
+            # смысл вынести все общее для человека в базовый act - пусть возвращает нужно совершить действие или нет
             print('{} умер от голода...'.format(self.name))
             return
 
