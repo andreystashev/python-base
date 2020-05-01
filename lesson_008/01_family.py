@@ -72,16 +72,20 @@ class Human:
         return 'Я - {}, сытость {}, рассудок {}'.format(
             self.name, self.fullness, self.sanity)
 
-    def act1(self):
+    def act(self):  # TODO наследники должны вызывать базовый act и
+        # совершать действия в зависимости от результата базового
         if self.fullness <= 0:
             print('{} умер(ла) от голода...'.format(self.name))
-            return
+            return False
 
         if self.sanity <= 0:
             print('{} умер(ла) от страданий...'.format(self.name))
-            return
+            return False
         if self.house.dirt > 90:
             self.sanity -= 5
+        # TODO сюда можно еще добавить логику с едой
+
+        return True
 
     def eat(self):
         if self.house.man_food >= 20:
