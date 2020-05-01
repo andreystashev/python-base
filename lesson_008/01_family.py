@@ -60,35 +60,47 @@ class House:
 class Human:
     all_money = 0
     all_eat = 0
+    total_coat = 0
 
-    def __init__(self, name):  # TODO дом нужно передавать как параметр при создании человека
+    def __init__(self, name, sweet_home):
         self.name = name
         self.fullness = 30
         self.sanity = 100
-        self.house = home
+        self.house = sweet_home
 
     def __str__(self):
         return 'Я - {}, сытость {}, рассудок {}'.format(
             self.name, self.fullness, self.sanity)
 
-    # TODO все люди едят
-
-class Husband(Human):
-
-    def __init__(self, name):  # TODO зачем тогда?
-        super().__init__(name)
-
-    def act(self):
+    def act1(self):
         if self.fullness <= 0:
-            print('{} умер от голода...'.format(self.name))
+            print('{} умер(ла) от голода...'.format(self.name))
             return
 
         if self.sanity <= 0:
-            print('{} умер от страданий...'.format(self.name))
+            print('{} умер(ла) от страданий...'.format(self.name))
             return
         if self.house.dirt > 90:
             self.sanity -= 5
 
+    def eat(self):
+        if self.house.man_food >= 20:
+            print('{} поел(а)'.format(self.name))
+            self.fullness += 20
+            self.house.man_food -= 20
+            self.all_eat += 20
+        else:
+            if self.fullness > 0:
+                print('{} нет еды'.format(self.name))
+                self.fullness -= 10
+
+
+class Husband(Human):
+
+    def __init__(self, name, sweet_home):
+        super().__init__(name, sweet_home)
+
+    def act(self):
         dice = randint(1, 3)
         if self.fullness < 30:
             self.eat()
@@ -107,16 +119,6 @@ class Husband(Human):
         else:
             self.work()
 
-    def eat(self):
-        if self.house.man_food >= 30:
-            print('{} поел'.format(self.name))
-            self.fullness += 30
-            self.house.man_food -= 30
-            self.all_eat += 30
-        else:
-            print('{} нет еды'.format(self.name))
-            self.fullness -= 10
-
     def work(self):
         print('{} сходил на работу'.format(self.name))
         self.house.money += 150
@@ -130,24 +132,11 @@ class Husband(Human):
 
 
 class Wife(Human):
-    all_eat2 = 0
-    total_coat = 0
 
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name, sweet_home):
+        super().__init__(name, sweet_home)
 
     def act(self):
-        if self.fullness <= 0:  # TODO посмотрите - логика дублируется есть
-            # смысл вынести все общее для человека в базовый act - пусть возвращает нужно совершить действие или нет
-            print('{} умер от голода...'.format(self.name))
-            return
-
-        if self.sanity <= 0:
-            print('{} умер от страданий...'.format(self.name))
-            return
-        if self.house.dirt > 90:
-            self.sanity -= 5
-
         dice = randint(1, 4)
         if self.fullness <= 30:
             self.eat()
@@ -165,16 +154,6 @@ class Wife(Human):
             self.buy_fur_coat()
         else:
             self.shopping()
-
-    def eat(self):
-        if self.house.man_food >= 20:
-            print('{} поела'.format(self.name))
-            self.fullness += 20
-            self.house.man_food -= 20
-            self.all_eat2 += 20
-        else:
-            print('{} нет еды'.format(self.name))
-            self.fullness -= 10
 
     def shopping(self):
         if self.house.money >= 50:
@@ -203,21 +182,22 @@ class Wife(Human):
 
 
 home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
+serge = Husband(name='Сережа', sweet_home=home)
+masha = Wife(name='Маша', sweet_home=home)
 
 for day in range(365):
     cprint('================== День {} =================='.format(day), color='red')
+    serge.act1()
     serge.act()
+    masha.act1()
     masha.act()
     home.act()
-
     cprint(serge, color='cyan')
     cprint(masha, color='cyan')
     cprint(home, color='cyan')
 cprint('Шуб {}'.format(masha.total_coat), color='yellow')
 cprint('Денег {}'.format(serge.all_money), color='yellow')
-cprint('Съедено {}'.format(serge.all_eat + masha.all_eat2), color='yellow')
+cprint('Съедено {}'.format(masha.all_eat + serge.all_eat), color='yellow')
 
 
 ######################################################## Часть вторая
