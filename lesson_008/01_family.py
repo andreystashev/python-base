@@ -72,8 +72,7 @@ class Human:
         return 'Я - {}, сытость {}, рассудок {}'.format(
             self.name, self.fullness, self.sanity)
 
-    def act(self):  # TODO наследники должны вызывать базовый act и
-        # совершать действия в зависимости от результата базового
+    def act(self):
         if self.fullness <= 0:
             print('{} умер(ла) от голода...'.format(self.name))
             return False
@@ -83,7 +82,8 @@ class Human:
             return False
         if self.house.dirt > 90:
             self.sanity -= 5
-        # TODO сюда можно еще добавить логику с едой
+        # TODO не пойму, что сюда можно добавить, если добавлять условие при котором вызывается eat() то тогда
+        #     запускается и отсюда действие еды, и из act остальных классов идет другое действие параллельно
 
         return True
 
@@ -105,6 +105,7 @@ class Husband(Human):
         super().__init__(name, sweet_home)
 
     def act(self):
+        super().act()
         dice = randint(1, 3)
         if self.fullness < 30:
             self.eat()
@@ -141,6 +142,7 @@ class Wife(Human):
         super().__init__(name, sweet_home)
 
     def act(self):
+        super().act()
         dice = randint(1, 4)
         if self.fullness <= 30:
             self.eat()
@@ -191,9 +193,7 @@ masha = Wife(name='Маша', sweet_home=home)
 
 for day in range(365):
     cprint('================== День {} =================='.format(day), color='red')
-    serge.act1()
     serge.act()
-    masha.act1()
     masha.act()
     home.act()
     cprint(serge, color='cyan')
