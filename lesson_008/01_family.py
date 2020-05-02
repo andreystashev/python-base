@@ -82,20 +82,15 @@ class Human:
             return False
         if self.house.dirt > 90:
             self.sanity -= 5
-        # TODO чтобы не было два действия за день. Если покушали возвращайте False
 
-        return True
-
-    def eat(self):
-        if self.house.man_food >= 20:
+        if self.house.man_food >= 20 and 0 <= self.fullness <= 30:
             print('{} поел(а)'.format(self.name))
             self.fullness += 20
             self.house.man_food -= 20
             self.all_eat += 20
-        else:
-            if self.fullness > 0:
-                print('{} нет еды'.format(self.name))
-                self.fullness -= 10
+            return False
+
+        return True
 
 
 class Husband(Human):
@@ -104,24 +99,20 @@ class Husband(Human):
         super().__init__(name, sweet_home)
 
     def act(self):
-        super().act()  # TODO проверяйте возвращаемое значение - може уже не нужно выполнять действий
-        dice = randint(1, 3)
-        if self.fullness < 30:
-            self.eat()
-        elif self.house.man_food < 30:
-            self.work()
-        elif self.sanity < 30:
-            self.gaming()
-        elif self.house.money < 100:
-            self.work()
-        elif self.house.dirt > 100:
-            self.gaming()
-        elif dice == 1:
-            self.eat()
-        elif dice == 2:
-            self.gaming()
-        else:
-            self.work()
+        if super().act() is True:
+            dice = randint(1, 2)
+            if self.house.man_food < 30:
+                self.work()
+            elif self.sanity < 30:
+                self.gaming()
+            elif self.house.money < 100:
+                self.work()
+            elif self.house.dirt > 100:
+                self.gaming()
+            elif dice == 1:
+                self.gaming()
+            else:
+                self.work()
 
     def work(self):
         print('{} сходил на работу'.format(self.name))
@@ -141,24 +132,20 @@ class Wife(Human):
         super().__init__(name, sweet_home)
 
     def act(self):
-        super().act()
-        dice = randint(1, 4)
-        if self.fullness <= 30:
-            self.eat()
-        elif self.house.man_food <= 30:
-            self.shopping()
-        elif self.sanity < 30:
-            self.buy_fur_coat()
-        elif self.house.dirt > 100:
-            self.clean_house()
-        elif dice == 1:
-            self.eat()
-        elif dice == 2:
-            self.clean_house()
-        elif dice == 3 and self.house.money > 500:
-            self.buy_fur_coat()
-        else:
-            self.shopping()
+        if super().act() is True:
+            dice = randint(1, 3)
+            if self.house.man_food <= 30:
+                self.shopping()
+            elif self.sanity < 30:
+                self.buy_fur_coat()
+            elif self.house.dirt > 100:
+                self.clean_house()
+            elif dice == 1:
+                self.clean_house()
+            elif dice == 2 and self.house.money > 500:
+                self.buy_fur_coat()
+            else:
+                self.shopping()
 
     def shopping(self):
         if self.house.money >= 50:
