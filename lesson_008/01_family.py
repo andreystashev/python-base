@@ -82,8 +82,7 @@ class Human:
             return False
         if self.house.dirt > 90:
             self.sanity -= 5
-        # TODO не пойму, что сюда можно добавить, если добавлять условие при котором вызывается eat() то тогда
-        #     запускается и отсюда действие еды, и из act остальных классов идет другое действие параллельно
+        # TODO чтобы не было два действия за день. Если покушали возвращайте False
 
         return True
 
@@ -105,7 +104,7 @@ class Husband(Human):
         super().__init__(name, sweet_home)
 
     def act(self):
-        super().act()
+        super().act()  # TODO проверяйте возвращаемое значение - може уже не нужно выполнять действий
         dice = randint(1, 3)
         if self.fullness < 30:
             self.eat()
