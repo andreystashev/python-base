@@ -48,10 +48,11 @@ class House:
         self.money = 100
         self.man_food = 50
         self.dirt = 0
+        self.cat_food = 30
 
     def __str__(self):
-        return 'Осталось денег {}, еды {}, грязи {},'.format(
-            self.money, self.man_food, self.dirt)
+        return 'Осталось денег {}, еды {}, грязи {}, еды кота {},'.format(
+            self.money, self.man_food, self.dirt, self.cat_food)
 
     def act(self):
         self.dirt += 5
@@ -92,11 +93,17 @@ class Human:
 
         return True
 
+    def play_cat(self):
+        self.sanity += 5
+        print('{} гладит кота'.format(self.name))
+        self.fullness -= 10
+
+
 
 class Husband(Human):
     def act(self):
         if super().act():
-            dice = randint(1, 2)
+            dice = randint(1, 3)
             if self.house.man_food < 30:
                 self.work()
             elif self.sanity < 30:
@@ -107,6 +114,8 @@ class Husband(Human):
                 self.gaming()
             elif dice == 1:
                 self.gaming()
+            elif dice == 2:
+                self.play_cat()
             else:
                 self.work()
 
@@ -126,7 +135,7 @@ class Wife(Human):
 
     def act(self):
         if super().act():
-            dice = randint(1, 3)
+            dice = randint(1, 5)
             if self.house.man_food <= 30:
                 self.shopping()
             elif self.sanity < 30:
@@ -137,6 +146,10 @@ class Wife(Human):
                 self.clean_house()
             elif dice == 2 and self.house.money > 500:
                 self.buy_fur_coat()
+            elif dice == 3 or murzik.fullness <= 40:
+                self.cat_shopping()
+            elif dice == 4:
+                self.play_cat()
             else:
                 self.shopping()
 
@@ -165,22 +178,32 @@ class Wife(Human):
         if self.house.dirt < 0:
             self.house.dirt = 0
 
+    def cat_shopping(self):
+        if self.house.money >= 30:
+            print('{} купила еды для кота'.format(self.name))
+            self.house.money -= 30
+            self.house.cat_food += 30
+            self.fullness -= 10
+        else:
+            print('{} деньги кончились!'.format(self.name))
+            self.fullness -= 10
 
-home = House()
-serge = Husband(name='Сережа', sweet_home=home)
-masha = Wife(name='Маша', sweet_home=home)
 
-for day in range(365):
-    cprint('================== День {} =================='.format(day), color='red')
-    serge.act()
-    masha.act()
-    home.act()
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(home, color='cyan')
-cprint('Шуб {}'.format(masha.total_coat), color='yellow')
-cprint('Денег {}'.format(serge.all_money), color='yellow')
-cprint('Съедено {}'.format(masha.all_eat + serge.all_eat), color='yellow')
+# home = House()
+# serge = Husband(name='Сережа', sweet_home=home)
+# masha = Wife(name='Маша', sweet_home=home)
+#
+# for day in range(365):
+#     cprint('================== День {} =================='.format(day), color='red')
+#     serge.act()
+#     masha.act()
+#     home.act()
+#     cprint(serge, color='cyan')
+#     cprint(masha, color='cyan')
+#     cprint(home, color='cyan')
+# cprint('Шуб {}'.format(masha.total_coat), color='yellow')
+# cprint('Денег {}'.format(serge.all_money), color='yellow')
+# cprint('Съедено {}'.format(masha.all_eat + serge.all_eat), color='yellow')
 
 
 ######################################################## Часть вторая
@@ -210,20 +233,46 @@ cprint('Съедено {}'.format(masha.all_eat + serge.all_eat), color='yellow'
 
 class Cat:
 
-    def __init__(self):
-        pass
+    def __init__(self, name, sweet_home):
+        self.name = name
+        self.fullness = 30
+        self.house = sweet_home
+
+    def __str__(self):
+        return 'Я - {}, сытость {}'.format(
+            self.name, self.fullness)
 
     def act(self):
-        pass
+        if self.fullness <= 0:
+            print('{} умер'.format(self.name))
+            return
+        dice = randint(1, 4)
+        if self.fullness < 30:
+            self.eat()
+        elif dice == 1:
+            self.sleep()
+        elif dice == 2:
+            self.eat()
+        else:
+            self.soil()
 
     def eat(self):
-        pass
+        if self.house.cat_food >= 10:
+            print('{} поел'.format(self.name))
+            self.fullness += 20
+            self.house.cat_food -= 10
+        else:
+            self.fullness -= 10
+            print('нет еды для кота')
 
     def sleep(self):
-        pass
+        print('{} лег спать'.format(self.name))
+        self.fullness -= 10
 
     def soil(self):
-        pass
+        print('{} подрал обои'.format(self.name))
+        self.house.dirt += 5
+        self.fullness -= 10
 
 
 ######################################################## Часть вторая бис
@@ -254,7 +303,8 @@ class Child:
     def sleep(self):
         pass
 
-# TODO после реализации второй части - отдать на проверку учителем две ветки
+
+
 
 
 ######################################################## Часть третья
@@ -264,23 +314,24 @@ class Child:
 # отправить на проверку учителем.
 
 
-# home = House()
-# serge = Husband(name='Сережа')
-# masha = Wife(name='Маша')
+home = House()
+serge = Husband(name='Сережа', sweet_home=home)
+masha = Wife(name='Маша', sweet_home=home)
 # kolya = Child(name='Коля')
-# murzik = Cat(name='Мурзик')
-#
-# for day in range(365):
-#     cprint('================== День {} =================='.format(day), color='red')
-#     serge.act()
-#     masha.act()
-#     kolya.act()
-#     murzik.act()
-#     cprint(serge, color='cyan')
-#     cprint(masha, color='cyan')
-#     cprint(kolya, color='cyan')
-#     cprint(murzik, color='cyan')
+murzik = Cat(name='Мурзик', sweet_home=home)
 
+for day in range(365):
+    cprint('================== День {} =================='.format(day), color='red')
+    serge.act()
+    masha.act()
+    # kolya.act()
+    murzik.act()
+    home.act()
+    cprint(serge, color='cyan')
+    cprint(masha, color='cyan')
+    # cprint(kolya, color='cyan')
+    cprint(murzik, color='cyan')
+    cprint(home, color='cyan')
 
 # Усложненное задание (делать по желанию)
 #
