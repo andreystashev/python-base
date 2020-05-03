@@ -94,12 +94,8 @@ class Human:
 
 
 class Husband(Human):
-
-    def __init__(self, name, sweet_home):
-        super().__init__(name, sweet_home)
-
     def act(self):
-        if super().act() is True:
+        if super().act():
             dice = randint(1, 2)
             if self.house.man_food < 30:
                 self.work()
@@ -128,11 +124,8 @@ class Husband(Human):
 
 class Wife(Human):
 
-    def __init__(self, name, sweet_home):
-        super().__init__(name, sweet_home)
-
     def act(self):
-        if super().act() is True:
+        if super().act():
             dice = randint(1, 3)
             if self.house.man_food <= 30:
                 self.shopping()
