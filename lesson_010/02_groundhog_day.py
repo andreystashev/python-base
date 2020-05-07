@@ -29,7 +29,7 @@ def one_day():
         try:
             if error in exception_list:
                 raise BaseException('исключение')
-        except BaseException as first_error:
+        except BaseException as first_error:  # TODO нужно перехватывать исключения в основном цикле
             print(f'Суть ошибки: {first_error}, {error}')
 
 

@@ -27,20 +27,22 @@ file_name = 'registrations.txt'
 file = open(file_name, mode='r')
 
 for line in file:
-    linelist = line.split()
+    linelist = line.split()  # TODO удобно сделать распаковку на 3 переменных
     try:
 
+        # TODO  == False - так бул не принято проверять
         if linelist[0].isalpha() == False or ('@' or '.') not in linelist[1] or 10 > int(linelist[2]) > 99 or int(
-                linelist[2]) < 10:
+                linelist[2]) < 10:  # TODO у вас уже есть эти проверки по отдельности
             file_name = 'registrations_bad.log'
             file = open(file_name, mode='a')
 
-            if linelist[0].isalpha() == False:
+            if linelist[0].isalpha() == False:  # TODO выкидывайте исключение,а в обработчике пишите в лог
                 file_content = str('неверное имя - ') + line
                 file.write(file_content)
-            elif ('@' or '.') not in linelist[1]:
+            elif ('@' or '.') not in linelist[1]:  # TODO это не правильное условие
+                # - протестируйте его на различных валидных и невалидных данных
                 file_content = str('неверная почта - ') + line
-                file.write(file_content)
+                file.write(file_content) # TODO выкидывайте исключение,а в обработчике пишите в лог
             else:
                 file_content = str('неверный возраст - ') + line
                 file.write(file_content)
