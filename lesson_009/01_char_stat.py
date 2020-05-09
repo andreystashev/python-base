@@ -21,7 +21,122 @@
 # Упорядочивание по частоте - по убыванию. Ширину таблицы подберите по своему вкусу
 # Требования к коду: он должен быть готовым к расширению функциональности. Делать сразу на классах.
 
-# TODO здесь ваш код
+import zipfile
+
+zip_file_name = '/Users/andrey/PycharmProjects/python_base/lesson_009/python_snippets/voyna-i-mir.txt.zip'
+
+zfile = zipfile.ZipFile(zip_file_name, 'r')
+for filename in zfile.namelist():
+    zfile.extract(filename)
+
+file_name = 'voyna-i-mir.txt'
+stat = {}
+
+
+def initialise():
+    prev_char = 'A'
+    with open(file_name, 'r', encoding='cp1251') as file:
+        for line in file:
+            # print(line)
+            for char in line:
+                if prev_char in stat:
+                    if char in stat[prev_char]:
+                        if char.isalpha() is True:
+                            stat[prev_char][char] += 1
+                    elif char.isalpha() is True:
+                        stat[prev_char][char] = 1
+                else:
+                    stat[prev_char] = {char: 1}
+
+
+def sort_a():
+    for _, count in stat.items():
+        list_x = []
+        list_y = []
+        for x, y in count.items():
+            list_x.append(x)
+            list_x.sort()
+            summa = 0
+            list_y.append(y)
+            for i in list_y:
+                summa += i
+        for z in list_x:
+            count.get(z)
+            print('|{txt:^14}|'.format(txt=z), '{txt:^14}|'.format(txt=count.get(z)))
+    print('+{txt:-^30}+'.format(txt='+'))
+    print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=summa))
+    print('+{txt:-^30}+'.format(txt='+'))
+
+
+def sort_z():
+    for _, count in stat.items():
+        list_x = []
+        list_y = []
+        for x, y in count.items():
+            list_x.append(x)
+            list_x.sort(reverse=True)
+            summa = 0
+            list_y.append(y)
+            for i in list_y:
+                summa += i
+        for z in list_x:
+            count.get(z)
+            print('|{txt:^14}|'.format(txt=z), '{txt:^14}|'.format(txt=count.get(z)))
+    print('+{txt:-^30}+'.format(txt='+'))
+    print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=summa))
+    print('+{txt:-^30}+'.format(txt='+'))
+
+
+def sort_01():
+    for _, count in stat.items():
+        list_x = []
+        list_y = []
+        count = dict(zip(count.values(), count.keys()))
+        for x, y in count.items():
+            list_x.append(x)
+            list_x.sort()
+            summa = 0
+            list_y.append(x)
+            for i in list_y:
+                summa += i
+        for z in list_x:
+            count.get(z)
+            print('|{txt:^14}|'.format(txt=count.get(z)), '{txt:^14}|'.format(txt=z))
+    print('+{txt:-^30}+'.format(txt='+'))
+    print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=summa))
+    print('+{txt:-^30}+'.format(txt='+'))
+
+
+def sort_99():
+    for _, count in stat.items():
+        list_x = []
+        list_y = []
+        count = dict(zip(count.values(), count.keys()))
+        for x, y in count.items():
+            list_x.append(x)
+            list_x.sort(reverse=True)
+            summa = 0
+            list_y.append(x)
+            for i in list_y:
+                summa += i
+        for z in list_x:
+            count.get(z)
+            print('|{txt:^14}|'.format(txt=count.get(z)), '{txt:^14}|'.format(txt=z))
+    print('+{txt:-^30}+'.format(txt='+'))
+    print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=summa))
+    print('+{txt:-^30}+'.format(txt='+'))
+
+
+print('+{txt:-^30}+'.format(txt='+'))
+print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
+print('+{txt:-^30}+'.format(txt='+'))
+
+initialise()
+
+sort_01()
+# sort_99()
+# sort_a()
+# sort_z()
 
 # После выполнения первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
