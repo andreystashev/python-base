@@ -33,10 +33,7 @@ import os, time, shutil
 #
 # Чтение документации/гугла по функциям - приветствуется. Как и поиск альтернативных вариантов :)
 # Требования к коду: он должен быть готовым к расширению функциональности. Делать сразу на классах.
-import time
-import os
 
-# TODO Надо импорт в одном месте сделать (в самом верху еще есть) и лишний удалить
 
 path = '/Users/andrey/PycharmProjects/python_base/lesson_009/icons'
 path_normalized = os.path.normpath(path)
@@ -46,15 +43,13 @@ for dirpath, dirnames, filenames in os.walk(path_normalized):
 
     for file in filenames:
         full_file_path = os.path.join(dirpath, file)
-        secs = os.path.getmtime(full_file_path)
-        file_time = time.gmtime(secs)
-        # TODO Это же не секунды, а путь_до_выходной_папки
-        secs2 = '/Users/andrey/PycharmProjects/python_base/lesson_009/icons_by_year/'
-        # TODO Ну и здесь тоже хотелось бы более информативный нейминг, а не просто last
-        last = os.path.join(secs2, str(file_time[0]), str(file_time[1]))
-        last_normalized = os.path.normpath(last)  # TODO Если составили путь через os.path.join, то это по сути лишнее
-        os.makedirs(last, exist_ok=True)
-        shutil.copy2(full_file_path, last_normalized, follow_symlinks=True)
+        change_time = os.path.getmtime(full_file_path)
+        file_time = time.gmtime(change_time)
+
+        output_folder = '/Users/andrey/PycharmProjects/python_base/lesson_009/icons_by_year/'
+        within_output_folder = os.path.join(output_folder, str(file_time[0]), str(file_time[1]))
+        os.makedirs(within_output_folder, exist_ok=True)
+        shutil.copy2(full_file_path, within_output_folder, follow_symlinks=True)
 
 # Усложненное задание (делать по желанию)
 # Нужно обрабатывать zip-файл, содержащий фотографии, без предварительного извлечения файлов в папку.
