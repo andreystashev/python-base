@@ -23,6 +23,8 @@
 
 import zipfile
 
+# TODO В задании есть пункт - делать на классах
+
 zip_file_name = '/Users/andrey/PycharmProjects/python_base/lesson_009/python_snippets/voyna-i-mir.txt.zip'
 
 zfile = zipfile.ZipFile(zip_file_name, 'r')
@@ -48,7 +50,8 @@ def initialise():
                 else:
                     stat[prev_char] = {char: 1}
 
-
+# TODO Хотелось бы видеть еще работу над неймингом - это важно. Не просто list_x, list_y, summa, sort_a и т.п,
+#  а осмысленные имена, чтобы было сразу понятно, для чего нужны эти перменные/функции/классы.
 def sort_a():
     for _, count in stat.items():
         list_x = []
