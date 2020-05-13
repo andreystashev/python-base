@@ -22,46 +22,67 @@
 # - поле возраст НЕ является числом от 10 до 99: ValueError
 # Вызов метода обернуть в try-except.
 
+class nameError(Exception):
+    pass
+
+
+class mailError(Exception):
+    pass
+
+
+class ageError(Exception):
+    pass
+
 
 file_name = 'registrations.txt'
 file = open(file_name, mode='r')
 
 for line in file:
-    linelist = line.split()  # TODO удобно сделать распаковку на 3 переменных
+
     try:
+        linelist = line.split()
+        name = linelist[0]
+        mail = linelist[1]
+        age = linelist[2]
 
-        # TODO  == False - так бул не принято проверять
-        if linelist[0].isalpha() == False or ('@' or '.') not in linelist[1] or 10 > int(linelist[2]) > 99 or int(
-                linelist[2]) < 10:  # TODO у вас уже есть эти проверки по отдельности
-            file_name = 'registrations_bad.log'
-            file = open(file_name, mode='a')
+        if name.isalpha() is False:
+            raise nameError
+        elif '@' not in mail or '.' not in mail:
+            raise mailError
+        elif int(age) > 99 or int(age) < 10:
+            raise ageError
 
-            if linelist[0].isalpha() == False:  # TODO выкидывайте исключение,а в обработчике пишите в лог
-                file_content = str('неверное имя - ') + line
-                file.write(file_content)
-            elif ('@' or '.') not in linelist[1]:  # TODO это не правильное условие
-                # - протестируйте его на различных валидных и невалидных данных
-                file_content = str('неверная почта - ') + line
-                file.write(file_content) # TODO выкидывайте исключение,а в обработчике пишите в лог
-            else:
-                file_content = str('неверный возраст - ') + line
-                file.write(file_content)
-            file.close()
 
         else:
-            file_name = 'registrations_good.log'
+            file_name = 'registrations_good.probe.log'
             file = open(file_name, mode='a')
             file_content = line
             file.write(file_content)
             file.close()
 
     except IndexError as first_error:
-        # print(f'Суть ошибки: {first_error}')
-        file_name = 'registrations_bad.log'
+        file_name = 'registrations_bad.probe.log'
         file = open(file_name, mode='a')
-        file_content = str('Отсутствует элемент - ')+line
+        file_content = str('Отсутствует элемент - ') + line
         file.write(file_content)
         file.close()
-
+    except nameError as first_error:
+        file_name = 'registrations_bad.probe.log'
+        file = open(file_name, mode='a')
+        file_content = str('имя неправильно - ') + line
+        file.write(file_content)
+        file.close()
+    except mailError as second_error:
+        file_name = 'registrations_bad.probe.log'
+        file = open(file_name, mode='a')
+        file_content = str('почта неверна - ') + line
+        file.write(file_content)
+        file.close()
+    except ageError as third_error:
+        file_name = 'registrations_bad.probe.log'
+        file = open(file_name, mode='a')
+        file_content = str('возраст неверен - ') + line
+        file.write(file_content)
+        file.close()
 
 file.close()
