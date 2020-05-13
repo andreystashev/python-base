@@ -23,123 +23,129 @@
 
 import zipfile
 
-# TODO В задании есть пункт - делать на классах
 
-zip_file_name = '/Users/andrey/PycharmProjects/python_base/lesson_009/python_snippets/voyna-i-mir.txt.zip'
-
-zfile = zipfile.ZipFile(zip_file_name, 'r')
-for filename in zfile.namelist():
-    zfile.extract(filename)
-
-file_name = 'voyna-i-mir.txt'
-stat = {}
-
-
-def initialise():
+class Counter:
     prev_char = 'A'
-    with open(file_name, 'r', encoding='cp1251') as file:
-        for line in file:
-            # print(line)
-            for char in line:
-                if prev_char in stat:
-                    if char in stat[prev_char]:
-                        if char.isalpha() is True:
-                            stat[prev_char][char] += 1
-                    elif char.isalpha() is True:
-                        stat[prev_char][char] = 1
-                else:
-                    stat[prev_char] = {char: 1}
+    char_summa = 0
 
-# TODO Хотелось бы видеть еще работу над неймингом - это важно. Не просто list_x, list_y, summa, sort_a и т.п,
-#  а осмысленные имена, чтобы было сразу понятно, для чего нужны эти перменные/функции/классы.
-def sort_a():
-    for _, count in stat.items():
-        list_x = []
-        list_y = []
-        for x, y in count.items():
-            list_x.append(x)
-            list_x.sort()
-            summa = 0
-            list_y.append(y)
-            for i in list_y:
-                summa += i
-        for z in list_x:
-            count.get(z)
-            print('|{txt:^14}|'.format(txt=z), '{txt:^14}|'.format(txt=count.get(z)))
-    print('+{txt:-^30}+'.format(txt='+'))
-    print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=summa))
-    print('+{txt:-^30}+'.format(txt='+'))
+    def __init__(self, zip_file_name):
+        self.zip_file_name = zip_file_name
+        self.stat = {}
+
+    def unzip(self):
+        zfile = zipfile.ZipFile(self.zip_file_name, 'r')
+        for filename in zfile.namelist():
+            zfile.extract(filename)
+            return filename
+
+    def initialise(self, file_name):
+        with open(file_name, 'r', encoding='cp1251') as file:
+            for line in file:
+                # print(line)
+                for char in line:
+                    if self.prev_char in self.stat:
+                        if char in self.stat[self.prev_char]:
+                            if char.isalpha() is True:
+                                self.stat[self.prev_char][char] += 1
+                        elif char.isalpha() is True:
+                            self.stat[self.prev_char][char] = 1
+                    else:
+                        self.stat[self.prev_char] = {char: 1}
+
+    def letters_increase(self):
+        print('+{txt:-^30}+'.format(txt='+'))
+        print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
+        print('+{txt:-^30}+'.format(txt='+'))
+        for _, count in self.stat.items():
+            letters_list = []
+            numbers_list = []
+            for letters, numbers in count.items():
+                letters_list.append(letters)
+                letters_list.sort()
+                numbers_list.append(numbers)
+                for char_counts in numbers_list:
+                    self.char_summa += char_counts
+            for char in letters_list:
+                count.get(char)
+                print('|{txt:^14}|'.format(txt=char), '{txt:^14}|'.format(txt=count.get(char)))
+        print('+{txt:-^30}+'.format(txt='+'))
+        print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
+        print('+{txt:-^30}+'.format(txt='+'))
+
+    def letters_decrease(self):
+        print('+{txt:-^30}+'.format(txt='+'))
+        print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
+        print('+{txt:-^30}+'.format(txt='+'))
+        for _, count in self.stat.items():
+            letters_list = []
+            numbers_list = []
+            for letters, numbers in count.items():
+                letters_list.append(letters)
+                letters_list.sort(reverse=True)
+                numbers_list.append(numbers)
+                for char_counts in numbers_list:
+                    self.char_summa += char_counts
+            for char in letters_list:
+                count.get(char)
+                print('|{txt:^14}|'.format(txt=char), '{txt:^14}|'.format(txt=count.get(char)))
+        print('+{txt:-^30}+'.format(txt='+'))
+        print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
+        print('+{txt:-^30}+'.format(txt='+'))
+
+    def count_increase(self):
+        print('+{txt:-^30}+'.format(txt='+'))
+        print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
+        print('+{txt:-^30}+'.format(txt='+'))
+        for _, count in self.stat.items():
+            letters_list = []
+            numbers_list = []
+            count = dict(zip(count.values(), count.keys()))
+            for letters, numbers in count.items():
+                letters_list.append(letters)
+                letters_list.sort()
+                numbers_list.append(letters)
+                for char_counts in numbers_list:
+                    self.char_summa += char_counts
+            for char in letters_list:
+                count.get(char)
+                print('|{txt:^14}|'.format(txt=count.get(char)), '{txt:^14}|'.format(txt=char))
+        print('+{txt:-^30}+'.format(txt='+'))
+        print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
+        print('+{txt:-^30}+'.format(txt='+'))
+
+    def count_decrease(self):
+        print('+{txt:-^30}+'.format(txt='+'))
+        print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
+        print('+{txt:-^30}+'.format(txt='+'))
+        for _, count in self.stat.items():
+            letters_list = []
+            numbers_list = []
+            count = dict(zip(count.values(), count.keys()))
+            for letters, y in count.items():
+                letters_list.append(letters)
+                letters_list.sort(reverse=True)
+
+                numbers_list.append(letters)
+                for char_counts in numbers_list:
+                    self.char_summa += char_counts
+            for char in letters_list:
+                count.get(char)
+                print('|{txt:^14}|'.format(txt=count.get(char)), '{txt:^14}|'.format(txt=char))
+        print('+{txt:-^30}+'.format(txt='+'))
+        print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
+        print('+{txt:-^30}+'.format(txt='+'))
 
 
-def sort_z():
-    for _, count in stat.items():
-        list_x = []
-        list_y = []
-        for x, y in count.items():
-            list_x.append(x)
-            list_x.sort(reverse=True)
-            summa = 0
-            list_y.append(y)
-            for i in list_y:
-                summa += i
-        for z in list_x:
-            count.get(z)
-            print('|{txt:^14}|'.format(txt=z), '{txt:^14}|'.format(txt=count.get(z)))
-    print('+{txt:-^30}+'.format(txt='+'))
-    print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=summa))
-    print('+{txt:-^30}+'.format(txt='+'))
+counter = Counter(
+    zip_file_name='/Users/andrey/PycharmProjects/python_base/lesson_009/python_snippets/voyna-i-mir.txt.zip'
+)
+counter.unzip()
+counter.initialise(file_name='voyna-i-mir.txt')
+counter.count_increase()
+# counter.count_decrease()
+# counter.letters_increase()
+# counter.letters_decrease()
 
-
-def sort_01():
-    for _, count in stat.items():
-        list_x = []
-        list_y = []
-        count = dict(zip(count.values(), count.keys()))
-        for x, y in count.items():
-            list_x.append(x)
-            list_x.sort()
-            summa = 0
-            list_y.append(x)
-            for i in list_y:
-                summa += i
-        for z in list_x:
-            count.get(z)
-            print('|{txt:^14}|'.format(txt=count.get(z)), '{txt:^14}|'.format(txt=z))
-    print('+{txt:-^30}+'.format(txt='+'))
-    print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=summa))
-    print('+{txt:-^30}+'.format(txt='+'))
-
-
-def sort_99():
-    for _, count in stat.items():
-        list_x = []
-        list_y = []
-        count = dict(zip(count.values(), count.keys()))
-        for x, y in count.items():
-            list_x.append(x)
-            list_x.sort(reverse=True)
-            summa = 0
-            list_y.append(x)
-            for i in list_y:
-                summa += i
-        for z in list_x:
-            count.get(z)
-            print('|{txt:^14}|'.format(txt=count.get(z)), '{txt:^14}|'.format(txt=z))
-    print('+{txt:-^30}+'.format(txt='+'))
-    print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=summa))
-    print('+{txt:-^30}+'.format(txt='+'))
-
-
-print('+{txt:-^30}+'.format(txt='+'))
-print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
-print('+{txt:-^30}+'.format(txt='+'))
-
-initialise()
-
-sort_01()
-# sort_99()
-# sort_a()
-# sort_z()
 
 # После выполнения первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
