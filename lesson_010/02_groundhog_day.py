@@ -24,22 +24,19 @@ ENLIGHTENMENT_CARMA_LEVEL = 777
 
 def one_day():
     dice = randint(1, 13)
-    if dice == 13:
-        error = exception_list[randint(0, 5)]
-        try:
-            if error in exception_list:
-                raise BaseException('исключение')
-        except BaseException as first_error:  # TODO нужно перехватывать исключения в основном цикле
-            print(f'Суть ошибки: {first_error}, {error}')
-
-
-    else:
+    if dice < 13:
         global carma
         carma = randint(1, 7)
+    elif dice == 13:
+        error = exception_list[randint(0, 5)]
+        raise BaseException(error)
 
 
 while ENLIGHTENMENT_CARMA_LEVEL >= 0:
-    one_day()
+    try:
+        one_day()
+    except BaseException as first_error:
+        print(f'Суть ошибки: {first_error}')
     ENLIGHTENMENT_CARMA_LEVEL = ENLIGHTENMENT_CARMA_LEVEL - carma
     if ENLIGHTENMENT_CARMA_LEVEL <= 0:
         print('карма накоплена')
