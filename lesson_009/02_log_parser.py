@@ -19,46 +19,45 @@
 # Входные параметры: файл для анализа, файл результата
 # Требования к коду: он должен быть готовым к расширению функциональности. Делать сразу на классах.
 
-# TODO Аналогично, делаем через классы и работаем с неймингом
 
-file_name = 'events.txt'
+class Parser:
 
-minute_d = []
-minute_d1 = {}
-minute_d2 = {}
+    interim_date_list = []
+    date_dict = {}
 
-with open(file_name, mode='r') as file:
-    for line in file:
-        for line in file:
-            linelist = line.split()
-            if 'NOK' in linelist[2]:
-                value = 0
-                date = str(line[1:17])
-                minute_d1 = {date: value}
-            if date in minute_d1.keys():
-                value += 1
-                date = line[1:17]
-                minute_d.append((date, value))
-                for i in minute_d:
-                    minute_d2.update(minute_d)
+    def __init__(self, file_name):
+        self.file_name = file_name
 
-                    break
-for key, value in minute_d2.items():
-    # print(int(key[11:16]))
-    int_b = int(key[11:16].replace(':', ''))
-    # print("The integer value", int_b)  Не пойму, каким образом отсортировать числа. Из мыслей - преобразоват
-    #                                       строку в число, добавить в список и сделать сортировку, но тогда вопрос - как
-    #                                       связать получившиеся числа с изначальными ключами ввиде строк и значениями
-    # TODO А зачем их сортировать? Записываем в файл, как есть
+    def calculation(self):
+        with open(self.file_name, mode='r') as file:
+            for _ in file:
+                for line in file:
+                    fragment_line_list = line.split()
+                    if 'NOK' in fragment_line_list[2]:
+                        nok_counter = 0
+                        date = str(line[1:17])
+                        interim_date_dict = {date: nok_counter}
+                    if date in interim_date_dict.keys():
+                        nok_counter += 1
+                        date = line[1:17]
+                        self.interim_date_list.append((date, nok_counter))
+
+                        for _ in self.interim_date_list:
+                            self.date_dict.update(self.interim_date_list)
+                            break
+
+    def create_file(self, file_name):
+        file_name = file_name
+        for time, nok_number in self.date_dict.items():
+            file = open(file_name, mode='a')
+            file_content = ('[' + str(time) + '] ' + str(nok_number) + '\n')
+            file.write(file_content)
+            file.close()
 
 
-for key, value in minute_d2.items():
-    file_name = 'events.nok.txt'
-    file = open(file_name, mode='a')
-    file_content = ('[' + str(key) + '] ' + str(value) + '\n')
-    file.write(file_content)
-    file.close()
-
+parser = Parser(file_name='events.txt')
+parser.calculation()
+parser.create_file(file_name='events.nok.txt')
 
 # После выполнения первого этапа нужно сделать группировку событий
 #  - по часам
