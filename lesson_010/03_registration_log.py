@@ -22,6 +22,7 @@
 # - поле возраст НЕ является числом от 10 до 99: ValueError
 # Вызов метода обернуть в try-except.
 
+# TODO Нейминг классов не по PEP8
 class nameError(Exception):
     pass
 
@@ -37,9 +38,15 @@ class ageError(Exception):
 file_name = 'registrations.txt'
 file = open(file_name, mode='r')
 
+# TODO Нужно написать две функции -
+#  в одной мы реализуем алгоритм валидации строки с выбрасыванием исключения
+#  в другой заводим цикл по файлу, вилидируем строку, ловим исключения, заполняем выходные файлы.
+#  В таком виде просто странно получается - выбростили исключение, и тут же его обработали.
 for line in file:
 
     try:
+        # TODO Можно сразу
+        #  name, mail, age = line.split()
         linelist = line.split()
         name = linelist[0]
         mail = linelist[1]
@@ -60,6 +67,12 @@ for line in file:
             file.write(file_content)
             file.close()
 
+    # TODO Можно сообщение ошибки формировать на этапе выброса этой ошибки -
+    #   raise NameError(f"имя неправильно - {line}")
+    #   (для IndexError сам интерпретатор сообщение сформирует)
+    #   Тогда обработка всех исключений станет одинаковой и можно будет сделать ее в одном except -
+    #   except (IndexError, NameError, ...) as error:
+    #           ...
     except IndexError as first_error:
         file_name = 'registrations_bad.probe.log'
         file = open(file_name, mode='a')
