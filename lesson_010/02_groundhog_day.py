@@ -50,6 +50,8 @@ def one_day():
     if dice < 13:
         carma = randint(1, 7)
     elif dice == 13:
+        # TODO Мы же не зря создали свои исключения :) Выбрасываем одно рандомное из них. То есть список исключений
+        #  нужно оставить, просто в нем будут не строки, а классы исключений
         raise Exception
     return carma
 
@@ -57,9 +59,11 @@ def one_day():
 while ENLIGHTENMENT_CARMA_LEVEL >= 0:
     try:
         one_day()
+    # TODO И здесь мы тоже обрабатываем не вообще все исключения, а только исключения из этого списка
     except Exception as error:
         print(f'Суть ошибки: {error}')
+    # TODO NameError: name 'carma' is not defined
     ENLIGHTENMENT_CARMA_LEVEL = ENLIGHTENMENT_CARMA_LEVEL - carma
-    print('карма накоплена')
+    print('карма накоплена')  # TODO это после цикла делаем
 
 # https://goo.gl/JnsDqu
