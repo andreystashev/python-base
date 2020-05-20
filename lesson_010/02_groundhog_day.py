@@ -18,6 +18,7 @@ from random import randint
 # кармы до уровня ENLIGHTENMENT_CARMA_LEVEL. Исключения обработать и записать в лог.
 # При создании собственных исключений максимально использовать функциональность
 # базовых встроенных исключений.
+
 class SuicideError(Exception):
     pass
 
@@ -42,6 +43,8 @@ class CarCrashError(Exception):
     pass
 
 
+error_list = [SuicideError, DepressionError, GluttonyError, DrunkError, IamGodError, CarCrashError]
+
 ENLIGHTENMENT_CARMA_LEVEL = 777
 
 
@@ -49,21 +52,17 @@ def one_day():
     dice = randint(1, 13)
     if dice < 13:
         carma = randint(1, 7)
+        return carma
     elif dice == 13:
-        # TODO Мы же не зря создали свои исключения :) Выбрасываем одно рандомное из них. То есть список исключений
-        #  нужно оставить, просто в нем будут не строки, а классы исключений
-        raise Exception
-    return carma
+        raise error_list[randint(0, 5)](f'{str(error_list[randint(0, 5)])[17:-2]}')
 
 
 while ENLIGHTENMENT_CARMA_LEVEL >= 0:
     try:
-        one_day()
-    # TODO И здесь мы тоже обрабатываем не вообще все исключения, а только исключения из этого списка
-    except Exception as error:
-        print(f'Суть ошибки: {error}')
-    # TODO NameError: name 'carma' is not defined
-    ENLIGHTENMENT_CARMA_LEVEL = ENLIGHTENMENT_CARMA_LEVEL - carma
-    print('карма накоплена')  # TODO это после цикла делаем
+        ENLIGHTENMENT_CARMA_LEVEL = ENLIGHTENMENT_CARMA_LEVEL - one_day()
+        # one_day()
+    except (SuicideError, DepressionError, GluttonyError, DrunkError, IamGodError, CarCrashError) as error:
+        print(f'суть ошибки {error}')
+print('карма накоплена')
 
 # https://goo.gl/JnsDqu
