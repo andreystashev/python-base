@@ -34,55 +34,39 @@ class AgeError(Exception):
     pass
 
 
-#  Не пойму, как разделить на 2 функции правильно. В каждой не хватает нужных переменных, которые во второй,
-#  и если разделять на разные функции то цикл не срабатывает
-# TODO Не нужно одну в другую помещать, это будут 2 разные функции.
-#  В одной у нас будет проверка строки, то есть что-то вроде
-#   def check_line(line):
-#      name, mail, age = line.split()
-#      если name невалидет
-#          raise NamesError(...)
-#      если mail невалидет:
-#          raise MailError(...)
-#      если age невалидет:
-#          raise AgeError(...)
-
-# TODO А в другой мы в цикле проверяем каждую строку и обрабатываем исключения -
-#   открыли файл
-#   for line in file:
-#       try:
-#            check_line(line)
-#        если поймали исключение - записали в плохой_лог
-#        иначе - в хороший_лог
-
 #  Нужно написать две функции -
 #  в одной мы реализуем алгоритм валидации строки с выбрасыванием исключения
 #  в другой заводим цикл по файлу, вилидируем строку, ловим исключения, заполняем выходные файлы.
 # #  В таком виде просто странно получается - выбростили исключение, и тут же его обработали.
-def processing():
-    file_name = 'registrations.txt'
+
+def check_line(line):
+    name, mail, age = line.split()
+    if name.isalpha() is False:
+        raise NamesError(f"имя неправильно - {line}")
+    elif '@' not in mail or '.' not in mail:
+        raise MailError(f"почта неправильна - {line}")
+    elif int(age) > 99 or int(age) < 10:
+        raise AgeError(f"возраст неправильный - {line}")
+
+
+def processing(file_name):
+    file_name = file_name
     file = open(file_name, mode='r')
     for line in file:
-        def check():
-            name, mail, age = line.split()
-            if name.isalpha() is False:
-                raise NamesError(f"имя неправильно - {line}")
-            elif '@' not in mail or '.' not in mail:
-                raise MailError(f"почта неправильна - {line}")
-            elif int(age) > 99 or int(age) < 10:
-                raise AgeError(f"возраст неправильный - {line}")
-            else:
-                file_name = 'registrations_good.probe.log'
-                file = open(file_name, mode='a')
-                file_content = line
-                file.write(file_content)
-                file.close()
-
         try:
-            check()
+            check_line(line)
         except (IndexError, NamesError, AgeError, MailError, ValueError) as error:
             file_name = 'registrations_bad.probe.log'
             file = open(file_name, mode='a')
             file_content = str(error) + ' '
             file.write(file_content)
             file.close()
+        else:
+            file_name = 'registrations_good.probe.log'
+            file = open(file_name, mode='a')
+            file_content = line
+            file.write(file_content)
+            file.close()
+
+
+processing(file_name='registrations.txt')
