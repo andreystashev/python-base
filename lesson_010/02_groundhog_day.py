@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from random import randint
+from random import randint, choice
 
 
 # День сурка
@@ -54,15 +54,20 @@ def one_day():
         carma = randint(1, 7)
         return carma
     elif dice == 13:
-        raise error_list[randint(0, 5)](f'{str(error_list[randint(0, 5)])[17:-2]}')
+        # Так получается, что выбросили одно, а сообщение уже будет от другого
+        #  лучше так тогда
+        today_error = choice(error_list)
+        raise today_error(today_error.__name__)
 
 
 while ENLIGHTENMENT_CARMA_LEVEL >= 0:
     try:
-        ENLIGHTENMENT_CARMA_LEVEL = ENLIGHTENMENT_CARMA_LEVEL - one_day()
-        # one_day()
+        ENLIGHTENMENT_CARMA_LEVEL -= one_day()
     except (SuicideError, DepressionError, GluttonyError, DrunkError, IamGodError, CarCrashError) as error:
         print(f'суть ошибки {error}')
 print('карма накоплена')
 
 # https://goo.gl/JnsDqu
+
+# зачет!
+

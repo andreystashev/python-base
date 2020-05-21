@@ -22,6 +22,7 @@
 # - поле возраст НЕ является числом от 10 до 99: ValueError
 # Вызов метода обернуть в try-except.
 
+
 class NamesError(Exception):
     pass
 
@@ -41,7 +42,7 @@ class AgeError(Exception):
 
 def check_line(line):
     name, mail, age = line.split()
-    if name.isalpha() is False:
+    if not name.isalpha():
         raise NamesError(f"имя неправильно - {line}")
     elif '@' not in mail or '.' not in mail:
         raise MailError(f"почта неправильна - {line}")
@@ -50,23 +51,19 @@ def check_line(line):
 
 
 def processing(file_name):
-    file_name = file_name
-    file = open(file_name, mode='r')
-    for line in file:
-        try:
-            check_line(line)
-        except (IndexError, NamesError, AgeError, MailError, ValueError) as error:
-            file_name = 'registrations_bad.probe.log'
-            file = open(file_name, mode='a')
-            file_content = str(error) + ' '
-            file.write(file_content)
-            file.close()
-        else:
-            file_name = 'registrations_good.probe.log'
-            file = open(file_name, mode='a')
-            file_content = line
-            file.write(file_content)
-            file.close()
+    #  Можно сразу окрыть все файлы через with. Это будет удобнее и надежнее
+    with open(file_name, mode='r') as file, \
+         open('registrations_bad.probe.log', mode='a') as bad_file, \
+         open('registrations_good.probe.log', mode='a') as good_file:
+        for line in file:
+            try:
+                check_line(line)
+            except (IndexError, NamesError, AgeError, MailError, ValueError) as error:
+                bad_file.write(str(error) + ' ')
+            else:
+                good_file.write(line)
 
 
 processing(file_name='registrations.txt')
+
+# зачет!
