@@ -41,7 +41,6 @@ class Counter:
     def initialise(self, file_name):
         with open(file_name, 'r', encoding='cp1251') as file:
             for line in file:
-                # print(line)
                 for char in line:
                     if self.prev_char in self.stat:
                         if char in self.stat[self.prev_char]:
@@ -51,6 +50,12 @@ class Counter:
                             self.stat[self.prev_char][char] = 1
                     else:
                         self.stat[self.prev_char] = {char: 1}
+
+    def count(self):
+        pass
+
+
+class LettersPlus(Counter):
 
     def letters_increase(self):
         print('+{txt:-^30}+'.format(txt='+'))
@@ -72,6 +77,9 @@ class Counter:
         print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
         print('+{txt:-^30}+'.format(txt='+'))
 
+
+class LettersMin(Counter):
+
     def letters_decrease(self):
         print('+{txt:-^30}+'.format(txt='+'))
         print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
@@ -92,6 +100,8 @@ class Counter:
         print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
         print('+{txt:-^30}+'.format(txt='+'))
 
+
+class CountPlus(Counter):
     def count_increase(self):
         print('+{txt:-^30}+'.format(txt='+'))
         print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
@@ -113,27 +123,34 @@ class Counter:
         print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
         print('+{txt:-^30}+'.format(txt='+'))
 
-    def count_decrease(self):
-        print('+{txt:-^30}+'.format(txt='+'))
-        print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
-        print('+{txt:-^30}+'.format(txt='+'))
-        for _, count in self.stat.items():
-            letters_list = []
-            numbers_list = []
-            count = dict(zip(count.values(), count.keys()))
-            for letters, y in count.items():
-                letters_list.append(letters)
-                letters_list.sort(reverse=True)
 
-                numbers_list.append(letters)
-                for char_counts in numbers_list:
-                    self.char_summa += char_counts
-            for char in letters_list:
-                count.get(char)
-                print('|{txt:^14}|'.format(txt=count.get(char)), '{txt:^14}|'.format(txt=char))
-        print('+{txt:-^30}+'.format(txt='+'))
-        print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
-        print('+{txt:-^30}+'.format(txt='+'))
+class CountMin(Counter):
+    def __init__(self, zip_file_name):
+        self.zip_file_name = zip_file_name
+        self.stat = {}
+
+    def count(self):
+        if super().count():
+            print('+{txt:-^30}+'.format(txt='+'))
+            print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
+            print('+{txt:-^30}+'.format(txt='+'))
+            for _, count in self.stat.items():
+                letters_list = []
+                numbers_list = []
+                count = dict(zip(count.values(), count.keys()))
+                for letters, y in count.items():
+                    letters_list.append(letters)
+                    letters_list.sort(reverse=True)
+
+                    numbers_list.append(letters)
+                    for char_counts in numbers_list:
+                        self.char_summa += char_counts
+                for char in letters_list:
+                    count.get(char)
+                    print('|{txt:^14}|'.format(txt=count.get(char)), '{txt:^14}|'.format(txt=char))
+            print('+{txt:-^30}+'.format(txt='+'))
+            print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
+            print('+{txt:-^30}+'.format(txt='+'))
 
 
 counter = Counter(
@@ -141,14 +158,17 @@ counter = Counter(
 )
 counter.unzip()
 counter.initialise(file_name='voyna-i-mir.txt')
-counter.count_increase()
-# counter.count_decrease()
-# counter.letters_increase()
-# counter.letters_decrease()
+CountMin.count()
 
-# TODO Хорошо, теперь применим паттерн "Шаблонный метод"
+#  Хорошо, теперь применим паттерн "Шаблонный метод"
 #  То есть в базовом классе оставить метод для получения отсортированной статистики пустым,
 #  а потом сделать его наследников, в которых переопределить этот метод соответствующим образом
+# Todo не могу понять, как правильно сделать, чтобы наследники начали работать. В задании 8 модуля с семьей
+#  похожий код работал, а тут не хватает какого-то кода. Пробовал через супер и деф __инит__ добавить, но
+#  не дает результата. Пишет, что не хватает селф, но я не пойму почему здесь его требует а в задании с семьей
+#  к примеру этого не было. И само это взаимодействие не понятно, в примере шаблона не разобрался, в интренете
+#  тоже примеры описаны так что не могу уловить суть. Тоесть зачем метод, что он делает, и как он должен выглядеть
+#  относительно понятно, а реализовать в коде не получается
 
 
 # После выполнения первого этапа нужно сделать упорядочивание статистики
