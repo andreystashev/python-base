@@ -40,6 +40,8 @@ class Counter:
 
     def initialise(self, file_name):
         with open(file_name, 'r', encoding='cp1251') as file:
+            print('+{txt:-^30}+'.format(txt='+'))
+            print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
             for line in file:
                 for char in line:
                     if self.prev_char in self.stat:
@@ -50,18 +52,37 @@ class Counter:
                             self.stat[self.prev_char][char] = 1
                     else:
                         self.stat[self.prev_char] = {char: 1}
+            print('+{txt:-^30}+'.format(txt='+'))
 
-    # TODO Скорее его надо sort() назвать
-    def count(self):
+    def statistic(self):
+        self.sort()
+        print('+{txt:-^30}+'.format(txt='+'))
+        print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
+        print('+{txt:-^30}+'.format(txt='+'))
+
+    def sort(self):
+        # for _, count in self.stat.items():
+        #     letters_list = []
+        #     numbers_list = []
+        #     for letters, numbers in count.items():
+        #         letters_list.append(letters)
+        #         letters_list.sort()
+        #         numbers_list.append(numbers)
+        #         for char_counts in numbers_list:
+        #             self.char_summa += char_counts
+        #     for char in letters_list:
+        #         count.get(char)
+        #         print('|{txt:^14}|'.format(txt=char), '{txt:^14}|'.format(txt=count.get(char)))
         pass
-
+# Todo если раскомментировать sort из основного класса, то код работает. Но при попытке его сделать в методе другого класса
+#  он никак не хочет срабатывать. Также при попытке разделить код из sort он не хочет работать, не могу выделить одну строчку
+#  с которой можно было бы работать в наследниках
 
 class LettersPlus(Counter):
+    def __init__(self):
+        super().__init__(self)
 
-    def letters_increase(self):
-        print('+{txt:-^30}+'.format(txt='+'))
-        print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
-        print('+{txt:-^30}+'.format(txt='+'))
+    def sort(self):
         for _, count in self.stat.items():
             letters_list = []
             numbers_list = []
@@ -74,17 +95,10 @@ class LettersPlus(Counter):
             for char in letters_list:
                 count.get(char)
                 print('|{txt:^14}|'.format(txt=char), '{txt:^14}|'.format(txt=count.get(char)))
-        print('+{txt:-^30}+'.format(txt='+'))
-        print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
-        print('+{txt:-^30}+'.format(txt='+'))
 
 
 class LettersMin(Counter):
-
-    def letters_decrease(self):
-        print('+{txt:-^30}+'.format(txt='+'))
-        print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
-        print('+{txt:-^30}+'.format(txt='+'))
+    def sort(self):
         for _, count in self.stat.items():
             letters_list = []
             numbers_list = []
@@ -97,16 +111,10 @@ class LettersMin(Counter):
             for char in letters_list:
                 count.get(char)
                 print('|{txt:^14}|'.format(txt=char), '{txt:^14}|'.format(txt=count.get(char)))
-        print('+{txt:-^30}+'.format(txt='+'))
-        print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
-        print('+{txt:-^30}+'.format(txt='+'))
 
 
 class CountPlus(Counter):
-    def count_increase(self):
-        print('+{txt:-^30}+'.format(txt='+'))
-        print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
-        print('+{txt:-^30}+'.format(txt='+'))
+    def sort(self):
         for _, count in self.stat.items():
             letters_list = []
             numbers_list = []
@@ -120,38 +128,23 @@ class CountPlus(Counter):
             for char in letters_list:
                 count.get(char)
                 print('|{txt:^14}|'.format(txt=count.get(char)), '{txt:^14}|'.format(txt=char))
-        print('+{txt:-^30}+'.format(txt='+'))
-        print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
-        print('+{txt:-^30}+'.format(txt='+'))
 
 
 class CountMin(Counter):
-    def __init__(self, zip_file_name):
-        self.zip_file_name = zip_file_name
-        self.stat = {}
-
-    def count(self):
-        if super().count():
-            print('+{txt:-^30}+'.format(txt='+'))
-            print('|{txt:^14}|'.format(txt='буква'), '{txt:^14}|'.format(txt='частота'))
-            print('+{txt:-^30}+'.format(txt='+'))
-            for _, count in self.stat.items():
-                letters_list = []
-                numbers_list = []
-                count = dict(zip(count.values(), count.keys()))
-                for letters, y in count.items():
-                    letters_list.append(letters)
-                    letters_list.sort(reverse=True)
-
-                    numbers_list.append(letters)
-                    for char_counts in numbers_list:
-                        self.char_summa += char_counts
-                for char in letters_list:
-                    count.get(char)
-                    print('|{txt:^14}|'.format(txt=count.get(char)), '{txt:^14}|'.format(txt=char))
-            print('+{txt:-^30}+'.format(txt='+'))
-            print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
-            print('+{txt:-^30}+'.format(txt='+'))
+    def sort(self):
+        for _, count in self.stat.items():
+            letters_list = []
+            numbers_list = []
+            count = dict(zip(count.values(), count.keys()))
+            for letters, y in count.items():
+                letters_list.append(letters)
+                letters_list.sort(reverse=True)
+                numbers_list.append(letters)
+                for char_counts in numbers_list:
+                    self.char_summa += char_counts
+            for char in letters_list:
+                count.get(char)
+                print('|{txt:^14}|'.format(txt=count.get(char)), '{txt:^14}|'.format(txt=char))
 
 
 counter = Counter(
@@ -159,7 +152,9 @@ counter = Counter(
 )
 counter.unzip()
 counter.initialise(file_name='voyna-i-mir.txt')
-CountMin.count()
+l_plus = LettersPlus()
+l_plus.sort()
+counter.statistic()
 
 #  Хорошо, теперь применим паттерн "Шаблонный метод"
 #  То есть в базовом классе оставить метод для получения отсортированной статистики пустым,
@@ -171,7 +166,7 @@ CountMin.count()
 #  тоже примеры описаны так что не могу уловить суть. Тоесть зачем метод, что он делает, и как он должен выглядеть
 #  относительно понятно, а реализовать в коде не получается
 
-# TODO Смотрите, у вас во всех наследниках код по сути одинаковый, отличается только сортировка статистики.
+# Смотрите, у вас во всех наследниках код по сути одинаковый, отличается только сортировка статистики.
 #  То есть у вас есть базовый класс, в котором определены методы -
 #    1. раззиповать архив()
 #    2. собрать словарь со статистикой()
