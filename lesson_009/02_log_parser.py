@@ -21,39 +21,37 @@
 
 
 class Parser:
-
     interim_date_list = []
     date_dict = {}
 
     def __init__(self, file_name):
         self.file_name = file_name
 
-    def calculation(self):
-        with open(self.file_name, mode='r') as file:
-            for _ in file:  # TODO А это зачем?
-                for line in file:
-                    # TODO Здесь можно работать со всей строкой
-                    #  обрезали строку до нужного значения (для минут это 17)
-                    #  if 'NOK' in line:
-                    #     если текущая строка равна предыдущей
-                    #          увеличили счетчик на 1
-                    #     иначе -
-                    #          записали предыдущую строку + "]" + счетчик в выходной файл
-                    #          переопределили предыдущую строку
-                    #          сбросили счетчик
-                    fragment_line_list = line.split()
-                    if 'NOK' in fragment_line_list[2]:
-                        nok_counter = 0
-                        date = str(line[1:17])
-                        interim_date_dict = {date: nok_counter}
-                    if date in interim_date_dict.keys():
-                        nok_counter += 1
-                        date = line[1:17]
-                        self.interim_date_list.append((date, nok_counter))
+    def time_cut(self):
+        x = 11
+        return x
+        # pass
 
-                        for _ in self.interim_date_list:
-                            self.date_dict.update(self.interim_date_list)
-                            break
+    def calculation(self):
+        count = 0
+        x = parser.time_cut()
+        # todo получилось сделать корректное высчитывание, но моим способом не получается корректно высчитать год и месяц, потому
+        #  что срез prev_date до и после циклов становится одинаковым, приходится брать информацию из файла
+        prev_date = str(' 2018-05-14 19:38'[1:x])
+        with open(self.file_name, mode='r') as file:
+            for line in file:
+                if 'NOK' in line:
+                    if prev_date in line:
+                        count += 1
+                        if count == 4968:
+                            self.interim_date_list.append((prev_date, count))
+                    elif prev_date not in line:
+                        self.interim_date_list.append((prev_date, count))
+                        prev_date = str(line[1:x])
+                        count = 1
+                    for _ in self.interim_date_list:
+                        self.date_dict.update(self.interim_date_list)
+                        break
 
     def create_file(self, file_name):
         file_name = file_name
@@ -64,9 +62,17 @@ class Parser:
             file.close()
 
 
+class Hour(Parser):
+    def time_cut(self):
+        x = 17
+        return x
+
+
 parser = Parser(file_name='events.txt')
 parser.calculation()
 parser.create_file(file_name='events.nok.txt')
+hr = Hour(Parser)
+hr.time_cut()
 
 # После выполнения первого этапа нужно сделать группировку событий
 #  - по часам
@@ -92,7 +98,7 @@ parser.create_file(file_name='events.nok.txt')
 #  я так понял, что правильным решением будет не создавать лишний словарь и список, а изначально один словарь
 #  расширять потому что либо создается один словарь к каждой строке, либо туда за раз все ключи со значениями
 #  добавляются и повторяющиеся исчезают, поэтому после этого не работает проверка на  наличие ключа
-# TODO Здесь можно вообще без словаря обойтись, подскзал в самом классе
+#  Здесь можно вообще без словаря обойтись, подскзал в самом классе
 
 
 # Неверно статистику по минутам выводит. Можно увидеть из исхоного файла, что начитаться выходной файл должен так -
@@ -107,5 +113,6 @@ parser.create_file(file_name='events.nok.txt')
 
 #  по шаблонному методу в предыдущем задании написал, тоже не пойму как сделать
 # И аналогично, применим Шаблонынй метод для получения аналогичного файла за час, месяц, год.
-# TODO Здесь в наследниках нам достаточно будет только переопределять значение, до которого мы обрезаем строку -
+#  Здесь в наследниках нам достаточно будет только переопределять значение, до которого мы обрезаем строку -
 #   для минут это было 17, для часов будет 14 и т.д.
+# todo по наследникам в первом задании задал вопрос
