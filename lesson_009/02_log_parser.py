@@ -34,44 +34,48 @@ class Parser:
 
     def calculation(self):
         count = 0
-        x = parser.time_cut()
+        x = parser.time_cut()  # TODO: этот метод вызываем у self
+
         # todo получилось сделать корректное высчитывание, но моим способом не получается корректно высчитать год и месяц, потому
         #  что срез prev_date до и после циклов становится одинаковым, приходится брать информацию из файла
-        prev_date = str(' 2018-05-14 19:38'[1:x])
+        # TODO: не очень понял комментарий.
+
+        prev_date = str(' 2018-05-14 19:38'[1:x])  # TODO: значения из самого файла не должны фигурировать в коде.
+                                                   # TODO: Просто берите значение из нулевой строчки файла на нулевой итерации
         with open(self.file_name, mode='r') as file:
             for line in file:
                 if 'NOK' in line:
                     if prev_date in line:
                         count += 1
-                        if count == 4968:
+                        if count == 4968:  # TODO: что это за магическое число?
                             self.interim_date_list.append((prev_date, count))
-                    elif prev_date not in line:
+                    elif prev_date not in line:  # TODO: можно не уточнять после elif, выбора особо-то и нет
                         self.interim_date_list.append((prev_date, count))
                         prev_date = str(line[1:x])
                         count = 1
                     for _ in self.interim_date_list:
-                        self.date_dict.update(self.interim_date_list)
+                        self.date_dict.update(self.interim_date_list)  # TODO: зачем это делать в цикле?
                         break
 
     def create_file(self, file_name):
         file_name = file_name
         for time, nok_number in self.date_dict.items():
-            file = open(file_name, mode='a')
-            file_content = ('[' + str(time) + '] ' + str(nok_number) + '\n')
+            file = open(file_name, mode='a')  # TODO: не нужно открывать и закрывать файл на каждой итерации
+            file_content = ('[' + str(time) + '] ' + str(nok_number) + '\n')  # TODO: используйте f-строки, либо .format() для составления строкового вывода
             file.write(file_content)
             file.close()
 
 
 class Hour(Parser):
     def time_cut(self):
-        x = 17
+        x = 17  # TODO: на самом деле тут кончаются минуты
         return x
 
 
 parser = Parser(file_name='events.txt')
 parser.calculation()
 parser.create_file(file_name='events.nok.txt')
-hr = Hour(Parser)
+hr = Hour(Parser)  # TODO: Напишите, что здесь должно произойти?
 hr.time_cut()
 
 # После выполнения первого этапа нужно сделать группировку событий
