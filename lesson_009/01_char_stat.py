@@ -60,7 +60,7 @@ class Counter:
         for _, count in self.stat.items():
             for letters, numbers in count.items():
                 self.letters_list.append(letters)
-                self.sort()  # TODO: хоть метод sort и написан в дочерних классах, но тут он тоже должен быть. Он может вообще ничего не делать, то есть внутри будет pass
+                self.sort()
                 self.numbers_list.append(numbers)
                 for char_counts in self.numbers_list:
                     self.char_summa += char_counts
@@ -86,6 +86,9 @@ class Counter:
         print('+{txt:-^30}+'.format(txt='+'))
         print('|{txt:^14}|'.format(txt='итого'), '{txt:^14}|'.format(txt=self.char_summa))
         print('+{txt:-^30}+'.format(txt='+'))
+
+    def sort(self):
+        pass
 
 
 class Countmin(Counter):
