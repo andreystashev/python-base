@@ -60,7 +60,7 @@ class Counter:
         for _, count in self.stat.items():
             for letters, numbers in count.items():
                 self.letters_list.append(letters)
-                self.sort()
+                self.sort()  # TODO: хоть метод sort и написан в дочерних классах, но тут он тоже должен быть. Он может вообще ничего не делать, то есть внутри будет pass
                 self.numbers_list.append(numbers)
                 for char_counts in self.numbers_list:
                     self.char_summa += char_counts

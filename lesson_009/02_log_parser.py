@@ -34,8 +34,7 @@ class Parser:
         count = 0
         x = self.time_cut()
         with open(self.file_name, mode='r') as file:
-            prev_date = (next(file)[1:x])
-
+            prev_date = (next(file)[1:x])  # TODO: в этом случае, если в строчке есть NOK, то он не учтется
             for line in file:
                 if 'NOK' in line:
                     if prev_date in line:
