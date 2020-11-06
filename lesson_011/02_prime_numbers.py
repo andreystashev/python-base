@@ -24,31 +24,34 @@ def get_prime_numbers(n):
 
 class PrimeNumbers:
     def __init__(self, n):
+        self.prime_numbers = []
         self.n = n
-        self.i = 1
+        self.i = 0
 
     def __iter__(self):
+        self.i = 1
         return self
 
-    def __next__(self):
+    def get_prime_numbers(self):
         self.i += 1
-        if self.i >= self.n:
-            raise StopIteration
-        elif self.check_prime(self.i):
-            return self.i
-        else:
-            return self.__next__()
-
-    def check_prime(self, number):
-        for divisor in range(2, int(number ** 0.5) + 1):
-            if number % divisor == 0:
+        for prime in self.prime_numbers:
+            if self.i % prime == 0:
                 return False
         return True
+
+    def __next__(self):
+        while self.i < self.n:
+            if self.get_prime_numbers():
+                self.prime_numbers.append(self.i)
+                return self.i
+        else:
+            raise StopIteration()
 
 
 prime_number_iterator = PrimeNumbers(n=10000)
 for number in prime_number_iterator:
     print(number)
+
 
 
 # TODO после подтверждения части 1 преподователем, можно делать
@@ -62,8 +65,8 @@ def prime_numbers_generator(n):
     # TODO здесь ваш код
 
 
-for number in prime_numbers_generator(n=10000):
-    print(number)
+#for number in prime_numbers_generator(n=10000):
+#    print(number)
 
 # Часть 3
 # Написать несколько функций-фильтров, которые выдает True, если число:

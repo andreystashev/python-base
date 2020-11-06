@@ -11,10 +11,20 @@ import simple_draw as sd
 # - длина стороны
 #
 # Функция-фабрика должна принимать параметр n - количество сторон.
-
+def draw_triangle(point, angle, length):
+    v = sd.get_vector(start_point=point)
+    v.draw()
+    point = v.end_point
+    # point = point
+    angle = angle
+    length = length
 
 def get_polygon(n):
-    pass
+    angle_change = 360 // n
+    for v in range(0, 360, angle_change):
+        draw_triangle()
+
+
     # TODO здесь ваш код
 
 
