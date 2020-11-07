@@ -14,4 +14,23 @@
 #
 # [2018-05-17 01:57] 1234
 
-# TODO здесь ваш код
+
+def grouped_events():
+    prev_time = None
+    nok_counter = 0
+    with open('events.txt', mode='r') as file:
+        for line in file:
+            if 'NOK' in line:
+                time = line[1:17]
+                if time != prev_time:
+                    if prev_time is not None:
+                        yield prev_time, nok_counter
+                    prev_time = time
+                    nok_counter = 0
+                nok_counter += 1
+    if nok_counter > 0:
+        yield prev_time, nok_counter
+
+
+for group_time, event_count in grouped_events():
+    print(f'[{group_time}] {event_count}')
