@@ -9,9 +9,21 @@
 
 
 def log_errors(func):
-    pass
-    # TODO здесь ваш код
+    def surrogate(*args, **kwargs):
+        file = open('function_errors.log', mode='a')
+        try:
+            func(*args, **kwargs)
 
+        except ZeroDivisionError as z_error:
+            print(f'на ноль делить нельзя: {z_error}')
+            file_content1 = ('<{}>  <{}>  <{}>  <{}>\n'.format(func.__name__, kwargs, z_error, 'на ноль делить нельзя'))
+            file.write(file_content1)
+        except Exception as v_error:
+            file_content = ('<{}>  <{}>  <{}>  <{}>\n'.format(func.__name__, args, Exception, v_error))
+            file.write(file_content)
+            file.close()
+
+    return surrogate
 
 # Проверить работу на следующих функциях
 @log_errors
