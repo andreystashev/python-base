@@ -10,17 +10,22 @@
 
 def log_errors(func):
     def surrogate(*args, **kwargs):
+        # TODO написать отдельную функцию для записи, используйте контекстный менеджер
         file = open('function_errors.log', mode='a')
         try:
+            # TODO тут нужно возвращать выполнение функции
             func(*args, **kwargs)
 
         except ZeroDivisionError as z_error:
             print(f'на ноль делить нельзя: {z_error}')
             file_content1 = ('<{}>  <{}>  <{}>  <{}>\n'.format(func.__name__, kwargs, z_error, 'на ноль делить нельзя'))
+            # TODO тут вызываем функцию передовая в нее строку
             file.write(file_content1)
         except Exception as v_error:
             file_content = ('<{}>  <{}>  <{}>  <{}>\n'.format(func.__name__, args, Exception, v_error))
             file.write(file_content)
+            # TODO Это нужно потому что если мы поймаем только первую ошибку файл то не закроется!
+            # TODO а с контекстным менеджером он закроет его автоматически!
             file.close()
 
     return surrogate
