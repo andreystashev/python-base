@@ -24,39 +24,30 @@ def get_prime_numbers(n):
 
 class PrimeNumbers:
     def __init__(self, n):
-        # TODO метод __iter__ как инит в нем тоже можно объявлять параметры экземпляра
-        # TODO тут оставим только self.n = n остальное в __iter__
-        self.prime_numbers = []
         self.n = n
-        self.i = 0
 
     def __iter__(self):
-        # TODO начинать цикл for будем с 2
-        self.i = 1
+        self.prime_numbers = []
+        self.i = 2
         return self
 
-    def get_prime_numbers(self):
-        # TODO от такой записи += 1 нужно избавиться, получать другим путем!
-        self.i += 1
-        for prime in self.prime_numbers:
-            if self.i % prime == 0:
-                return False
-        return True
-
     def __next__(self):
-        # TODO напишите все логику работы в __next__
-        # TODO продублируйте код из функции выше, но изменив его используйте цикл for!
-        while self.i < self.n:
-            if self.get_prime_numbers():
-                self.prime_numbers.append(self.i)
-                return self.i
-        else:
-            raise StopIteration()
+        for number in range(2, self.n + 1):
+            for prime in self.prime_numbers:
+                if number % prime == 0:
+                    break
+                elif number > self.n:
+                    break
+            else:
+                self.prime_numbers.append(number)
+        return self.prime_numbers
 
 
 prime_number_iterator = PrimeNumbers(n=10000)
 for number in prime_number_iterator:
     print(number)
+    break
+
 
 
 
