@@ -13,19 +13,16 @@ def log_errors(func):
         try:
             return func(*args, **kwargs)
         except ZeroDivisionError as z_error:
-            print(f'на ноль делить нельзя: {z_error}')
-            # TODO ловить сразу и арги и кварги, у z_error нужно вывести имя класса!
-            file_content1 = ('<{}>  <{}>  <{}>  <{}>\n'.format(func.__name__, kwargs, z_error, 'на ноль делить нельзя'))
-            # TODO все таки верным решение м будет сделать так, без новой функции записи!
+            file_content1 = ('<{}>  <{}>  <{}>  <{}>\n'.format(func.__name__, kwargs, Exception, z_error))
             with open('function_errors.log', 'a', encoding='utf8') as file:
                 file.write(file_content1)
-            # TODO тут нужно пробросить ошибку дальше
+                raise ZeroDivisionError
 
         except ValueError as v_error:
             file_content2 = ('<{}>  <{}>  <{}>  <{}>\n'.format(func.__name__, args, Exception, v_error))
             with open('function_errors.log', 'a', encoding='utf8') as file:
                 file.write(file_content2)
-            # TODO тут нужно пробросить ошибку дальше
+            raise ValueError
 
     return surrogate
 
