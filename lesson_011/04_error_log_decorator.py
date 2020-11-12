@@ -10,22 +10,22 @@
 
 def log_errors(func):
     def surrogate(*args, **kwargs):
-        def writer(file, file_content):
-            with open(file=file, mode='a') as file:
-                file = file
-                file.write(file_content)
-                file.close()
         try:
-            func(*args, **kwargs)
-            return writer(*args, **kwargs)
-
+            return func(*args, **kwargs)
         except ZeroDivisionError as z_error:
             print(f'на ноль делить нельзя: {z_error}')
+            # TODO ловить сразу и арги и кварги, у z_error нужно вывести имя класса!
             file_content1 = ('<{}>  <{}>  <{}>  <{}>\n'.format(func.__name__, kwargs, z_error, 'на ноль делить нельзя'))
-            writer(file='function_errors.log', file_content=file_content1)
+            # TODO все таки верным решение м будет сделать так, без новой функции записи!
+            with open('function_errors.log', 'a', encoding='utf8') as file:
+                file.write(file_content1)
+            # TODO тут нужно пробросить ошибку дальше
+
         except ValueError as v_error:
             file_content2 = ('<{}>  <{}>  <{}>  <{}>\n'.format(func.__name__, args, Exception, v_error))
-            writer(file='function_errors.log', file_content=file_content2)
+            with open('function_errors.log', 'a', encoding='utf8') as file:
+                file.write(file_content2)
+            # TODO тут нужно пробросить ошибку дальше
 
     return surrogate
 
