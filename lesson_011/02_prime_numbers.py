@@ -32,20 +32,27 @@ class PrimeNumbers:
         return self
 
     def __next__(self):
+        # TODO первым аргументом в range будет self.i
         for number in range(2, self.n + 1):
             for prime in self.prime_numbers:
                 if number % prime == 0:
                     break
+                # TODO для чего нам эта проверка ?
                 elif number > self.n:
                     break
             else:
+                # TODO чтобы не начинать первый цикл заново self.i будем изменять тут присвоим number
                 self.prime_numbers.append(number)
+        # TODO сейчас получается на каждой итерации вы возвращаете список?!
+        # TODO возвращать нужно number, в else
         return self.prime_numbers
+        # TODO забыли raise
 
 
 prime_number_iterator = PrimeNumbers(n=10000)
 for number in prime_number_iterator:
     print(number)
+    # TODO для этого тут брейк!
     break
 
 
