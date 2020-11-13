@@ -30,3 +30,5 @@ def get_polygon(n):
 get_polygon(n=8)
 
 sd.pause()
+
+# зачет!
