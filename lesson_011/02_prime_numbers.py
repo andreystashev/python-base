@@ -65,8 +65,9 @@ def prime_numbers_generator(n):
 
 
 for number in prime_numbers_generator(n=10000):
-   print(number)
+    print(number)
 
+# TODO делаем Часть 3
 # Часть 3
 # Написать несколько функций-фильтров, которые выдает True, если число:
 # 1) "счастливое" в обыденном пониманиии - сумма первых цифр равна сумме последних
