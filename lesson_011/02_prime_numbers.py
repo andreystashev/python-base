@@ -2,6 +2,7 @@
 
 
 # Есть функция генерации списка простых чисел
+from operator import eq
 
 
 def get_prime_numbers(n):
@@ -64,10 +65,10 @@ def prime_numbers_generator(n):
             yield number
 
 
-for number in prime_numbers_generator(n=10000):
-    print(number)
+# for number in prime_numbers_generator(n=10000):
+#     print(number)
 
-# TODO делаем Часть 3
+
 # Часть 3
 # Написать несколько функций-фильтров, которые выдает True, если число:
 # 1) "счастливое" в обыденном пониманиии - сумма первых цифр равна сумме последних
@@ -83,3 +84,28 @@ for number in prime_numbers_generator(n=10000):
 # простых счастливых палиндромных чисел и так далее. Придумать не менее 2х способов.
 #
 # Подсказка: возможно, нужно будет добавить параметр в итератор/генератор.
+
+
+def palyndrom_digits(n):
+    return True if str(n)[::-1] == str(n) else ' '
+
+
+def is_eq_sum(str_v, *slices):
+    return eq(*map(lambda s: sum(map(int, s)), map(str_v.__getitem__, slices)))
+
+
+def lucky_digits(v):
+    str_v = str(v)
+    if len(str_v) < 2:
+        return True
+    else:
+
+        middle = len(str_v) // 2
+        return is_eq_sum(str_v, slice(middle), slice(-middle, None))
+
+
+for number in prime_numbers_generator(n=10000):
+    print(number, palyndrom_digits(number), sep=' ')
+
+# for number in prime_numbers_generator(n=10000):
+#     print(number, lucky_digits(number), sep=' ')
