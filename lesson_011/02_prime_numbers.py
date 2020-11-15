@@ -86,34 +86,19 @@ def prime_numbers_generator(n):
 # Подсказка: возможно, нужно будет добавить параметр в итератор/генератор.
 
 
-# TODO давай те поработаем над неймингом и функций и переменных
-# TODO имя функции должно отвечать на на вопрос что делает
-# TODO параметры и переменные пишем без сокращений
-
-# TODO вам нужно написать функции фильтры вот первая вроде как похожа только фалсе нужно добавить
-
-
-def palyndrom_digits(n):
-    return True if str(n)[::-1] == str(n) else ' '
-
-
-def is_eq_sum(str_v, *slices):
-    return eq(*map(lambda s: sum(map(int, s)), map(str_v.__getitem__, slices)))
-
-
-def lucky_digits(v):
-    str_v = str(v)
-    if len(str_v) < 2:
-        return True
-    else:
-
-        middle = len(str_v) // 2
-        return is_eq_sum(str_v, slice(middle), slice(-middle, None))
-
+def get_palindrome_digits(n):
+    return True if str(n)[::-1] == str(n) else False
 
 
 for number in prime_numbers_generator(n=10000):
-    print(number, palyndrom_digits(number), sep=' ')
+    print(number, get_palindrome_digits(number), sep=' ')
 
-# for number in prime_numbers_generator(n=10000):
-#     print(number, lucky_digits(number), sep=' ')
+
+def get_lucky_digits(number):
+    number = str(number)
+    middle = len(number) // 2
+    return True if sum(map(int, number[:middle])) == sum(map(int, number[-middle:])) else False
+
+
+for i in prime_numbers_generator(n=10000):
+    print(i, get_lucky_digits(i), sep=' ')
