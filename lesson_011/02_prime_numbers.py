@@ -86,6 +86,13 @@ def prime_numbers_generator(n):
 # Подсказка: возможно, нужно будет добавить параметр в итератор/генератор.
 
 
+# TODO давай те поработаем над неймингом и функций и переменных
+# TODO имя функции должно отвечать на на вопрос что делает
+# TODO параметры и переменные пишем без сокращений
+
+# TODO вам нужно написать функции фильтры вот первая вроде как похожа только фалсе нужно добавить
+
+
 def palyndrom_digits(n):
     return True if str(n)[::-1] == str(n) else ' '
 
@@ -102,6 +109,7 @@ def lucky_digits(v):
 
         middle = len(str_v) // 2
         return is_eq_sum(str_v, slice(middle), slice(-middle, None))
+
 
 
 for number in prime_numbers_generator(n=10000):
