@@ -94,11 +94,15 @@ for number in prime_numbers_generator(n=10000):
     print(number, get_palindrome_digits(number), sep=' ')
 
 
+# TODO чтобы number не конфликтовала с глобальным скоупом в конце добавьте _  вот так number_
 def get_lucky_digits(number):
     number = str(number)
     middle = len(number) // 2
     return True if sum(map(int, number[:middle])) == sum(map(int, number[-middle:])) else False
 
 
+# TODO нейминг i
 for i in prime_numbers_generator(n=10000):
     print(i, get_lucky_digits(i), sep=' ')
+
+# TODO жту третьей функции фильтра, + второй способ все эти функции применить
