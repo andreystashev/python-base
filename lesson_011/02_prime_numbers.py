@@ -125,3 +125,5 @@ def get_mersenne_numbers(digit):
 for value, mersenne_check in prime_numbers_generator(n=10000, func=get_mersenne_numbers):
     print(value, mersenne_check)
 
+
+# зачет!
