@@ -5,15 +5,15 @@
 from operator import eq
 
 
-def get_prime_numbers(n):
-    prime_numbers = []
-    for number in range(2, n + 1):
-        for prime in prime_numbers:
-            if number % prime == 0:
-                break
-        else:
-            prime_numbers.append(number)
-    return prime_numbers
+# def get_prime_numbers(n):
+#     prime_numbers = []
+#     for number in range(2, n + 1):
+#         for prime in prime_numbers:
+#             if number % prime == 0:
+#                 break
+#         else:
+#             prime_numbers.append(number)
+#     return prime_numbers
 
 
 # Часть 1
@@ -23,25 +23,25 @@ def get_prime_numbers(n):
 # Распечатать все простые числа до 10000 в столбик
 
 
-class PrimeNumbers:
-    def __init__(self, n):
-        self.n = n
-
-    def __iter__(self):
-        self.prime_numbers = []
-        self.i = 2
-        return self
-
-    def __next__(self):
-        for number in range(self.i, self.n + 1):
-            for prime in self.prime_numbers:
-                if number % prime == 0:
-                    break
-            else:
-                self.i = number
-                self.prime_numbers.append(number)
-                return number
-        raise StopIteration
+# class PrimeNumbers:
+#     def __init__(self, n):
+#         self.n = n
+#
+#     def __iter__(self):
+#         self.prime_numbers = []
+#         self.i = 2
+#         return self
+#
+#     def __next__(self):
+#         for number in range(self.i, self.n + 1):
+#             for prime in self.prime_numbers:
+#                 if number % prime == 0:
+#                     break
+#             else:
+#                 self.i = number
+#                 self.prime_numbers.append(number)
+#                 return number
+#         raise StopIteration
 
 
 # prime_number_iterator = PrimeNumbers(n=10000)
@@ -54,15 +54,15 @@ class PrimeNumbers:
 # Распечатать все простые числа до 10000 в столбик
 
 
-def prime_numbers_generator(n):
-    prime_numbers = []
-    for number in range(2, n + 1):
-        for prime in prime_numbers:
-            if not number % prime:
-                break
-        else:
-            prime_numbers.append(number)
-            yield number
+# def prime_numbers_generator(n):
+#     prime_numbers = []
+#     for number in range(2, n + 1):
+#         for prime in prime_numbers:
+#             if not number % prime:
+#                 break
+#         else:
+#             prime_numbers.append(number)
+#             yield number
 
 
 # for number in prime_numbers_generator(n=10000):
@@ -90,19 +90,38 @@ def get_palindrome_digits(n):
     return True if str(n)[::-1] == str(n) else False
 
 
-for number in prime_numbers_generator(n=10000):
-    print(number, get_palindrome_digits(number), sep=' ')
+# for number in prime_numbers_generator(n=10000):
+#     print(number, get_palindrome_digits(number), sep=' ')
 
 
-# TODO чтобы number не конфликтовала с глобальным скоупом в конце добавьте _  вот так number_
-def get_lucky_digits(number):
-    number = str(number)
-    middle = len(number) // 2
-    return True if sum(map(int, number[:middle])) == sum(map(int, number[-middle:])) else False
+def get_lucky_digits(number_):
+    number_ = str(number_)
+    middle = len(number_) // 2
+    return True if sum(map(int, number_[:middle])) == sum(map(int, number_[-middle:])) else False
 
 
-# TODO нейминг i
-for i in prime_numbers_generator(n=10000):
-    print(i, get_lucky_digits(i), sep=' ')
+# for prime_number in prime_numbers_generator(n=10000):
+#     print(prime_number, get_lucky_digits(prime_number), sep=' ')
 
-# TODO жту третьей функции фильтра, + второй способ все эти функции применить
+
+def prime_numbers_generator(n, func):
+    prime_numbers = []
+    for number in range(2, n + 1):
+        for prime in prime_numbers:
+            if not number % prime:
+                break
+        else:
+            prime_numbers.append(number)
+            if func(number):
+                yield number, True
+            else:
+                yield number, False
+
+
+def get_mersenne_numbers(digit):
+    return (digit + 1) & digit == 0
+
+
+for value, mersenne_check in prime_numbers_generator(n=10000, func=get_mersenne_numbers):
+    print(value, mersenne_check)
+
