@@ -65,12 +65,56 @@
 #
 # Для плавного перехода к мультипоточности, код оформить в обьектном стиле, используя следующий каркас
 #
-# class <Название класса>:
-#
-#     def __init__(self, <параметры>):
-#         <сохранение параметров>
-#
-#     def run(self):
-#         <обработка данных>
+import os
 
-# TODO написать код в однопоточном/однопроцессорном стиле
+
+class Ticker:
+    list = []
+    dict = {}
+
+    def __init__(self, ticket_folder):
+        self.ticket_folder = ticket_folder
+        self.prev_name = ''
+        self.prev_price = 0
+# TODO частично взял в пример log parser из 9го модуля, но не пойму, нужно ли вводить здесь сравнение с предыдущим
+#  элементом, ведь тут всё поделено на файлы, и такая сложная конструкция ради перескакивания с одного файла на другой
+#  кажется нелогичной
+
+
+    def run(self):
+        for dirpath, dirnames, filenames in os.walk(self.ticket_folder):
+            for ticket_files in filenames:
+                open_ticker = open(folder + ticket_files, mode='r')
+                for element in open_ticker:
+                    name = element[0:4]
+                    price = element[15:20] #todo в некоторых файлах цена смещается и не пойму, как брать полную цену
+                    #print(price)
+                    counter = 0
+                    if name == self.prev_name: #todo так сделал чтобы если один файл закончился, не продолжились вычисления
+                        counter +=1
+                        half_sum = (self.prev_price + float(price))/counter
+                        self.prev_price += float(price)
+                        volatility = ((self.prev_price - float(price)) / half_sum) * 100 #todo тут видимо какие-то строки
+                                                                                        #  надо на уровень выше перенести
+                        self.list.append((name, volatility))
+                    elif name != self.prev_name:
+                        self.prev_name = name
+            self.dict.update(self.list)
+            # print(self.dict)
+            final_list = []
+            for k in self.dict:
+                final_list.append(k+' - '+str(self.dict.get(k)))
+
+            final_list.sort()
+            # todo здесь при корректных рассчетах по идее должно быть вначале несколько значений с нулем(нулевая волатильность)
+            #  и тогда можно пройтись циклом фор по списку и если 0, то вывести на консоль. Правильно?
+            print(final_list[0:3], 'наименьшие')
+            print(final_list[-3:], 'наибольшие')
+
+
+
+
+folder = "/Users/andrey/PycharmProjects/python_base/lesson_012/trades/"
+
+ticker = Ticker(ticket_folder=folder)
+ticker.run()
