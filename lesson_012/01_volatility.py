@@ -67,84 +67,66 @@
 #
 import os
 
-# TODO постараюсь немного ответить общим ответом на все ваши вопросы, и направить вас в нужное русло!
+from lesson_012.python_snippets.utils import time_track
 
 
-# TODO ВАЖНО главная задача добиться чтобы класс обрабатывал только один билет на валатильность!
-# TODO на вход получаем путь до файла который будем обрабатывать!
 class Ticker:
-    # TODO нейминг переменных, list dict использовать их явно и в названиях не рекомендуется
-    list = []
-    dict = {}
 
-    def __init__(self, ticket_folder):
-        # TODO из параметров у нас будет полный путь до файла!
-        # TODO И еще два параметра это имя билета self.name_ticket = ''
-        # TODO и сама волатильность self.volatility = 0
-        # TODO остальное у нас будет локальными переменными в методах
+    def __init__(self, ticket_folder, name_ticket):
         self.ticket_folder = ticket_folder
-        self.prev_name = ''
-        self.prev_price = 0
+        self.name_ticket = name_ticket
+        self.volatility = 0
 
-# частично взял в пример log parser из 9го модуля, но не пойму, нужно ли вводить здесь сравнение с предыдущим
-#  элементом, ведь тут всё поделено на файлы, и такая сложная конструкция ради перескакивания с одного файла на другой
-#  кажется нелогичной
-# TODO нет тут сравнивать не нужно
-
-    # TODO по заданию в методе run который будет запускать нужные нам внутренние методы!
-    # TODO метод который открывает файл и читает его возвращая список данных для обработки! Также запоминая имя билета.
-    # TODO метод который обрабатывает данные и получает валатильность!
     def run(self):
-        # TODO часть с этим нужно будет вынести или в майн но лучше в утилиты
-        for dirpath, dirnames, filenames in os.walk(self.ticket_folder):
-            for ticket_files in filenames:
-                # TODO открывать и обрабатывать строки будем в отдельном методе
-                open_ticker = open(folder + ticket_files, mode='r')
-                for element in open_ticker:
-                    # TODO тут можно воспользоваться сплитом и разбить по запятой
-                    name = element[0:4]
-                    price = element[15:20]
-                    #print(price)
-                    counter = 0
-                    if name == self.prev_name: # так сделал чтобы если один файл закончился, не продолжились вычисления
-                        counter +=1
-                        half_sum = (self.prev_price + float(price))/counter
-                        self.prev_price += float(price)
-                        volatility = ((self.prev_price - float(price)) / half_sum) * 100 #todo тут видимо какие-то строки
-                                                                                        #  надо на уровень выше перенести
-                        self.list.append((name, volatility))
-                    elif name != self.prev_name:
-                        self.prev_name = name
-            self.dict.update(self.list)
-            # print(self.dict)
-            # TODO нейминг переменной, list использовать в названиях не рекомендуется
-            final_list = []
-            for k in self.dict:
-                final_list.append(k+' - '+str(self.dict.get(k)))
+        self.open()
+        name = self.calculate(self.open())[1][7:11]
+        volatility = self.calculate(self.open())[0]
 
-            final_list.sort()
-            # todo здесь при корректных рассчетах по идее должно быть вначале несколько значений с нулем(нулевая волатильность)
-            #  и тогда можно пройтись циклом фор по списку и если 0, то вывести на консоль. Правильно?
-            print(final_list[0:3], 'наименьшие')
-            print(final_list[-3:], 'наибольшие')
+        return name, volatility
+
+    def open(self):
+        price_list = []
+        open_ticker = open(self.ticket_folder + self.name_ticket, mode='r')
+        for element in open_ticker:
+            element.split(',')
+            if element.split(',')[2] != 'PRICE':
+                price_list.append(float(element.split(',')[2]))
+        return price_list, self.name_ticket
+
+    def calculate(self, unsorted):
+        sorted_elements = unsorted[0]
+        sorted_elements.sort()
+        half_sum = (sorted_elements[0] + sorted_elements[-1]) / 2
+        volatility = ((sorted_elements[-1] - sorted_elements[0]) / half_sum) * 100
+        return volatility, unsorted[1]
 
 
-# TODO к сожалению у меня нет такого пути
-# TODO Код подебажить не удалось.
+@time_track
+def main(ticket_folder):
+    zero_list = []
+    list_sort = []
+    tickers_dict = {}
+    ticket_folder = ticket_folder
+    for dirpath, dirnames, filenames in os.walk(ticket_folder):
+
+        for ticket_files in filenames:
+            ticker = Ticker(ticket_folder=ticket_folder, name_ticket=ticket_files)
+            name = ticker.run()[0]
+            value = ticker.run()[1]
+            tickers_dict[value] = name
+            if value == 0:
+                zero_list.append(name)
+            else:
+                list_sort.append(value)
+                list_sort.sort()
+
+        for min in list_sort[0:3]:
+            print(min, tickers_dict[min], '- минимальная волатильность')
+        for max in list_sort[-3:]:
+            print(max, tickers_dict[max], '- максимальная волатильность')
+        print('нулевая волатильность: ', zero_list)
+
+
 folder = "/Users/andrey/PycharmProjects/python_base/lesson_012/trades/"
-
-ticker = Ticker(ticket_folder=folder)
-ticker.run()
-
-# TODO тут напишем if __name__ == '__main__':
-# TODO и вы вызовем функции main() в которой у нас будет все логика работы программы!
-
-# TODO Создадим модуль утилиты, в него вынесем все дополнительные функции, такие как принты в консоль,
-# TODO обработку путей до файлов.
-#  Также добавим в утилиты декоратор time_track из прошлых заданий, будем трекать время работы.
-
-
-# TODO в функции main() должно быть три цикла, в первом вы записываете в словарь экземпляры класса
-# TODO во Втором, проходясь по списку с экземплярами класса, запускаете метод .run()
-# TODO в Третьем, вы проходясь по списку с экземплярами класса, получаете параметр volatility и обрабатываете его!
-
+if __name__ == '__main__':
+    main(ticket_folder=folder)
