@@ -36,10 +36,8 @@ def make_ticket(fio, from_, to, date):
     print(f'Post card saved az {out_path}')
 
 
-make_ticket(fio='stashev', from_='earth', to='moon', date='12.09')
 
 
-# TODO предлагаю реализовать консольный скрипт
 # Усложненное задание (делать по желанию).
 # Написать консольный скрипт c помощью встроенного python-модуля argparse.
 # Скрипт должен принимать параметры:
