@@ -67,6 +67,7 @@
 #
 import os
 
+# TODO рекомендации, почему не нужно вставлять lesson_012 (на примере lesson_006) приведены тут https://clck.ru/Ndwqz
 from lesson_012.python_snippets.utils import time_track
 
 
@@ -101,12 +102,20 @@ class Ticker:
         return volatility, unsorted[1]
 
 
+# TODO в функции main() должно быть три цикла, цикла должны быть отдельными не вложенными
+#  в первом вы записываете в словарь экземпляры класса
+# TODO во Втором, проходясь по списку с экземплярами класса, запускаете метод .run()
+# TODO в Третьем, вы проходясь по списку с экземплярами класса, получаете параметр volatility и обрабатываете его!
+
 @time_track
 def main(ticket_folder):
+    # TODO нейминг переменной list использовать не рекомендуется
     zero_list = []
     list_sort = []
+    # TODO нейминг переменной dict использовать не рекомендуется
     tickers_dict = {}
     ticket_folder = ticket_folder
+    # TODO пробюуем написать генератор которые будет отдавать каждый раз путь до файла, пишем его в утилитах
     for dirpath, dirnames, filenames in os.walk(ticket_folder):
 
         for ticket_files in filenames:
@@ -120,13 +129,17 @@ def main(ticket_folder):
                 list_sort.append(value)
                 list_sort.sort()
 
+        # TODO нужно написать функцию принтов в модуле с утилитами! тут ее только вызывать
         for min in list_sort[0:3]:
             print(min, tickers_dict[min], '- минимальная волатильность')
         for max in list_sort[-3:]:
             print(max, tickers_dict[max], '- максимальная волатильность')
         print('нулевая волатильность: ', zero_list)
 
-
+# TODO к сожалению у меня такого пути нет
 folder = "/Users/andrey/PycharmProjects/python_base/lesson_012/trades/"
 if __name__ == '__main__':
     main(ticket_folder=folder)
+
+# TODO в файл утилиты я вам предлагал создать тут в корне с проектом, и вынести в него все сопутствующее из кода
+# TODO + декоратор должен быть тоже в нем
