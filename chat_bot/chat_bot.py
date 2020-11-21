@@ -24,7 +24,6 @@ class Bot:
                 print(err)
 
     def on_event(self, event):
-        f = 'fuck you'
         if event.type == vk_api.bot_longpoll.VkBotEventType.MESSAGE_NEW:
             self.api.messages.send(
                 message=event.object.text,
