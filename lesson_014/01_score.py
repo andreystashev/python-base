@@ -34,10 +34,8 @@
 import argparse
 from bowling import get_score
 
-# TODO напишите развернутый description
-parser = argparse.ArgumentParser(description='-')
-# TODO напишите название более развернуто
-parser.add_argument("--a")
+parser = argparse.ArgumentParser(description='подсчет колличества очков по строке с результатом')
+parser.add_argument("--a", "--argument", help='строка с результатом игры')
 args = parser.parse_args()
 
 result = args.a
