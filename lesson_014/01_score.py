@@ -34,7 +34,9 @@
 import argparse
 from bowling import get_score
 
+# TODO напишите развернутый description
 parser = argparse.ArgumentParser(description='-')
+# TODO напишите название более развернуто
 parser.add_argument("--a")
 args = parser.parse_args()
 
