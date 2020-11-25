@@ -31,9 +31,18 @@
 # Из текущего файла сделать консольную утилиту для определения количества очков, с помощью пакета argparse
 # Скрипт должен принимать параметр --result и печатать на консоль:
 #   Количество очков для результатов ХХХ - УУУ.
+import argparse
+from bowling import get_score
 
-# TODO тут ваш код
+parser = argparse.ArgumentParser(description='-')
+parser.add_argument("--a")
+args = parser.parse_args()
+
+result = args.a
+print('Количество очков для результатов', result, '-', get_score(game_result=result))
+
 
 # При написании кода помнить, что заказчик может захотеть доработок и новых возможностей...
 # И, возможно, вам пригодится паттерн проектирования "Состояние",
 #   см https://clck.ru/Fudd8 и https://refactoring.guru/ru/design-patterns/state
+
