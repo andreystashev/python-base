@@ -67,8 +67,7 @@
 #
 import os
 
-# TODO рекомендации, почему не нужно вставлять lesson_012 (на примере lesson_006) приведены тут https://clck.ru/Ndwqz
-from lesson_012.python_snippets.utils import time_track
+from utilites import time_track, generate_filenames, show_result
 
 
 class Ticker:
@@ -102,44 +101,32 @@ class Ticker:
         return volatility, unsorted[1]
 
 
-# TODO в функции main() должно быть три цикла, цикла должны быть отдельными не вложенными
-#  в первом вы записываете в словарь экземпляры класса
-# TODO во Втором, проходясь по списку с экземплярами класса, запускаете метод .run()
-# TODO в Третьем, вы проходясь по списку с экземплярами класса, получаете параметр volatility и обрабатываете его!
-
 @time_track
 def main(ticket_folder):
-    # TODO нейминг переменной list использовать не рекомендуется
-    zero_list = []
-    list_sort = []
-    # TODO нейминг переменной dict использовать не рекомендуется
-    tickers_dict = {}
     ticket_folder = ticket_folder
-    # TODO пробюуем написать генератор которые будет отдавать каждый раз путь до файла, пишем его в утилитах
-    for dirpath, dirnames, filenames in os.walk(ticket_folder):
+    zero_tickers = []
+    object_scope = []
+    key_value = {}
+    value_key = {}
+    sorted_place = []
 
-        for ticket_files in filenames:
-            ticker = Ticker(ticket_folder=ticket_folder, name_ticket=ticket_files)
-            name = ticker.run()[0]
-            value = ticker.run()[1]
-            tickers_dict[value] = name
-            if value == 0:
-                zero_list.append(name)
-            else:
-                list_sort.append(value)
-                list_sort.sort()
+    for object in generate_filenames(ticket_folder, Ticker):
+        object_scope.append(object)
+    for value in object_scope:
+        key_value[value.run()[0]] = value.run()[1]
 
-        # TODO нужно написать функцию принтов в модуле с утилитами! тут ее только вызывать
-        for min in list_sort[0:3]:
-            print(min, tickers_dict[min], '- минимальная волатильность')
-        for max in list_sort[-3:]:
-            print(max, tickers_dict[max], '- максимальная волатильность')
-        print('нулевая волатильность: ', zero_list)
+    sorted_scope = list(key_value.items())
+    sorted_scope.sort(key=lambda part: part[1])
+    for part in sorted_scope:
+        if part[1] == 0:
+            zero_tickers.append(part[0])
+        else:
+            value_key[part[1]] = part[0]
+            sorted_place.append(part[1])
+            sorted_place.sort()
+    show_result(sorted_place, value_key, zero_tickers)
 
-# TODO к сожалению у меня такого пути нет
-folder = "/Users/andrey/PycharmProjects/python_base/lesson_012/trades/"
+
+folder = "trades/"
 if __name__ == '__main__':
     main(ticket_folder=folder)
-
-# TODO в файл утилиты я вам предлагал создать тут в корне с проектом, и вынести в него все сопутствующее из кода
-# TODO + декоратор должен быть тоже в нем
