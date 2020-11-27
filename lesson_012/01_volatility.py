@@ -72,12 +72,17 @@ from utilites import time_track, generate_filenames, show_result
 
 class Ticker:
 
+    # TODO класс должен принимать только путь до файла
     def __init__(self, ticket_folder, name_ticket):
         self.ticket_folder = ticket_folder
+        # TODO название можно получить в методе open
         self.name_ticket = name_ticket
+        # TODO где то в коде мы должны получать этот параметр
         self.volatility = 0
 
+    # TODO Метод run ничего возвращать не должен.
     def run(self):
+        # TODO для чего мы три раза вызываем метод open и два раза метод calculate?
         self.open()
         name = self.calculate(self.open())[1][7:11]
         volatility = self.calculate(self.open())[0]
@@ -85,9 +90,12 @@ class Ticker:
         return name, volatility
 
     def open(self):
+        # TODO нейминг переменной
         price_list = []
+        # TODO для открытия файла используем контекстный менеджер
         open_ticker = open(self.ticket_folder + self.name_ticket, mode='r')
         for element in open_ticker:
+            # TODO результат этой строки наверно нужно записать в переменную чтобы потом еще раз не сплитить
             element.split(',')
             if element.split(',')[2] != 'PRICE':
                 price_list.append(float(element.split(',')[2]))
@@ -103,13 +111,18 @@ class Ticker:
 
 @time_track
 def main(ticket_folder):
+    # TODO дублирование переменной
     ticket_folder = ticket_folder
     zero_tickers = []
     object_scope = []
     key_value = {}
     value_key = {}
     sorted_place = []
+    # TODO как воспользоваться генератором который возвращает каждый раз путь до файла:
+    # TODO цикл путь_до_файла итерируемся по generate_filenames(ticket_folder)
+    # TODO в цикле мы наполним список(можно назвать так tickers) экземплярами класса Ticker(путь_до_файла)
 
+    # TODO object зарезервированое слово системой использовать не рекомендуется
     for object in generate_filenames(ticket_folder, Ticker):
         object_scope.append(object)
     for value in object_scope:
@@ -130,3 +143,6 @@ def main(ticket_folder):
 folder = "trades/"
 if __name__ == '__main__':
     main(ticket_folder=folder)
+
+# TODO код отработал очень долго - Функция работала 25.4708 секунд(ы)
+# TODO Нужно оптимизировать
