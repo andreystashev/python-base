@@ -65,7 +65,7 @@
 #
 # Для плавного перехода к мультипоточности, код оформить в обьектном стиле, используя следующий каркас
 #
-import os
+
 
 from utilites import time_track, show_result, generate_filenames
 
@@ -88,14 +88,12 @@ class Ticker:
                 self.name_ticket = scattered_element[0]
                 if scattered_element[2] != 'PRICE':
                     price_scope.append(float(scattered_element[2]))
-            # TODO зачем мы возвращаем self.name_ticket если мы его просто получили в 88 строке?
-            return price_scope, self.name_ticket
+            return price_scope
 
     def calculate(self, unsorted):
-        sorted_elements = unsorted[0]
-        sorted_elements.sort()
-        half_sum = (sorted_elements[0] + sorted_elements[-1]) / 2
-        self.volatility = ((sorted_elements[-1] - sorted_elements[0]) / half_sum) * 100
+        unsorted.sort()
+        half_sum = (unsorted[0] + unsorted[-1]) / 2
+        self.volatility = ((unsorted[-1] - unsorted[0]) / half_sum) * 100
 
 
 @time_track
