@@ -88,6 +88,7 @@ class Ticker:
                 self.name_ticket = scattered_element[0]
                 if scattered_element[2] != 'PRICE':
                     price_scope.append(float(scattered_element[2]))
+            # TODO зачем мы возвращаем self.name_ticket если мы его просто получили в 88 строке?
             return price_scope, self.name_ticket
 
     def calculate(self, unsorted):
@@ -109,6 +110,7 @@ def main(folder):
 
     for ticker in tickers:
         ticker.run()
+
     for ran_ticker in tickers:
         if ran_ticker.volatility == 0:
             zero_tickers.append(ran_ticker.name_ticket)
