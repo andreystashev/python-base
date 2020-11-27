@@ -2,6 +2,8 @@ import unittest
 
 from bowling import get_score
 
+# TODO нужно создать модуль назвать tests и переместить туда этот модуль предварительно его переименовав, начинаться
+# TODO должно с названия test_название_что_тестируем.py
 
 class MySortTest(unittest.TestCase):
     def test_strikes(self):
@@ -59,7 +61,6 @@ class MySortTest(unittest.TestCase):
     def test_frames2(self):
         with self.assertRaises(Exception):
             get_score(game_result='2/4/6/8/1/3/5/7/9/1')
-
 
     def test_nothing(self):
         with self.assertRaises(Exception):
