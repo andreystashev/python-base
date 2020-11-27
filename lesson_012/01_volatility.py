@@ -67,82 +67,59 @@
 #
 import os
 
-from utilites import time_track, generate_filenames, show_result
+from utilites import time_track, show_result, generate_filenames
 
 
 class Ticker:
 
-    # TODO класс должен принимать только путь до файла
-    def __init__(self, ticket_folder, name_ticket):
+    def __init__(self, ticket_folder):
         self.ticket_folder = ticket_folder
-        # TODO название можно получить в методе open
-        self.name_ticket = name_ticket
-        # TODO где то в коде мы должны получать этот параметр
+        self.name_ticket = ''
         self.volatility = 0
 
-    # TODO Метод run ничего возвращать не должен.
     def run(self):
-        # TODO для чего мы три раза вызываем метод open и два раза метод calculate?
-        self.open()
-        name = self.calculate(self.open())[1][7:11]
-        volatility = self.calculate(self.open())[0]
-
-        return name, volatility
+        self.calculate(self.open())
 
     def open(self):
-        # TODO нейминг переменной
-        price_list = []
-        # TODO для открытия файла используем контекстный менеджер
-        open_ticker = open(self.ticket_folder + self.name_ticket, mode='r')
-        for element in open_ticker:
-            # TODO результат этой строки наверно нужно записать в переменную чтобы потом еще раз не сплитить
-            element.split(',')
-            if element.split(',')[2] != 'PRICE':
-                price_list.append(float(element.split(',')[2]))
-        return price_list, self.name_ticket
+        price_scope = []
+        with open(self.ticket_folder, mode='r') as open_ticker:
+            for element in open_ticker:
+                scattered_element = element.split(',')
+                self.name_ticket = scattered_element[0]
+                if scattered_element[2] != 'PRICE':
+                    price_scope.append(float(scattered_element[2]))
+            return price_scope, self.name_ticket
 
     def calculate(self, unsorted):
         sorted_elements = unsorted[0]
         sorted_elements.sort()
         half_sum = (sorted_elements[0] + sorted_elements[-1]) / 2
-        volatility = ((sorted_elements[-1] - sorted_elements[0]) / half_sum) * 100
-        return volatility, unsorted[1]
+        self.volatility = ((sorted_elements[-1] - sorted_elements[0]) / half_sum) * 100
 
 
 @time_track
-def main(ticket_folder):
-    # TODO дублирование переменной
-    ticket_folder = ticket_folder
+def main(folder):
     zero_tickers = []
-    object_scope = []
-    key_value = {}
     value_key = {}
     sorted_place = []
-    # TODO как воспользоваться генератором который возвращает каждый раз путь до файла:
-    # TODO цикл путь_до_файла итерируемся по generate_filenames(ticket_folder)
-    # TODO в цикле мы наполним список(можно назвать так tickers) экземплярами класса Ticker(путь_до_файла)
+    tickers = []
 
-    # TODO object зарезервированое слово системой использовать не рекомендуется
-    for object in generate_filenames(ticket_folder, Ticker):
-        object_scope.append(object)
-    for value in object_scope:
-        key_value[value.run()[0]] = value.run()[1]
+    for last_folder in generate_filenames(folder):
+        tickers.append(Ticker(last_folder))
 
-    sorted_scope = list(key_value.items())
-    sorted_scope.sort(key=lambda part: part[1])
-    for part in sorted_scope:
-        if part[1] == 0:
-            zero_tickers.append(part[0])
+    for ticker in tickers:
+        ticker.run()
+    for ran_ticker in tickers:
+        if ran_ticker.volatility == 0:
+            zero_tickers.append(ran_ticker.name_ticket)
         else:
-            value_key[part[1]] = part[0]
-            sorted_place.append(part[1])
+            value_key[ran_ticker.volatility] = ran_ticker.name_ticket
+            sorted_place.append(ran_ticker.volatility)
             sorted_place.sort()
+
     show_result(sorted_place, value_key, zero_tickers)
 
 
-folder = "trades/"
+path = "trades/"
 if __name__ == '__main__':
-    main(ticket_folder=folder)
-
-# TODO код отработал очень долго - Функция работала 25.4708 секунд(ы)
-# TODO Нужно оптимизировать
+    main(folder=path)
