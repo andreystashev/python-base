@@ -48,11 +48,11 @@ class Ticker(threading.Thread):
         unsorted.sort()
         half_sum = (unsorted[0] + unsorted[-1]) / 2
         self.volatility = ((unsorted[-1] - unsorted[0]) / half_sum) * 100
-        # todo делал по примеру из практики, но тут не пойму куда нужно вставлять thread и куда передавать
 
-    thread = threading.Thread(target=run)
-    thread.start()
-    thread.join()
+    # TODO это не нужно сюда вставлять, у вас все инициализируется когда вы наследуетесь
+    # thread = threading.Thread(target=run)
+    # thread.start()
+    # thread.join()
 
 
 @time_track
@@ -61,6 +61,7 @@ def main(folder):
     value_key = {}
     sorted_place = []
     tickers = []
+    # TODO это тоже лишнее
     # thread = threading.Thread(target=Ticker.run)
     # thread.start()
     # thread.join()
@@ -72,8 +73,7 @@ def main(folder):
         ticker.start()
     for ticker in tickers:
         ticker.join()
-        # todo если этот цикл убрать и не выводить join, то обработка идет менее секунды, но
-        #                             волатильность неверно считается
+        # TODO тут мы ждем пока все потоки отработают а не выводим!
 
     for ran_ticker in tickers:
         if ran_ticker.volatility == 0:
@@ -87,6 +87,7 @@ def main(folder):
 
 
 # Core 4 по 1.4Hz - Функция работала 2.5575 секунд(ы)
+# Core 4 по 2.4Hz - Функция работала 4.7184 секунд(ы)
 path = "trades/"
 if __name__ == '__main__':
     main(folder=path)
