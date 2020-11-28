@@ -120,6 +120,9 @@ def main(folder):
     show_result(sorted_place, value_key, zero_tickers)
 
 
+# core 4 по 2.4Hz - Функция работала 3.4103 секунд(ы)
 path = "trades/"
 if __name__ == '__main__':
     main(folder=path)
+
+# зачет!
