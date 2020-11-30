@@ -33,9 +33,10 @@ class Ticker(multiprocessing.Process):
         self.collector = collector
 
     def run(self):
+        # TODO этот метод у нас почти без изменений
         self.calculate(self.open())
         collector = multiprocessing.Queue()
-        # self.collector.put(open())# todo не пойму где нужно применить метод пут
+        # self.collector.put(open())#
 
     def open(self):
         price_scope = []
@@ -51,6 +52,8 @@ class Ticker(multiprocessing.Process):
         unsorted.sort()
         half_sum = (unsorted[0] + unsorted[-1]) / 2
         self.volatility = ((unsorted[-1] - unsorted[0]) / half_sum) * 100
+        # TODO после того как получили валатильность вам нужно в трубу закинуть эти данные, чтобы из вне их отлавливать
+        # TODO это можно делать тут. Метод пут нудно применять тут используя self.collector
 
 
 @time_track
@@ -62,10 +65,17 @@ def main(folder):
     tickers = []
 
     for last_folder in generate_filenames(folder):
+        # TODO тут на вход нужно передавать collector еще
         tickers.append(Ticker(last_folder))
-    while not collector.empty(): # todo такая конструкция из обучения не сработает для отлова пустоты?
+
+    # TODO тут лучше использовать бесконечный цикл, в нем конструкцию для отлавливания ошибки Empty
+    # TODO в самом цикле нужно получать из очереди методом get значения которые там есть
+    # TODO и обработку делать тоже в этом цикле, то что у вас написано с 86 строки до 91
+    while not collector.empty():
+        # TODO запуск нужно делать вне цикла, до него
         for ticker in tickers:
             ticker.start()
+        # TODO эту часть нужно делать после цикла то же вне
         for ticker in tickers:
             ticker.join()
 
