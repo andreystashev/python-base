@@ -13,7 +13,8 @@ def get_score(game_result):
             analysed_res[key] = value
     for number, analysed_value in analysed_res.items():
         frames += 1
-        result_count(analysed_value)
+        # todo Правильно ли я понимаю, что метод состояния подразумевает реализацию выбора нижних функций а не замену в коде как сейчас?
+        forked_count(analysed_value)
         if '0' in analysed_value:
             raise ValueError('Введено неправильное значение')
         elif '/' in analysed_value[0]:
@@ -39,3 +40,23 @@ def result_count(analysed_value):
     else:
         total += int(analysed_value[0]) + int(analysed_value[1])
     return analysed_value
+
+
+def forked_count(analysed_value):
+    global total
+    if 'X' in analysed_value:
+        total += 20
+    elif '/' in analysed_value:
+        total += 15
+    elif '-' in analysed_value[0]:
+        if '-' in analysed_value[1]:
+            total += 0
+        elif '/' in analysed_value[1]:
+            pass
+        else:
+            total += int(analysed_value[1])
+    elif '-' in analysed_value[1]:
+        total += int(analysed_value[0])
+    else:
+        if analysed_value[0].isdigit and analysed_value[1].isdigit:
+            total += int(analysed_value[0]) + int(analysed_value[1])
