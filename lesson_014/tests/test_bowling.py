@@ -16,10 +16,12 @@ class MySortTest(unittest.TestCase):
         result = get_score(game_result='11111111111111111111')
         self.assertEqual(result, 20)
 
+    # TODO результат не тот который ожидаем
     def test_all_symbols(self):
         result = get_score(game_result='X4/341412X513/1-X')
         self.assertEqual(result, 111)
 
+    # TODO результат не тот который ожидаем
     def test_all_symbols1(self):
         result = get_score(game_result='X4/-41-12X5-3/1--9')
         self.assertEqual(result, 73)

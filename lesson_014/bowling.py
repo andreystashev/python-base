@@ -2,6 +2,11 @@ analysed_res = {}
 total = 0
 
 
+# TODO у вас функция get_score останется и будет работать для первичного анализа данных который ей пришли и если все хорошо
+# TODO в конце нужно будет сделать вызовы экземпляров класса состояния, который произведут подсчет!
+# TODO воспользуйтесь примером https://refactoring.guru/ru/design-patterns/state
+# TODO состояния нужно реализовать в отдельном модуле.
+# TODO А в конце этой функции вызвать.
 def get_score(game_result):
     global analysed_res, total
     analysed_res = {}
@@ -13,7 +18,6 @@ def get_score(game_result):
             analysed_res[key] = value
     for number, analysed_value in analysed_res.items():
         frames += 1
-        # todo Правильно ли я понимаю, что метод состояния подразумевает реализацию выбора нижних функций а не замену в коде как сейчас?
         forked_count(analysed_value)
         if '0' in analysed_value:
             raise ValueError('Введено неправильное значение')
