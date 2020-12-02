@@ -55,6 +55,8 @@ class Ticker(multiprocessing.Process):
         half_sum = (unsorted[0] + unsorted[-1]) / 2
         self.volatility = ((unsorted[-1] - unsorted[0]) / half_sum) * 100
         self.for_get[self.name_ticket] = self.volatility
+        # TODO сюда лучше положить словарь с ключами dict(name_ticket= self.name_ticket, volatility= self.volatility)
+        # TODO это чтобы потом не делать лишний фор при вытаскивания значений
         return self.collector.put(self.for_get)
 
 
@@ -74,8 +76,10 @@ def main(folder):
     while True:
         try:
             collect = collector.get(True, 1)
+            # TODO тут можно обойтись без цикла
             for key in collect:
                 value = collect[key]
+                # TODO тут сразу сравнивать if collect['volatility']  == 0
                 if value == 0:
                     zero_tickers.append(key)
                 else:
@@ -83,9 +87,11 @@ def main(folder):
                     sorted_place.append(value)
                     sorted_place.sort()
         except Empty:
+            # TODO эту часть можно записать в виде списковой сборки и применив функцию not any()
             for ticker in tickers:
                 if not ticker.is_alive():
                     break
+            # TODO этот break сработает в любом случае, а нам нужно только верхним брейком как то выйти из while
             break
 
     for ticker in tickers:
@@ -94,7 +100,7 @@ def main(folder):
 
 
 # Core 4 по 1.4Hz - Функция работала 1.9725 секунд(ы)
-# Core 4 по 2.4Hz - Функция работала   секунд(ы)
+# Core 4 по 2.4Hz - Функция работала 3.2383 секунд(ы)
 path = "trades/"
 if __name__ == '__main__':
     main(folder=path)
