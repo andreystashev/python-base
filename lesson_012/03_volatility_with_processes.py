@@ -17,9 +17,8 @@
 #       ТИКЕР7, ТИКЕР8, ТИКЕР9, ТИКЕР10, ТИКЕР11, ТИКЕР12
 # Волатильности указывать в порядке убывания. Тикеры с нулевой волатильностью упорядочить по имени.
 #
-from utilites import time_track, show_result, generate_filenames
 
-#
+
 from utilites import time_track, show_result, generate_filenames
 
 import multiprocessing
@@ -54,9 +53,7 @@ class Ticker(multiprocessing.Process):
         unsorted.sort()
         half_sum = (unsorted[0] + unsorted[-1]) / 2
         self.volatility = ((unsorted[-1] - unsorted[0]) / half_sum) * 100
-        self.for_get[self.name_ticket] = self.volatility
-        # TODO сюда лучше положить словарь с ключами dict(name_ticket= self.name_ticket, volatility= self.volatility)
-        # TODO это чтобы потом не делать лишний фор при вытаскивания значений
+        self.for_get = {'name_ticket': self.name_ticket, 'volatility': self.volatility}
         return self.collector.put(self.for_get)
 
 
@@ -76,31 +73,24 @@ def main(folder):
     while True:
         try:
             collect = collector.get(True, 1)
-            # TODO тут можно обойтись без цикла
-            for key in collect:
-                value = collect[key]
-                # TODO тут сразу сравнивать if collect['volatility']  == 0
-                if value == 0:
-                    zero_tickers.append(key)
-                else:
-                    value_key[value] = key
-                    sorted_place.append(value)
-                    sorted_place.sort()
+            if collect['volatility'] == 0:
+                zero_tickers.append(collect['name_ticket'])
+            else:
+                value_key[collect['volatility']] = collect['name_ticket']
+                sorted_place.append(collect['volatility'])
+                sorted_place.sort()
         except Empty:
-            # TODO эту часть можно записать в виде списковой сборки и применив функцию not any()
-            for ticker in tickers:
-                if not ticker.is_alive():
-                    break
-            # TODO этот break сработает в любом случае, а нам нужно только верхним брейком как то выйти из while
-            break
+            if not any(ticker.is_alive() for ticker in tickers):
+                break
 
     for ticker in tickers:
         ticker.join()
     show_result(sorted_place, value_key, zero_tickers)
 
 
-# Core 4 по 1.4Hz - Функция работала 1.9725 секунд(ы)
+# Core 4 по 1.4Hz - Функция работала 2.0923 секунд(ы)
 # Core 4 по 2.4Hz - Функция работала 3.2383 секунд(ы)
 path = "trades/"
 if __name__ == '__main__':
     main(folder=path)
+
