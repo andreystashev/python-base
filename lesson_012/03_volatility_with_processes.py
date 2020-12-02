@@ -53,6 +53,8 @@ class Ticker(multiprocessing.Process):
         unsorted.sort()
         half_sum = (unsorted[0] + unsorted[-1]) / 2
         self.volatility = ((unsorted[-1] - unsorted[0]) / half_sum) * 100
+        # TODO тут лучше передовать в put словарь из двух значение это валатильность и имя билета
+        # TODO чтобы потом при get вытаскивать нужные значение и обрабатывать
         self.collector.put(self.volatility)
 
 
@@ -70,7 +72,8 @@ def main(folder):
         ticker.start()
     while True:
         try:
-            # todo не пойму как здесь правильно получить волатильность
+            # TODO collector.get() это метод который возвращает то что вы в него передали
+            # TODO внутри функции там ретурн.
             collector.get(ticker.volatility)
             if ticker.volatility == 0:
                 zero_tickers.append(ticker.name_ticket)
@@ -80,6 +83,7 @@ def main(folder):
                 sorted_place.sort()
                 print(sorted_place)
         except Empty:
+            # TODO тут нужно делать проверку на not is_alive() для каждого тикета из тикерс
             print('Empty')
             break
     for ticker in tickers:
