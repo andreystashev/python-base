@@ -35,6 +35,7 @@ class Ticker(multiprocessing.Process):
         self.name_ticket = ''
         self.volatility = 0
         self.collector = collector
+        self.for_get = {}
 
     def run(self):
         self.calculate(self.open())
@@ -53,9 +54,8 @@ class Ticker(multiprocessing.Process):
         unsorted.sort()
         half_sum = (unsorted[0] + unsorted[-1]) / 2
         self.volatility = ((unsorted[-1] - unsorted[0]) / half_sum) * 100
-        # TODO тут лучше передовать в put словарь из двух значение это валатильность и имя билета
-        # TODO чтобы потом при get вытаскивать нужные значение и обрабатывать
-        self.collector.put(self.volatility)
+        self.for_get[self.name_ticket] = self.volatility
+        return self.collector.put(self.for_get)
 
 
 @time_track
@@ -70,29 +70,30 @@ def main(folder):
         tickers.append(Ticker(last_folder, collector=collector))
     for ticker in tickers:
         ticker.start()
+
     while True:
         try:
-            # TODO collector.get() это метод который возвращает то что вы в него передали
-            # TODO внутри функции там ретурн.
-            collector.get(ticker.volatility)
-            if ticker.volatility == 0:
-                zero_tickers.append(ticker.name_ticket)
-            else:
-                value_key[ticker.volatility] = ticker.name_ticket
-                sorted_place.append(ticker.volatility)
-                sorted_place.sort()
-                print(sorted_place)
+            collect = collector.get(True, 1)
+            for key in collect:
+                value = collect[key]
+                if value == 0:
+                    zero_tickers.append(key)
+                else:
+                    value_key[value] = key
+                    sorted_place.append(value)
+                    sorted_place.sort()
         except Empty:
-            # TODO тут нужно делать проверку на not is_alive() для каждого тикета из тикерс
-            print('Empty')
+            for ticker in tickers:
+                if not ticker.is_alive():
+                    break
             break
+
     for ticker in tickers:
         ticker.join()
-
     show_result(sorted_place, value_key, zero_tickers)
 
 
-# Core 4 по 1.4Hz - Функция работала   секунд(ы)
+# Core 4 по 1.4Hz - Функция работала 1.9725 секунд(ы)
 # Core 4 по 2.4Hz - Функция работала   секунд(ы)
 path = "trades/"
 if __name__ == '__main__':
