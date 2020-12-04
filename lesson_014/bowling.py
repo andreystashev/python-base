@@ -10,8 +10,13 @@ def get_score(game_result):
             analysed_res[key] = value
     for number, analysed_value in analysed_res.items():
         frames += 1
+        if not analysed_value[0].isdigit() and analysed_value[0] == '-' and analysed_value[0] == 'X':
+            print(analysed_value[0])
+            if not analysed_value[1].isdigit() and analysed_value[1] and '/' or analysed_value[1] == '-':
+                raise ValueError('Введено неправильное значение')
         if '0' in analysed_value:
             raise ValueError('Введено неправильное значение')
+
         elif '/' in analysed_value[0]:
             raise ValueError('Spare на первом броске')
         elif 'X' in analysed_value[1]:
@@ -28,5 +33,4 @@ def get_score(game_result):
     return game.score
 
 
-# result = "XXXXXXXX-1--"
-# print(get_score(result))
+
