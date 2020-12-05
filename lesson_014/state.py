@@ -7,6 +7,7 @@ class State(metaclass=ABCMeta):
         pass
 
 
+# TODO нейминг класса поправить, и ниже тоже
 class First_move(State):
     def __init__(self, game):
         self.game = game

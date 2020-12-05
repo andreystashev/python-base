@@ -26,6 +26,7 @@ def get_score(game_result):
             raise ValueError('Введено неправильное значение, сумма одного фрейма больше 9 очков')
     if frames != 10:
         raise Exception('Не правильное количество фреймов!')
+    # TODO расскажите где у вас хранится состояние и как реализовано переключение между ними?
     for score in [game_result]:
         game = Bowling()
     for throw_result in score:
