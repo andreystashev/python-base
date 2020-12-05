@@ -1,6 +1,6 @@
 import unittest
 
-# TODO папку с модулем lesson_014 сделайте -> правой кнопкой мыши, mark directory as - Sources root
+# TODO папка уже изначально была сделана Sources root
 from bowling import get_score
 
 
@@ -49,7 +49,6 @@ class MySortTest(unittest.TestCase):
         result = get_score(game_result='2/4/6/8/1/3/5/7/9/1/')
         self.assertEqual(result, 150)
 
-    # TODO этот тест падает с ошибкой
     def test_letters(self):
         with self.assertRaises(ValueError):
             get_score(game_result='qwerasdfzxcvtyghbnui')

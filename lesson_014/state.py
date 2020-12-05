@@ -7,8 +7,25 @@ class State(metaclass=ABCMeta):
         pass
 
 
-# TODO нейминг класса поправить, и ниже тоже
-class First_move(State):
+class BothMove(State):
+    def __init__(self, analysed_value):
+        self.analysed_value = analysed_value
+
+    def num(self):
+        analysed_value = self.analysed_value
+        global total
+        if 'X' in analysed_value:
+            total += 20
+        elif '/' in analysed_value:
+            total += 15
+        elif '-' in analysed_value:
+            total += 0
+        else:
+            total += int(analysed_value[0]) + int(analysed_value[1])
+        return analysed_value
+
+
+class FirstMove(State):
     def __init__(self, game):
         self.game = game
 
@@ -23,7 +40,7 @@ class First_move(State):
                 self.game.state = self.game.second_move
 
 
-class Second_move(State):
+class SecondMove(State):
     def __init__(self, game):
         self.game = game
 
@@ -39,8 +56,8 @@ class Second_move(State):
 
 class Bowling:
     def __init__(self):
-        self.first_move = First_move(self)
-        self.second_move = Second_move(self)
+        self.first_move = FirstMove(self)
+        self.second_move = SecondMove(self)
 
         self.score = 0
         self.first_move_points = 0
@@ -50,4 +67,5 @@ class Bowling:
     def throw(self, throw_result):
         self.state.throw(throw_result)
 
-
+    def change_state(self, state: State) -> None:
+        self.state = state
