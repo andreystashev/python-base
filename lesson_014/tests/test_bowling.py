@@ -1,6 +1,5 @@
 import unittest
 
-# TODO папка уже изначально была сделана Sources root
 from bowling import get_score
 
 

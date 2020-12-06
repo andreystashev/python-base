@@ -1,7 +1,16 @@
 from abc import ABCMeta, abstractmethod
 
+# TODO из примера https://refactoring.guru/ru/design-patterns/state
+# TODO и снова обращусь к нему у вас сильно урезана реализации, как такового переключения нет, вы просто
+# TODO вызываете переопределенные функции а должны быть разные состояния.
+
+
+# TODO нужно реализовать класс констекст где будет механизм переключения
+# TODO + в нем будем хранить результат игры и само состояние
 
 class State(metaclass=ABCMeta):
+    # TODO тут нужно добавить еще свойство и сеттер
+
     @abstractmethod
     def throw(self, throw_result):
         pass
