@@ -91,12 +91,35 @@
 #  ...
 #
 # и так далее...
-
+import json
 
 remaining_time = '123456.0987654321'
 # если изначально не писать число в виде строки - теряется точность!
 field_names = ['current_location', 'current_experience', 'current_date']
 
-# TODO тут ваш код
+
+class Game:
+
+    def __init__(self, link):
+        self.link = link
+
+    def open(self):
+        with open(self.link, mode='r') as open_link:
+            data = json.load(open_link)
+            # print(data['Location_0_tm0'])
+            for name, content in data.items():
+                # print(content is data[name])
+                # print(content[0])
+                for choice in content:
+                    print(choice)
+                    # todo на этом моменте не пойму как дальше обрабатывать результат. Тут по сути выбор из 2х локаций
+                    #  и врага. Полагаю, нужно взять названия словарей и врага в отдельный словарь с ключами 1 2 3 и
+#                        спросить игрока, а потом передать ответ как ключ к словарю. Не пойму как взять названия следующих
+#                       локаций, чтобы их еще различать с врагом, и применить для открытия словарей, и эту конструкцию
+#                       зациклить для следующий проходов до конца
+
+
+go = Game(link = 'rpg.json')
+go.open()
 
 # Учитывая время и опыт, не забывайте о точности вычислений!

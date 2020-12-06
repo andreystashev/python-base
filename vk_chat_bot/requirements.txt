@@ -1,5 +1,6 @@
 appnope==0.1.0
 asgiref==3.2.10
+astrobox==1.4.0
 attrs==19.3.0
 backcall==0.1.0
 bleach==3.1.1
@@ -34,7 +35,7 @@ pickleshare==0.7.5
 prometheus-client==0.7.1
 prompt-toolkit==3.0.3
 ptyprocess==0.6.0
-pygame==1.9.6
+pygame==1.9.5
 Pygments==2.5.2
 pyrsistent==0.15.7
 python-dateutil==2.8.1
@@ -42,6 +43,7 @@ pytz==2020.1
 pyzmq==18.1.1
 qtconsole==4.6.0
 requests==2.25.0
+robogame-engine==1.2.0
 Send2Trash==1.5.0
 simple-draw==2.6.6
 six==1.14.0
@@ -57,3 +59,4 @@ wcwidth==0.1.8
 webencodings==0.5.1
 widgetsnbextension==3.5.1
 zipp==3.0.0
+psql==9.6.1
