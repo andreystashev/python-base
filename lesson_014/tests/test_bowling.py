@@ -18,11 +18,11 @@ class MySortTest(unittest.TestCase):
 
     def test_all_symbols(self):
         result = get_score(game_result='X4/341412X513/1-X')
-        self.assertEqual(result, 111)
+        self.assertEqual(result, 112)
 
     def test_all_symbols1(self):
         result = get_score(game_result='X4/-41-12X5-3/1--9')
-        self.assertEqual(result, 86)
+        self.assertEqual(result, 93)
 
     def test_nines(self):
         with self.assertRaises(ValueError):

@@ -1,4 +1,4 @@
-from state import Bowling, BothMove
+from state import Bowling
 
 
 def get_score(game_result):
@@ -25,26 +25,11 @@ def get_score(game_result):
             raise ValueError('Введено неправильное значение, сумма одного фрейма больше 9 очков')
     if frames != 10:
         raise Exception('Не правильное количество фреймов!')
-
-    # TODO из примера https://refactoring.guru/ru/design-patterns/state
-    # TODO у вас должен быть констекст, где как раз и будет реализован механизм переключения и само состояние.from
-    # TODO До цикла нужно обявить класс констекст и передать в него первое состояние, и результат для анализа.
-
-    # TODO что тут может быть далее, как вариант это while цикл пока есть результат для подсчета,
-    # TODO в состояниях вы будите методом pop брать элементы для анализа,
-
-    # TODO в цикле у вас вызов сначала первой функции и второй для обработки данных игры, эти функции должны быть
-    # TODO должны быть определены в констексте
-    # TODO переключение состояний должно быть в самом модуле state
-
-    # TODO что за запись [game_result] ?
-    for score in [game_result]:
-        game = Bowling()
-    for throw_result in score:
-        game.throw(throw_result)
-    game.change_state(BothMove.num(analysed_value))
-    return game.score
+    bowling = Bowling()
+    for element in game_result:
+        bowling.switch(element)
+    return bowling.final_result
 
 
 # result = 'XXXXXXXXXX'
-# get_score(result)
+# print(get_score(result))
