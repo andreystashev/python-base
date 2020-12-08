@@ -2,6 +2,7 @@ from abc import ABCMeta
 
 
 class Bowling:
+    # TODO так классы в данном случае не создается они должны быть внешнии каждый
     class State(metaclass=ABCMeta):
 
         def arrange(self, element):
@@ -47,3 +48,8 @@ class Bowling:
         elif element != 'X':
             self.current_move = self.two_move
         self.prev_throw_value = value
+
+
+# TODO что именно из этого примера вам не понятно ?
+# TODO https://refactoring.guru/ru/design-patterns/state
+# TODO задавайте вопросы будем разбираться поэтапно.
