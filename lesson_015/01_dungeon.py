@@ -91,45 +91,178 @@
 #  ...
 #
 # и так далее...
-import json
 
 remaining_time = '123456.0987654321'
 # если изначально не писать число в виде строки - теряется точность!
 field_names = ['current_location', 'current_experience', 'current_date']
 
+import re
+import json
+from csv import writer
+from decimal import Decimal
+from datetime import datetime
+
+
+class Enemy:
+    enemy_initialization = r'(Mob|Boss)_exp(\d+)_tm(\d+)'
+
+    def initialize(self, enemy):
+        finding_enemy = re.findall(self.enemy_initialization, enemy)
+        health = int(finding_enemy[0][1])
+        kill_time = Decimal(finding_enemy[0][2])
+        return health, kill_time
+
+
+class Location:
+    location_initialization = r'(Location_\w+|Hatch)_tm([\d+|\d/.]+)'
+
+    def initialize(self, location):
+        finding_location = re.findall(self.location_initialization, location)
+        name_location = finding_location[0][0]
+        throw_time = Decimal(finding_location[0][1])
+        return name_location, throw_time
+
 
 class Game:
 
-    def __init__(self, link):
-        self.link = link
-        # TODO в этот модуле мы должны применить регулярки для вытаскивания имя локации(имя моба) и времени на его
-        #  прохождение
-        # TODO да вы правы можно использовать списки для хранение имя локаций и мобов, но не забывать их при каждой
-        # TODO новой локации чистить.
+    def __init__(self, remining_time, csv_names):
+        self.enemy_class = Enemy()
+        self.location_class = Location()
+        self.current_experience = 0
+        self.elapsed_time = 0
+        self.remaining_time = Decimal(remining_time)
+        with open('dungeon.csv', 'a', newline='', encoding='utf8') as csv_file:
+            csv_writer = writer(csv_file, )
+            csv_writer.writerow(csv_names)
 
-    # TODO давайте сразу будем разбивать на методы, в методе open мы должны получить, полный пусть, в переменную self
-    # TODO те данные с чего мы все начинаем
-    def open(self):
-        with open(self.link, mode='r') as open_link:
-            data = json.load(open_link)
-            # TODO это у нас уже следующий метод
-            # print(data['Location_0_tm0'])
-            # TODO тут лучше проходиться по ключам, но перед этим нужен еще один метод который определит начальную
-            # TODO глобальную локацию и от нее будем вести подсчет, после того как пользователь выбрал локацию в начале
-            #  игры это Location_0_tm0 мы запускаем метод, обработки этой локации, в цикле проходимся по ключам этой
-            #  локации вычисляем при помощи регулярок список номеров локаций и их время на прохождение,
-            # TODO Потом еще один цикл и проверяем если данная локация является строкой то значит это моб мы его
-            #  записываем в список словарей по определенным параметрам чтобы потом достать, если данная имя локации
-            # TODO является диктом то это записывается в список с локациями.
-            for name, content in data.items():
-                # print(content is data[name])
-                # print(content[0])
-                for choice in content:
-                    # print('*'*30)
-                    print(choice)
+    def turning(self, locations_branching, killed_enemies, enemies):
+        locations = []
+        for current_location, environment_in in locations_branching.items():
+            if environment_in == "You are winner":
+                return 'You are winner'
+            for item in environment_in:
+                if isinstance(item, dict):
+                    locations.append(item)
+                elif isinstance(item, str):
+                    if not killed_enemies:
+                        enemies.append(item)
+            return current_location, enemies, locations
+
+    def current_state(self, current_location, enemies, locations):
+        with open('dungeon.csv', 'a', newline='', encoding='utf8') as csv_file:
+            csv_writer = writer(csv_file, )
+            available_actions = []
+            if enemies:
+                available_actions.append("Уничтожить врага")
+            if locations:
+                available_actions.append("Сходить в другую локацию")
+            available_actions.append("Выиграть игру")
+
+            csv_writer.writerow([current_location, self.current_experience, datetime.now()])
+
+            print(f" Вы сейчас в {current_location} и у вас {self.current_experience} опыта. ")
+            print(f"До наводнения {self.remaining_time} секунд.")
+            print(f"{self.elapsed_time} времени уже прошло.")
+            showing_enemies = list(map(lambda enm: '- Враг: ' + enm, enemies))
+            showing_locations = list(map(lambda loc: '- Вход в локацию: ' + list(loc.keys())[0], locations))
+            print("Перед вами:")
+            print(*showing_enemies, sep='\n')
+            print(*showing_locations, sep='\n')
+            print(f"Пришло время выбора:")
+            available_actions = list(map(lambda act:
+                                         str(available_actions.index(act) + 1)
+                                         + '.'
+                                         + act,
+                                         available_actions))
+            print(*available_actions, sep='\n')
+            return available_actions
+
+    def choising(self, action_length):
+        available_choices = [str(i + 1) for i in range(action_length)]
+        while True:
+            option = input('Какое действие выберете? : ')
+            if option in available_choices:
+                break
+        return option
+
+    def killing(self, enemies):
+        print('Доступные для уничтожения враги:')
+        attacking_enemies = []
+        for i in range(len(enemies)):
+            attacking_enemies.append(str(i + 1) + '.' + enemies[i])
+        print(*attacking_enemies, sep='\n')
+        choose = self.choising(len(enemies))
+        exp, tm = self.enemy_class.initialize(enemies[int(choose) - 1])
+        self.current_experience += exp
+        self.elapsed_time += tm
+        self.remaining_time -= tm
+        return choose
+
+    def step_into_location(self, locations):
+        print('Доступные для входа локации:')
+        locations_for_action = \
+            list(map(lambda x:
+                     str(locations.index(x) + 1)
+                     + '.Пройти в локацию: '
+                     + list(x.keys())[0],
+                     locations))
+        print(*locations_for_action, sep='\n')
+        choose = self.choising(len(locations))
+
+        curr_location, tm = self.location_class.initialize(locations_for_action[int(choose) - 1])
+        self.remaining_time -= tm
+        self.elapsed_time += tm
+
+        return choose
+
+    def process(self):
+        enemies_scope = []
+        killed_enemies = False
+        with open('rpg.json', 'r', encoding='utf8') as rpg:
+            locations_branching = json.load(rpg)
+        while True:
+            turn = self.turning(locations_branching, killed_enemies, enemies_scope)
+            if turn == 'You are winner':
+                if self.current_experience >= 280:
+                    print(turn)
+                    return "win"
+                else:
+                    print('Вы слишком быстро добрались до выхода и чтобы доказать своё превосходство решаете '
+                          'вернуться к началу и еще раз всех уничтожить')
+                    return
+            else:
+                current_location, enemies, locations = turn
+                if not locations or self.remaining_time <= 0:
+                    print('Вы слишком быстро добрались до выхода и чтобы доказать своё превосходство решаете '
+                          'вернуться к началу и еще раз всех уничтожить')
+                    return
+                todo_choice = self.current_state(current_location, enemies, locations)
+
+                action = self.choising(len(todo_choice))
+                action = todo_choice[int(action) - 1][2:]
+                if action == 'Уничтожить врага':
+                    dead_enemy = int(self.killing(enemies_scope)) - 1
+                    enemies_scope.remove(enemies_scope[dead_enemy])
+                    killed_enemies = True
+                elif action == 'Сходить в другую локацию':
+                    location_choice = int(self.step_into_location(locations)) - 1
+                    next_location = locations[location_choice]
+                    locations_branching = next_location
+                    killed_enemies = False
+                    enemies_scope = []
+                elif action == 'Выиграть игру':
+                    print('Вы решили подождать наводнения и волной вас вынесло к выходу.')
+                    return 'exit'
+
+    def go(self):
+        while True:
+            win = self.process()
+            if win in ['win', 'exit']:
+                print('Прекрасная игра! Вы выходите победителем.')
+                break
 
 
-go = Game(link = 'rpg.json')
-go.open()
+game = Game(remining_time=remaining_time, csv_names=field_names)
+game.go()
 
 # Учитывая время и опыт, не забывайте о точности вычислений!
