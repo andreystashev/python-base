@@ -26,9 +26,10 @@ def get_score(game_result):
     if frames != 10:
         raise Exception('Не правильное количество фреймов!')
     bowling = Bowling()
-    for element in game_result:
-        bowling.switch(element)
-    return bowling.final_result
+    bowling.switch(game_result)
+    return bowling.total_score
+
+
 
 
 # result = 'XXXXXXXXXX'
