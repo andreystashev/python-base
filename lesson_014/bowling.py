@@ -24,7 +24,7 @@ def get_score(game_result):
                 analysed_value[1]) >= 10:
             raise ValueError('Введено неправильное значение, сумма одного фрейма больше 9 очков')
     if frames != 10:
-        raise Exception('Не правильное количество фреймов!')
+        raise ValueError('Не правильное количество фреймов!')
     bowling = Bowling()
     bowling.switch(game_result)
     return bowling.total_score
