@@ -46,3 +46,4 @@ print('Количество очков для результатов', result, '
 # И, возможно, вам пригодится паттерн проектирования "Состояние",
 #   см https://clck.ru/Fudd8 и https://refactoring.guru/ru/design-patterns/state
 
+# зачет!
