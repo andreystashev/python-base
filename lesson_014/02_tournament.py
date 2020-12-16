@@ -35,9 +35,9 @@ parser.add_argument('--output', type=str, help='файл результатов 
 args = parser.parse_args()
 tournament = Tournament(args.input, args.output)
 tournament.writing()
+tournament.create_table()
 
 
-# TODO предлагаю доделать таблицу
 # Усложненное задание (делать по желанию)
 #
 # После обработки протокола турнира вывести на консоль рейтинг игроков в виде таблицы:

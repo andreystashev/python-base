@@ -59,3 +59,16 @@ class Tournament:
             self.name_count_win[name] += 1
         else:
             self.name_count_win[name] = 1
+
+    def create_table(self):
+        format_chars = ['+', '-', 'Игрок', 'сыграно матчей', 'всего побед']
+        head_line = f'{format_chars[0]:-<11}{format_chars[0]:-<19}{format_chars[0]:-<15}{format_chars[0]}'
+        words_line = f'|{format_chars[2]:^10}|{format_chars[3]:^18}|{format_chars[4]:^14}|'
+        print(head_line)
+        print(words_line)
+        print(head_line)
+        for key, value in self.name_count_game.items():
+            win_size = self.name_count_win[key]
+            line = f'|{key:^10}|{value:^18}|{win_size:^14}|'
+            print(line)
+        print(head_line)
