@@ -1,7 +1,7 @@
-from state import Bowling
+from state import Bowling,MarketBowling
 
 
-def get_score(game_result):
+def get_score(game_result,state):
     analysed_res = {}
     frames = 0
     for _ in game_result:
@@ -25,9 +25,15 @@ def get_score(game_result):
             raise ValueError('Введено неправильное значение, сумма одного фрейма больше 9 очков')
     if frames != 10:
         raise ValueError('Не правильное количество фреймов!')
-    bowling = Bowling()
-    bowling.switch(game_result)
-    return bowling.total_score
+    if state == 'market':
+        bowling = MarketBowling()
+        bowling.switch(game_result)
+        return bowling.total_score
+
+    elif state == 'self':
+        bowling = Bowling()
+        bowling.switch(game_result)
+        return bowling.total_score
 
 
 

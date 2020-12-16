@@ -2,12 +2,13 @@ from bowling import get_score
 
 
 class Tournament:
-    def __init__(self, initial_file, result_file):
+    def __init__(self, initial_file, result_file, state):
         self.initial_file = initial_file
         self.result_file = result_file
         self.winner = []
         self.name_count_game = {}
         self.name_count_win = {}
+        self.state = state
 
     def writing(self):
         result_file = open(self.result_file, mode='a+', encoding='utf-8')
@@ -19,7 +20,7 @@ class Tournament:
                         line = line.split('\t')
                         name = line[0]
                         scope = line[1]
-                        digit_scope = get_score(scope)
+                        digit_scope = get_score(scope,state=self.state)
                         new_line = f'{name}\t{scope}\t{digit_scope}'
                         result_file.write(f'{new_line}\n')
                         self.winner_info(name, digit_scope)

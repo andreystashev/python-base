@@ -31,9 +31,10 @@ from tournament import Tournament
 parser = argparse.ArgumentParser()
 parser.add_argument('--input', type=str, help='файл протокола турнира', required=True)
 parser.add_argument('--output', type=str, help='файл результатов турнира', required=True)
+parser.add_argument("--s", "--state", help='market для внешнего рынка/self для внутреннего')
 
 args = parser.parse_args()
-tournament = Tournament(args.input, args.output)
+tournament = Tournament(args.input, args.output, args.s)
 tournament.writing()
 tournament.create_table()
 

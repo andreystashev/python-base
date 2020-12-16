@@ -75,6 +75,89 @@ class SecondMove(State):
         return 15
 
 
+class MarketMove1(FirstMove):
+    def strike(self):
+        return 10
+
+    def spare(self):
+        raise ValueError('В первом броске не может быть спэра')
+
+
+class MarketMove2(SecondMove):
+    def strike(self):
+        raise ValueError('Во втором броске не может быть страйка')
+
+    def spare(self):
+        return 10
+
+
+class MarketBowling(Bowling):
+
+    def __init__(self):
+        super().__init__()
+        self.frame_count = 0
+
+    def split(self, game_result):
+        if self.move_counter + 1 == len(game_result) and game_result[self.move_counter] == 'X':
+            frame = game_result[self.move_counter]
+        elif self.move_counter + 2 == len(game_result) and (
+                game_result[self.move_counter + 1] == '/' or game_result[self.move_counter + 1] == 'X'):
+            frame = game_result[self.move_counter] + game_result[self.move_counter + 1]
+        else:
+            frame = game_result[self.move_counter] + game_result[self.move_counter + 1] + game_result[
+                self.move_counter + 2] \
+                if game_result[self.move_counter] == 'X' or game_result[self.move_counter + 1] == '/' \
+                else game_result[self.move_counter] + game_result[self.move_counter + 1]
+        self.frame_count += 1
+        if self.frame_count > 10:
+            raise ValueError('Нельзя играть больше 10 фреймов')
+        yield frame
+        if self.move_counter != len(game_result):
+            if len(frame) == 2 and frame != 'XX' or game_result[self.move_counter] == '/':
+                self.move_counter += 1
+        else:
+            self.move_counter += 0
+
+    def switch(self, game_result):
+        while self.move_counter < len(game_result):
+            frame_generation = self.split(game_result)
+            for frame in frame_generation:
+                if len(frame) == 3:
+                    if frame[0] == 'X' and frame[2] == '/':
+                        self.change_state(MarketMove1())
+                        self.char_state(frame[0])
+                        self.change_state(MarketMove2())
+                        self.char_state(frame[2])
+                    elif frame[1] == '/' and frame[0].isdigit() and frame[0] != '0':
+                        self.change_state(MarketMove2())
+                        self.char_state(frame[1])
+                        self.change_state(MarketMove1())
+                        self.char_state(frame[2])
+                    else:
+                        self.change_state(MarketMove1())
+                        self.char_state(frame[0])
+                        self.char_state(frame[1])
+                        self.char_state(frame[2])
+                elif len(frame) == 1:
+                    self.change_state(MarketMove1())
+                    self.char_state(frame[0])
+                elif frame[1] == '/' and frame[0].isdigit() and frame[0] != '0':
+                    self.change_state(MarketMove2())
+                    self.char_state(frame[1])
+                elif frame[0] == 'X' and frame[1] == 'X':
+                    self.change_state(MarketMove1())
+                    self.char_state(frame[0])
+                    self.char_state(frame[1])
+                else:
+                    if frame[0].isdigit() and frame[1].isdigit():
+                        if int(frame[0]) + int(frame[1]) >= 10:
+                            pass
+
+                    self.change_state(FirstMove())
+                    self.char_state(frame[0])
+                    self.change_state(SecondMove())
+                    self.char_state(frame[1])
+                self.move_counter += 1
 # result = '1212121212XX121112'
 # bow = Bowling()
 # bow.switch(game_result=result)

@@ -24,3 +24,15 @@
 # Необходимые изменения сделать во всех модулях. Тесты - дополнить.
 
 # "И да, старые правила должны остаться! для внутреннего рынка..." - уточнил менеджер напоследок.
+import argparse
+from bowling import get_score
+
+parser = argparse.ArgumentParser(description='подсчет колличества очков по строке с результатом')
+parser.add_argument("--a", "--argument", help='строка с результатом игры')
+parser.add_argument("--s", "--state", help='market для внешнего рынка/self для внутреннего')
+args = parser.parse_args()
+
+result = args.a
+state = args.s
+print('Количество очков для результатов', result, '-', get_score(game_result=result, state=state))
+
