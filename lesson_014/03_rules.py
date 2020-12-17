@@ -36,3 +36,4 @@ result = args.a
 state = args.s
 print('Количество очков для результатов', result, '-', get_score(game_result=result, state=state))
 
+# зачет!

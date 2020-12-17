@@ -66,7 +66,6 @@ class MySortTest(unittest.TestCase):
             get_score(game_result='0',state='self')
 
 
-
     def test_strikes_market(self):
         result = get_score(game_result='XXXXXXXXXX',state='market')
         self.assertEqual(result, 270)
