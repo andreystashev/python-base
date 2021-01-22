@@ -114,7 +114,7 @@ class Enemy:
     def kill_self(self):
         self.health = 0
 
-
+# TODO что за object мы тут наследуемся ?
 class Hero(object):
 
     def __init__(self, remaining_time):
@@ -152,10 +152,12 @@ class Location:
     def go_to_location(self, index):
         self.branching = self.locations[index]
 
+    # TODO нейминг
     def read_JSON(self):
         with open('rpg.json', 'r', encoding='utf8') as rpg:
             self.branching = json.load(rpg)
 
+    # TODO может быть статичной применить декоратор
     def save_csv(self, csv_names):
         with open('dungeon.csv', 'a', newline='', encoding='utf8') as csv_file:
             csv_writer = writer(csv_file, )
@@ -169,6 +171,7 @@ class Game:
         self.location_class = Location()
         self.location_class.save_csv(csv_names)
 
+    # TODO может быть статичной применить декоратор
     def choising(self, action_length):
         available_choices = [str(i + 1) for i in range(action_length)]
         while True:
@@ -235,6 +238,7 @@ class Game:
             return available_actions
 
     def get_locations_for_action(self):
+        # TODO знак / для переносов не используем
         return \
             list(map(lambda x:
                      str(self.location_class.locations.index(x) + 1)
@@ -300,4 +304,9 @@ game = Game(remaining_time=remaining_time, csv_names=field_names)
 game.go()
 
 # Учитывая время и опыт, не забывайте о точности вычислений!
+
+# TODO сейчас у вас игрок косит сразу пачками мобов когда их три в локации он убивем одного с игры выноситься 3 сразу
+# TODO выносить по одному!
+
+# TODO скрин скинул скрипт подзависает.
 
