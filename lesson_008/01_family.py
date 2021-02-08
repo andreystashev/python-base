@@ -188,7 +188,6 @@ class Wife(Human):
             print('{} деньги кончились!'.format(self.name))
             self.fullness -= 10
 
-
 # home = House()
 # serge = Husband(name='Сережа', sweet_home=home)
 # masha = Wife(name='Маша', sweet_home=home)
@@ -286,25 +285,40 @@ class Cat:
 # отличия от взрослых - кушает максимум 10 единиц еды,
 # степень счастья  - не меняется, всегда ==100 ;)
 
-class Child:
 
-    def __init__(self):
-        pass
+class Child(Human):
 
-    def __str__(self):
-        return super().__str__()
+    def __init__(self, name, sweet_home):
+        self.name = name
+        self.fullness = 30
+        self.sanity = 100
+        self.house = sweet_home
 
     def act(self):
-        pass
+        if self.fullness <= 0:
+            print('{} умер...'.format(self.name))
+            return
+        dice = randint(1, 2)
+        if self.fullness <= 30:
+            self.eat()
+        elif dice == 1:
+            self.eat()
+        elif dice == 2:
+            self.sleep()
 
     def eat(self):
-        pass
+        if self.house.man_food >= 10:
+            print('{} поел'.format(self.name))
+            self.fullness += 10
+            self.house.man_food -= 10
+            self.all_eat += 10
+        else:
+            print('{} нет еды'.format(self.name))
+            self.fullness -= 10
 
     def sleep(self):
-        pass
-
-
-
+        print('{} лег спать'.format(self.name))
+        self.fullness -= 10
 
 
 ######################################################## Часть третья
@@ -317,40 +331,19 @@ class Child:
 home = House()
 serge = Husband(name='Сережа', sweet_home=home)
 masha = Wife(name='Маша', sweet_home=home)
-# kolya = Child(name='Коля')
+kolya = Child(name='Коля', sweet_home=home)
 murzik = Cat(name='Мурзик', sweet_home=home)
 
 for day in range(365):
     cprint('================== День {} =================='.format(day), color='red')
     serge.act()
     masha.act()
-    # kolya.act()
-    murzik.act()
+    kolya.act()
     home.act()
+    murzik.act()
     cprint(serge, color='cyan')
     cprint(masha, color='cyan')
-    # cprint(kolya, color='cyan')
+    cprint(kolya, color='cyan')
     cprint(murzik, color='cyan')
     cprint(home, color='cyan')
-
-# Усложненное задание (делать по желанию)
-#
-# Сделать из семьи любителей котов - пусть котов будет 3, или даже 5-10.
-# Коты должны выжить вместе с семьей!
-#
-# Определить максимальное число котов, которое может прокормить эта семья при значениях зарплаты от 50 до 400.
-# Для сглаживание случайностей моделирование за год делать 3 раза, если 2 из 3х выжили - считаем что выжили.
-#
-# Дополнительно вносить некий хаос в жизнь семьи
-# - N раз в год вдруг пропадает половина еды из холодильника (коты?)
-# - K раз в год пропадает половина денег из тумбочки (муж? жена? коты?!?!)
-# Промоделировать - как часто могут случаться фейлы что бы это не повлияло на жизнь героев?
-#   (N от 1 до 5, K от 1 до 5 - нужно вычислит максимумы N и K при котором семья гарантированно выживает)
-#
-# в итоге должен получится приблизительно такой код экспериментов
-# for food_incidents in range(6):
-#   for money_incidents in range(6):
-#       life = Simulation(money_incidents, food_incidents)
-#       for salary in range(50, 401, 50):
-#           max_cats = life.experiment(salary)
-#           print(f'При зарплате {salary} максимально можно прокормить {max_cats} котов')
+# зачет!

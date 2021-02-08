@@ -34,7 +34,22 @@ import os, time, shutil
 # Чтение документации/гугла по функциям - приветствуется. Как и поиск альтернативных вариантов :)
 # Требования к коду: он должен быть готовым к расширению функциональности. Делать сразу на классах.
 
-# TODO здесь ваш код
+
+path = '/Users/andrey/PycharmProjects/python_base/lesson_009/icons'
+path_normalized = os.path.normpath(path)
+
+# Пройтись по всем файлам в директории.
+for dirpath, dirnames, filenames in os.walk(path_normalized):
+
+    for file in filenames:
+        full_file_path = os.path.join(dirpath, file)
+        change_time = os.path.getmtime(full_file_path)
+        file_time = time.gmtime(change_time)
+
+        output_folder = '/Users/andrey/PycharmProjects/python_base/lesson_009/icons_by_year/'
+        within_output_folder = os.path.join(output_folder, str(file_time[0]), str(file_time[1]))
+        os.makedirs(within_output_folder, exist_ok=True)
+        shutil.copy2(full_file_path, within_output_folder, follow_symlinks=True)
 
 # Усложненное задание (делать по желанию)
 # Нужно обрабатывать zip-файл, содержащий фотографии, без предварительного извлечения файлов в папку.
@@ -42,3 +57,5 @@ import os, time, shutil
 # получения данных (читаем os.walk() или zip.namelist и т.д.)
 # Документация по zipfile: API https://docs.python.org/3/library/zipfile.html
 # Для этого пригодится шаблон проектирование "Шаблонный метод" см https://goo.gl/Vz4828
+
+# зачет!
